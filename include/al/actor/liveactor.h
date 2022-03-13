@@ -7,6 +7,18 @@
 
 namespace al {
 
+struct LiveActorFlag {
+    bool flag1 = true;
+    bool flag2 = false;
+    bool flag3 = true;
+    bool flag4 = false;
+    bool flag5 = false;
+    bool flag6 = false;
+    bool flag7 = true;
+    bool flag8 = false;
+    bool flag9 = false;
+};
+
 class LiveActor : public al::IUseNerve {
 public:
     virtual NerveKeeper* getNerveKeeper() const override { return mNerveKeeper; }
@@ -50,7 +62,7 @@ private:
     void* _48 = nullptr;
     void* _4C = nullptr;
     void* _50 = nullptr;
-    sfill(0xC, gap2);
+    LiveActorFlag mLiveActorFlag;
 };
 
 static_assert(sizeof(LiveActor) == 0x60, "");
