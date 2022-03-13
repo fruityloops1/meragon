@@ -2,13 +2,14 @@
 
 #include "al/actor/actorinitinfo.h"
 #include "al/actor/actorposekeeper.h"
+#include "al/nerve/nerve.h"
 #include "types.h"
 
 namespace al {
 
-class LiveActor {
+class LiveActor : public al::IUseNerve {
 public:
-    virtual void* getNerveKeeper() { return mNerveKeeper; }
+    virtual NerveKeeper* getNerveKeeper() const override { return mNerveKeeper; }
     virtual void init(const ActorInitInfo& info);
     virtual void initAfterPlacement();
     virtual void appear() { makeActorAlive(); }
@@ -31,7 +32,7 @@ public:
     LiveActor(const char* name);
 
 private:
-    sfill(0x10, gap);
+    sfill(0xA, gap);
     const char* mActorName;
     ActorPoseKeeperBase* mActorPoseKeeper = nullptr;
     void* _18 = nullptr;
@@ -39,7 +40,7 @@ private:
     void* _20 = nullptr;
     void* _24 = nullptr;
     void* _28 = nullptr;
-    void* mNerveKeeper = nullptr;
+    NerveKeeper* mNerveKeeper = nullptr;
     void* _30 = nullptr;
     void* _34 = nullptr;
     void* _38 = nullptr;
@@ -49,7 +50,7 @@ private:
     void* _48 = nullptr;
     void* _4C = nullptr;
     void* _50 = nullptr;
-    sfill(0x8, gap2);
+    sfill(0xC, gap2);
 };
 
 static_assert(sizeof(LiveActor) == 0x60, "");

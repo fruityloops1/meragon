@@ -1,11 +1,13 @@
 #pragma once
 
+#include "al/nerve/nervekeeper.h"
+
 class NerveKeeper;
 
 namespace al {
 
 class IUseNerve {
-public:
+protected:
     virtual NerveKeeper* getNerveKeeper() const = 0;
 };
 
