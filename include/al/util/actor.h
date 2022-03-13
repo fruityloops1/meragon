@@ -1,0 +1,12 @@
+#pragma once
+
+#include "al/actor/actorinitinfo.h"
+#include "al/actor/liveactor.h"
+#include "sead/prim/seadSafeString.h"
+
+namespace al {
+
+// Actor Init Functions
+void initActorWithArchiveName(LiveActor*, const ActorInitInfo&, const sead::SafeString& archiveName, char*);
+
+} // namespace al
