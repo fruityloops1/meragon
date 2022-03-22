@@ -28,5 +28,8 @@
 namespace al {
 
 void initNerve(LiveActor*, const al::Nerve*, int);
+inline void setNerve(IUseNerve* i, const al::Nerve& nerve) { i->getNerveKeeper()->setNerve(&nerve); }
+inline bool isFirstStep(IUseNerve* i) { return i->getNerveKeeper()->getStep() == 0; }
+inline bool isStep(IUseNerve* i, int step) { return i->getNerveKeeper()->getStep() == step; }
 
 } // namespace al

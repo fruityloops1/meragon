@@ -21,6 +21,7 @@ private:
 public:
     void setNerve(const al::Nerve* nerve);
     void setNerve(const al::Nerve& nerve) { setNerve(&nerve); }
+    inline int getStep() { return mStep; }
 };
 
 static_assert(sizeof(NerveKeeper) == 0x18, "");
