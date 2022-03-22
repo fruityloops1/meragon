@@ -18,7 +18,6 @@ public:
     void exeFlip();
     void control() override;
 
-    int mMoveFrames = 0;
     bool mMoveDir = true;
 };
 

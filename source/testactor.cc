@@ -8,24 +8,22 @@ namespace mg {
 void TestActor::init(const al::ActorInitInfo& info, uintptr_t r2, uintptr_t r3)
 {
     al::initNerve(this, &nrvTestActorWait, 0);
-    al::initActorWithArchiveName(this, info, "BlockBrick", nullptr);
+    al::initMapPartsActor(this, info);
     makeActorAlive();
 }
 
 void TestActor::exeWait()
 {
-    if (mMoveFrames >= 60)
-        mNerveKeeper->setNerve(&nrvTestActorFlip);
-    mMoveFrames++;
+    if (al::isStep(this, 60))
+        al::setNerve(this, nrvTestActorFlip);
 
     mActorPoseKeeper->getTransPtr()->y += mMoveDir ? 10 : -10;
 }
 
 void TestActor::exeFlip()
 {
-    mMoveFrames = 0;
     mMoveDir = !mMoveDir;
-    mNerveKeeper->setNerve(&nrvTestActorWait);
+    al::setNerve(this, nrvTestActorWait);
 }
 
 void TestActor::control()
