@@ -256,3 +256,4 @@ _ZN2al13isEqualStringEPKcPKc = 0x00292308;
 _ZN2al9initActorEPNS_9LiveActorERKNS_13ActorInitInfoEjj = 0x0027b690;
 _ZN2al24initActorWithArchiveNameEPNS_9LiveActorERKNS_13ActorInitInfoERKN4sead14SafeStringBaseIcEEPc = 0x002801e0;
 _ZN2al9initNerveEPNS_9LiveActorEPKNS_5NerveEi = 0x001ebd94;
+_ZN2al17initMapPartsActorEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x002d5664;

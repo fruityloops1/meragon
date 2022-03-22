@@ -9,5 +9,6 @@ namespace al {
 // Actor Init Functions
 void initActorWithArchiveName(LiveActor*, const ActorInitInfo&, const sead::SafeString& archiveName, char*);
 void initActor(LiveActor*, const ActorInitInfo&, uintptr_t, uintptr_t);
+void initMapPartsActor(LiveActor*, const al::ActorInitInfo&);
 
 } // namespace al
