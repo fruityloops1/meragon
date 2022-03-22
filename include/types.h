@@ -13,4 +13,9 @@ typedef int64_t s64;
 typedef float f32;
 typedef double f64;
 
+typedef u8 undefined;
+typedef u16 undefined2;
+typedef u32 undefined4;
+typedef u64 undefined8;
+
 #define sfill(SIZE, NAME) u8 _fill_##SIZE##_##NAME[SIZE];
