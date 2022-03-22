@@ -13,12 +13,18 @@ public:
     {
     }
 
-    void init(const al::ActorInitInfo& info) override;
+    void init(const al::ActorInitInfo& info, uintptr_t, uintptr_t) override;
     void exeWait();
+    void exeFlip();
+    void control() override;
+
+    int mMoveFrames = 0;
+    bool mMoveDir = true;
 };
 
 namespace {
-    NERVE_HEADER(TestActor, Wait);
+    NERVE_DEF(TestActor, Wait);
+    NERVE_DEF(TestActor, Flip);
 }
 
 } // namespace mg

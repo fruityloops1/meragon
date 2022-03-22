@@ -8,6 +8,10 @@ namespace sead {
 
 template <typename T>
 class SafeStringBase {
+    virtual void dummy() {};
+    virtual void dummy1() {};
+    virtual void dummy2() {};
+
 public:
     SafeStringBase()
         : mStringTop(&cNullChar)
@@ -24,8 +28,6 @@ public:
     {
         return mStringTop;
     }
-
-    virtual void dummy() {};
 
     static const T cNullChar;
     static const T cLineBreakChar;

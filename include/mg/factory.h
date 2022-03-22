@@ -247,7 +247,7 @@ al::LiveActor* createActorFunction(const char* name)
     return actor;
 }
 
-constexpr static al::NameToCreatorActor actorTable[] {
+__attribute__((visibility("default"))) constexpr const al::NameToCreatorActor actorTable[] {
     { "Kinopio", al::createActorFunction<Kinopio> },
     { "Luigi", al::createActorFunction<Luigi> },
     { "Peach", al::createActorFunction<Peach> },
