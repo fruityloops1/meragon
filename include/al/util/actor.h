@@ -11,4 +11,6 @@ void initActorWithArchiveName(LiveActor*, const ActorInitInfo&, const sead::Safe
 void initActor(LiveActor*, const ActorInitInfo&, uintptr_t, uintptr_t);
 void initMapPartsActor(LiveActor*, const al::ActorInitInfo&);
 
+void startAction(LiveActor*, const char* actionName, void*, void*);
+
 } // namespace al

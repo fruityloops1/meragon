@@ -45,7 +45,7 @@ private:
 protected:
     ActorPoseKeeperBase* mActorPoseKeeper = nullptr;
     void* keeper18 = nullptr;
-    void* keeper1C = nullptr;
+    void* mActorActionKeeper = nullptr;
     void* keeper20 = nullptr;
     void* keeper24 = nullptr;
     void* keeper28 = nullptr;
