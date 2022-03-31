@@ -40,7 +40,7 @@ INCLUDES	:=	include
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -mfpu=vfpv2
+ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=softfp -mtp=soft -mfpu=vfpv2
 
 CFLAGS	:=	-g -Wall -O0 -mword-relocations \
 			-fomit-frame-pointer -ffunction-sections \
@@ -48,7 +48,7 @@ CFLAGS	:=	-g -Wall -O0 -mword-relocations \
 
 CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS -nostdlib
 
-CXXFLAGS	:= $(CFLAGS) -fno-exceptions -fno-rtti -std=gnu++11 -nostdlib -nodefaultlibs
+CXXFLAGS	:= $(CFLAGS) -fno-exceptions -fno-rtti -std=gnu++11
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-T $(LINKERSCRIPT) -T $(SYMBOLSCRIPT) -g $(ARCH) -Wl,-Map,$(notdir $*.map)
