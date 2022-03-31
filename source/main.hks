@@ -1,0 +1,5 @@
+initHook:
+    type: softbranch
+    opcode: post
+    func: mMain()
+    addr: 0x00100004
