@@ -1,6 +1,7 @@
 #pragma once
 
 #include "al/actor/liveactor.h"
+#include "al/nerve/nerve.h"
 #include "al/nerve/nervekeeper.h"
 
 #define NERVE_DEF(CLASS, ACTION)                                    \
@@ -28,7 +29,8 @@
 namespace al {
 
 void initNerve(LiveActor*, const al::Nerve*, int);
-inline void setNerve(IUseNerve* i, const al::Nerve& nerve) { i->getNerveKeeper()->setNerve(&nerve); }
+void setNerve(IUseNerve* i, const al::Nerve* nerve);
+inline void setNerve(IUseNerve* i, const al::Nerve& nerve) { setNerve(i, &nerve); }
 inline bool isFirstStep(IUseNerve* i) { return i->getNerveKeeper()->getStep() == 0; }
 inline bool isStep(IUseNerve* i, int step) { return i->getNerveKeeper()->getStep() == step; }
 

@@ -1,8 +1,8 @@
 __addrMain = 0x0;
 
-_Znwj = 0x002932b0;
 _Z5opNewj = 0x002932b0;
 
+/* al::LiveActor */
 _ZTVN2al9LiveActorE = 0x003d7974;
 _ZN2al9LiveActorC1EPKc = 0x0027fe9c;
 _ZN2al9LiveActorC2EPKc = 0x0027fe9c;
@@ -26,6 +26,23 @@ _ZN2al9LiveActor7controlEv = 0x001ebf2c;
 _ZN2al9LiveActor4gap4Ev = 0x0;
 _ZN2al9LiveActor4unk4Ev = 0x001ebcec;
 
+/* StringUtil */
+_ZN2al13isEqualStringEPKcPKc = 0x00292308;
+
+/* ActorUtil */
+_ZN2al9initActorEPNS_9LiveActorERKNS_13ActorInitInfoEjj = 0x0027b690;
+_ZN2al24initActorWithArchiveNameEPNS_9LiveActorERKNS_13ActorInitInfoERKN4sead14SafeStringBaseIcEEPKc = 0x002801e0;
+_ZN2al30initCreateActorNoPlacementInfoEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x0027ee64;
+_ZN2al17initMapPartsActorEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x002d5664;
+
+_ZN2al9initNerveEPNS_9LiveActorEPKNS_5NerveEi = 0x001ebd94;
+
+_ZN2al11startActionEPNS_9LiveActorEPKcPvS4_ = 0x0027f244;
+
+/* NerveUtil */
+_ZN2al8setNerveEPNS_9IUseNerveEPKNS_5NerveE = 0x00280610;
+
+/* al::LiveActor* al::createActorFunction<T>(const char* name) */
 _ZN2al19createActorFunctionI7KinopioEEPNS_9LiveActorEPKc = 0x003985ec;
 _ZN2al19createActorFunctionI5LuigiEEPNS_9LiveActorEPKc = 0x003980ac;
 _ZN2al19createActorFunctionI5PeachEEPNS_9LiveActorEPKc = 0x003980e4;
@@ -251,11 +268,3 @@ _ZN2al19createActorFunctionI15EffectObjSwitchEEPNS_9LiveActorEPKc = 0x00397174;
 _ZN2al19createActorFunctionI13WaterFlowCubeEEPNS_9LiveActorEPKc = 0x00396d24;
 _ZN2al19createActorFunctionI13StreetPassObjEEPNS_9LiveActorEPKc = 0x00396c44;
 _ZN2al19createActorFunctionI11DemoStarterEEPNS_9LiveActorEPKc = 0x00396394;
-
-_ZN2al13isEqualStringEPKcPKc = 0x00292308;
-_ZN2al9initActorEPNS_9LiveActorERKNS_13ActorInitInfoEjj = 0x0027b690;
-_ZN2al24initActorWithArchiveNameEPNS_9LiveActorERKNS_13ActorInitInfoERKN4sead14SafeStringBaseIcEEPc = 0x002801e0;
-_ZN2al9initNerveEPNS_9LiveActorEPKNS_5NerveEi = 0x001ebd94;
-_ZN2al17initMapPartsActorEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x002d5664;
-
-_ZN2al11startActionEPNS_9LiveActorEPKcPvS4_ = 0x0027f244;

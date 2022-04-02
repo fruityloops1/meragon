@@ -6,7 +6,25 @@
 
 namespace mg {
 
+class MagicBall : public al::LiveActor {
+public:
+    MagicBall(const char* name)
+        : LiveActor(name)
+    {
+    }
+
+    void init(const al::ActorInitInfo& info, uintptr_t, uintptr_t) override;
+    void exeWait();
+
+    void control() override;
+
+    friend class TestActor;
+};
+
 class TestActor : public al::LiveActor {
+    MagicBall* mMagicBalls[5] { nullptr };
+    int mDropIndex = 0;
+
 public:
     TestActor(const char* name)
         : LiveActor(name)
@@ -15,15 +33,15 @@ public:
 
     void init(const al::ActorInitInfo& info, uintptr_t, uintptr_t) override;
     void exeWait();
-    void exeFlip();
+    void exeDrop();
     void control() override;
-
-    bool mMoveDir = true;
 };
 
 namespace {
     NERVE_DEF(TestActor, Wait);
-    NERVE_DEF(TestActor, Flip);
+    NERVE_DEF(TestActor, Drop);
+
+    NERVE_DEF(MagicBall, Wait);
 }
 
 } // namespace mg
