@@ -25,7 +25,6 @@ public:
     virtual sead::Vector3f* getFrontPtr() { return nullptr; }
     virtual sead::Quatf* getQuatPtr() { return nullptr; }
     virtual sead::Vector3f* getGravityPtr() { return nullptr; }
-    virtual void gap1();
     virtual void updatePoseRotate(const sead::Vector3f& rot);
     virtual void updatePoseQuat(const sead::Quatf& mtx);
     virtual void updatePoseMtx(const sead::Matrix34f* mtx);
