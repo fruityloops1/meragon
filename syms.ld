@@ -26,20 +26,23 @@ _ZN2al9LiveActor7controlEv = 0x001ebf2c;
 _ZN2al9LiveActor4gap4Ev = 0x0;
 _ZN2al9LiveActor4unk4Ev = 0x001ebcec;
 
-/* StringUtil */
-_ZN2al13isEqualStringEPKcPKc = 0x00292308;
+/* String Util */
+_ZN2al13isEqualStringEPKcS1_ = 0x00292308;
 
-/* ActorUtil */
+/* Actor Util */
 _ZN2al9initActorEPNS_9LiveActorERKNS_13ActorInitInfoEjj = 0x0027b690;
 _ZN2al24initActorWithArchiveNameEPNS_9LiveActorERKNS_13ActorInitInfoERKN4sead14SafeStringBaseIcEEPKc = 0x002801e0;
 _ZN2al30initCreateActorNoPlacementInfoEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x0027ee64;
 _ZN2al17initMapPartsActorEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x002d5664;
-
 _ZN2al9initNerveEPNS_9LiveActorEPKNS_5NerveEi = 0x001ebd94;
 
+/* Action Util */
 _ZN2al11startActionEPNS_9LiveActorEPKcPvS4_ = 0x0027f244;
 
-/* NerveUtil */
+/* Model Util */
+_ZN2al12calcJointPosEPN4sead7Vector3IfEEPKNS_9LiveActorEPKc = 0x002677f4;
+
+/* Nerve Util */
 _ZN2al8setNerveEPNS_9IUseNerveEPKNS_5NerveE = 0x00280610;
 
 /* al::LiveActor* al::createActorFunction<T>(const char* name) */

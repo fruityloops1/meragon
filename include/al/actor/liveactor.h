@@ -11,10 +11,20 @@
 
 namespace al {
 
+/**
+ * @brief Object in a scene that can move, be animated, be interacted with, etc.
+ */
 class LiveActor : public al::IUseNerve, public al::IUseEffectKeeper, public al::IUseAudioKeeper {
 public:
     virtual NerveKeeper* getNerveKeeper() const override { return mNerveKeeper; };
-    virtual void init(const ActorInitInfo& info, uintptr_t, uintptr_t);
+
+    /**
+     * @brief Called by the engine and manually by parent actors during Scene initialization
+     * @param info See ActorInitInfo header
+     * @param unk1 Unknown
+     * @param unk2 Unknown
+     */
+    virtual void init(const ActorInitInfo& info, uintptr_t unk1, uintptr_t unk2);
     virtual void initAfterPlacement();
     virtual void appear();
     virtual void makeActorAlive();
@@ -32,6 +42,9 @@ public:
     virtual AudioKeeper* getAudioKeeper() const override { return mAudioKeeper; };
     virtual void gap2();
     virtual void gap3();
+    /**
+     * @brief Called every frame the actor is alive
+     */
     virtual void control();
     virtual void gap4();
     virtual void unk4();
@@ -61,6 +74,9 @@ protected:
     void* keeper50 = nullptr;
 
 private:
+    /**
+     * @brief Different boolean flags used by the actor internally
+     */
     struct LiveActorFlag {
         bool isDead = true;
         bool flag2 = false;
