@@ -1,4 +1,6 @@
 __addrMain = 0x0;
+__addrCode = 0x00100000;
+__addrCustomCode = 0x00432000;
 
 _Z5opNewj = 0x002932b0;
 
@@ -35,6 +37,9 @@ _ZN2al24initActorWithArchiveNameEPNS_9LiveActorERKNS_13ActorInitInfoERKN4sead14S
 _ZN2al30initCreateActorNoPlacementInfoEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x0027ee64;
 _ZN2al17initMapPartsActorEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x002d5664;
 _ZN2al9initNerveEPNS_9LiveActorEPKNS_5NerveEi = 0x001ebd94;
+
+/* Actor Pose Util */
+_ZN2al8getTransEPNS_9LiveActorE = 0x0028028c;
 
 /* Action Util */
 _ZN2al11startActionEPNS_9LiveActorEPKcPvS4_ = 0x0027f244;
