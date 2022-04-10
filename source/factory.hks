@@ -1,9 +1,0 @@
-actorTable:
-    type: symbol
-    addr: 0x00268fb4
-    sym: mg::actorTable
-
-actorTableSize:
-    type: patch
-    addr: 0x00268f98
-    data: E20054E3

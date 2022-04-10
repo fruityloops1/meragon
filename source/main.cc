@@ -1,5 +1,7 @@
-#include "mg/factory.h"
+#include "mg/hooks.h"
+#include "mg/log.h"
 
 void mMain()
 {
+    mg::initHooks();
 }
