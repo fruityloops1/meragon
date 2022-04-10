@@ -2,7 +2,7 @@
 
 #include "al/actor/liveactor.h"
 #include "al/factory.h"
-#include "mg/actors/testactor.h"
+#include "mg/actors/gabon.h"
 
 class Kinopio;
 class Luigi;
@@ -247,7 +247,7 @@ al::LiveActor* createActorFunction(const char* name)
     return actor;
 }
 
-__attribute__((visibility("default"))) constexpr const al::NameToCreatorActor actorTable[] {
+constexpr const al::NameToCreatorActor actorTable[] {
     { "Kinopio", al::createActorFunction<Kinopio> },
     { "Luigi", al::createActorFunction<Luigi> },
     { "Peach", al::createActorFunction<Peach> },
@@ -279,7 +279,7 @@ __attribute__((visibility("default"))) constexpr const al::NameToCreatorActor ac
     { "Killer", al::createActorFunction<Killer> },
     { "KillerGenerator", al::createActorFunction<KillerGenerator> },
     { "KillerMagnum", al::createActorFunction<KillerMagnum> },
-    { "Kuribo", mg::createActorFunction<mg::TestActor> },
+    { "Kuribo", mg::createActorFunction<mg::Gabon> },
     { "KuriboTail", al::createActorFunction<KuriboTail> },
     { "KuriboTailSearch", al::createActorFunction<KuriboTailSearch> },
     { "KuriboTower", al::createActorFunction<KuriboTower> },
@@ -473,7 +473,7 @@ __attribute__((visibility("default"))) constexpr const al::NameToCreatorActor ac
     { "WaterFlowCube", al::createActorFunction<WaterFlowCube> },
     { "StreetPassObj", al::createActorFunction<StreetPassObj> },
     { "DemoStarter", al::createActorFunction<DemoStarter> },
-    { "TestActor", mg::createActorFunction<mg::TestActor> }
+    { "Gabon", mg::createActorFunction<mg::Gabon> }
 
 };
 
