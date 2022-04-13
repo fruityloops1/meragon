@@ -21,7 +21,7 @@ _ZN2al9LiveActor4gap2Ev = 0x0;
 _ZN2al9LiveActor4gap3Ev = 0x0;
 _ZN2al9LiveActor12startClippedEv = 0x002795c0;
 _ZN2al9LiveActor10endClippedEv = 0x002797f4;
-_ZN2al9LiveActor4unk2Ev = 0x001ebc60;
+_ZN2al9LiveActor12attackSensorEPNS_9HitSensorES2_ = 0x001ebc60;
 _ZN2al9LiveActor10receiveMsgEv = 0x001ebc58;
 _ZN2al9LiveActor4unk3Ev = 0x003375dc;
 _ZN2al9LiveActor7controlEv = 0x001ebf2c;
@@ -39,7 +39,24 @@ _ZN2al17initMapPartsActorEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x002d5664;
 _ZN2al9initNerveEPNS_9LiveActorEPKNS_5NerveEi = 0x001ebd94;
 
 /* Actor Pose Util */
-_ZN2al8getTransEPNS_9LiveActorE = 0x0028028c;
+_ZN2al8getTransEPKNS_9LiveActorE = 0x0028028c;
+_ZN2al9getRotateEPKNS_9LiveActorE = 0x0026e734;
+_ZN2al8getScaleEPKNS_9LiveActorE = 0x0027e9dc;
+_ZN2al11getVelocityEPKNS_9LiveActorE = 0x00272dd8;
+_ZN2al18getFrontEPKNS_9LiveActorE = 0x0027d520;
+_ZN2al7getQuatEPKNS_9LiveActorE = 0x0027ee24;
+_ZN2al10getGravityEPKNS_9LiveActorE = 0x0027d588;
+
+_ZN2al11getTransPtrEPNS_9LiveActorE = 0x0027f3c4;
+_ZN2al12getRotatePtrEPNS_9LiveActorE = 0x0026e744;
+_ZN2al14getVelocityPtrEPNS_9LiveActorE = 0x00272dc0;
+_ZN2al11getFrontPtrEPNS_9LiveActorE = 0x0027c04c;
+_ZN2al10getQuatPtrEPNS_9LiveActorE = 0x0027f3b4;
+
+_ZN2al17initActorPoseTRSVEPNS_9LiveActorE = 0x00266f34;
+_ZN2al17initActorPoseTFSVEPNS_9LiveActorE = 0x00270b74;
+_ZN2al18initActorPoseTFGSVEPNS_9LiveActorE = 0x00244cc4;
+_ZN2al17initActorPoseTQSVEPNS_9LiveActorE = 0x00280590;
 
 /* Action Util */
 _ZN2al11startActionEPNS_9LiveActorEPKcPvS4_ = 0x0027f244;
@@ -49,6 +66,12 @@ _ZN2al12calcJointPosEPN4sead7Vector3IfEEPKNS_9LiveActorEPKc = 0x002677f4;
 
 /* Nerve Util */
 _ZN2al8setNerveEPNS_9IUseNerveEPKNS_5NerveE = 0x00280610;
+_ZN2al7isNerveEPKNS_9IUseNerveEPKNS_5NerveE = 0x002806a8;
+
+/* Sensor Util */
+_ZN2al12isSensorNameEPNS_9HitSensorEPKc = 0x0027dc38;
+_ZN2al19isHitCylinderSensorEPNS_9HitSensorES1_RKN4sead7Vector3IfEEf = 0x002796fc;
+_ZN2al18sendMsgEnemyAttackEPNS_9HitSensorES1_ = 0x0027d56c;
 
 /* al::LiveActor* al::createActorFunction<T>(const char* name) */
 _ZN2al19createActorFunctionI7KinopioEEPNS_9LiveActorEPKc = 0x003985ec;

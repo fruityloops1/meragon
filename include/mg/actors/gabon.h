@@ -18,9 +18,10 @@ public:
     }
 
     void init(const al::ActorInitInfo& info, uintptr_t, uintptr_t) override;
+    void attackSensor(al::HitSensor* source, al::HitSensor* target) override;
 
     void exeGenerate();
-    void exeRoll();
+    void exeGround();
     friend class Gabon;
 };
 
@@ -56,7 +57,7 @@ namespace {
     NERVE_DEF(Gabon, Throw);
 
     NERVE_DEF(GabonThrowObj, Generate);
-    NERVE_DEF(GabonThrowObj, Roll);
+    NERVE_DEF(GabonThrowObj, Ground);
 }
 
 } // namespace mg

@@ -27,7 +27,6 @@ public:
      * @param nerve The nerve to be activated
      */
     void setNerve(const al::Nerve* nerve);
-    void setNerve(const al::Nerve& nerve) { setNerve(&nerve); } // fake
     inline int getStep() { return mStep; }
 };
 

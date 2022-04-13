@@ -5,6 +5,7 @@
 #include "al/audio/audiokeeper.h"
 #include "al/effect/effectkeeper.h"
 #include "al/nerve/nerve.h"
+#include "al/sensor/hitsensor.h"
 #include "al/sensor/hitsensorkeeper.h"
 #include "mg/efun.h"
 #include "types.h"
@@ -35,7 +36,7 @@ public:
     virtual void gap1();
     virtual void startClipped();
     virtual void endClipped();
-    virtual void unk2();
+    virtual void attackSensor(HitSensor* target, HitSensor* source);
     virtual bool receiveMsg();
     virtual void unk3();
     virtual EffectKeeper* getEffectKeeper() const override { return mEffectKeeper; };
@@ -75,7 +76,7 @@ protected:
 
 private:
     /**
-     * @brief Different boolean flags used by the actor internally
+     * @brief Different boolean flags used by LiveActor internally
      */
     struct LiveActorFlag {
         bool isDead = true;

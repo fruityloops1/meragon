@@ -4,7 +4,10 @@
 #include "al/util/actor/action.h"
 #include "al/util/actor/init.h"
 #include "al/util/actor/model.h"
+#include "al/util/actor/pose.h"
 #include "al/util/nerve.h"
+#include "al/util/sensor/hitsensor.h"
+#include "al/util/sensor/sendmsg.h"
 #include "sead/math/seadVector.h"
 
 namespace mg {
@@ -20,14 +23,22 @@ void GabonThrowObj::exeGenerate()
     if (al::isFirstStep(this))
         al::startAction(this, "Generate", nullptr, nullptr);
     if (al::isStep(this, sAnimCountThrowSign))
-        al::setNerve(this, nrvGabonThrowObjRoll);
+        al::setNerve(this, nrvGabonThrowObjGround);
 }
 
-void GabonThrowObj::exeRoll()
+void GabonThrowObj::exeGround()
 {
     if (al::isFirstStep(this))
         al::startAction(this, "Ground", nullptr, nullptr);
     mActorPoseKeeper->getTransPtr()->z += 20;
+}
+
+void GabonThrowObj::attackSensor(al::HitSensor* source, al::HitSensor* target)
+{
+    if (al::isSensorName(source, "Damage")
+        && !(al::isNerve(this, nrvGabonThrowObjGenerate) && al::isLessStep(this, sAnimCountThrowSign / 2))
+        && al::isHitCylinderSensor(target, source, { 1, 0, 0 }, 30.0))
+        al::sendMsgEnemyAttack(target, source);
 }
 
 void Gabon::init(const al::ActorInitInfo& info, uintptr_t, uintptr_t)
@@ -36,9 +47,9 @@ void Gabon::init(const al::ActorInitInfo& info, uintptr_t, uintptr_t)
     al::initActorWithArchiveName(this, info, "Gabon", nullptr);
 
     for (int i = 0; i < sNeedleRollerAmount; i++) {
-        GabonThrowObj*& roller = mNeedleRollers[i];
-        roller = new GabonThrowObj("GabonThrowObj", "NeedleRoller");
+        GabonThrowObj* roller = new GabonThrowObj("GabonThrowObj", "NeedleRoller");
         al::initCreateActorNoPlacementInfo(roller, info);
+        mNeedleRollers[i] = roller;
     }
 
     makeActorAlive();
@@ -72,8 +83,9 @@ void Gabon::exeThrowSign()
 
     if (mCurRoller) {
         sead::Vector3f generatorPos = mActorPoseKeeper->getTrans();
-        al::calcJointPos(&generatorPos, mCurRoller, "GeneratorPosition"); // broken, need to find and call al::initJointControllerKeeper(const al::LiveActor*, int) in init
+        // al::calcJointPos(&generatorPos, mCurRoller, "GeneratorPosition"); // broken, need to find and call al::initJointControllerKeeper(const al::LiveActor*, int) in init
         *mCurRoller->mActorPoseKeeper->getTransPtr() = generatorPos;
+        mCurRoller->mActorPoseKeeper->updatePoseQuat(al::getQuat(this));
     }
 }
 
