@@ -7,7 +7,8 @@
 #include "al/util/actor/pose.h"
 #include "al/util/nerve.h"
 #include "al/util/sensor/hitsensor.h"
-#include "al/util/sensor/sendmsg.h"
+#include "al/util/sensor/msg.h"
+#include "mg/log.h"
 #include "sead/math/seadVector.h"
 
 namespace mg {
@@ -55,6 +56,11 @@ void Gabon::init(const al::ActorInitInfo& info, uintptr_t, uintptr_t)
     makeActorAlive();
 }
 
+void Gabon::attackSensor(al::HitSensor* source, al::HitSensor* target)
+{
+    mg::log("%d", al::isSensorPlayer(target));
+}
+
 void Gabon::exeWait()
 {
     if (al::isFirstStep(this))
@@ -83,7 +89,7 @@ void Gabon::exeThrowSign()
 
     if (mCurRoller) {
         sead::Vector3f generatorPos = mActorPoseKeeper->getTrans();
-        // al::calcJointPos(&generatorPos, mCurRoller, "GeneratorPosition"); // broken, need to find and call al::initJointControllerKeeper(const al::LiveActor*, int) in init
+        al::calcJointPos(&generatorPos, this, "GeneratorPosition");
         *mCurRoller->mActorPoseKeeper->getTransPtr() = generatorPos;
         mCurRoller->mActorPoseKeeper->updatePoseQuat(al::getQuat(this));
     }

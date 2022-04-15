@@ -71,7 +71,10 @@ _ZN2al7isNerveEPKNS_9IUseNerveEPKNS_5NerveE = 0x002806a8;
 /* Sensor Util */
 _ZN2al12isSensorNameEPNS_9HitSensorEPKc = 0x0027dc38;
 _ZN2al19isHitCylinderSensorEPNS_9HitSensorES1_RKN4sead7Vector3IfEEf = 0x002796fc;
+
 _ZN2al18sendMsgEnemyAttackEPNS_9HitSensorES1_ = 0x0027d56c;
+
+_ZN2al14isSensorPlayerEPKNS_9HitSensorE = 0x0027b100;
 
 /* al::LiveActor* al::createActorFunction<T>(const char* name) */
 _ZN2al19createActorFunctionI7KinopioEEPNS_9LiveActorEPKc = 0x003985ec;

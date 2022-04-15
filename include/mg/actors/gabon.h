@@ -29,7 +29,7 @@ class Gabon : public al::LiveActor {
 
     constexpr static int sNeedleRollerAmount = 6;
 
-    int mThrowInterval = 120;
+    int mThrowInterval = 90;
     int mThrowIndex = 0;
     GabonThrowObj* mNeedleRollers[sNeedleRollerAmount] { nullptr };
     GabonThrowObj* mCurRoller = nullptr;
@@ -41,6 +41,7 @@ public:
     }
 
     void init(const al::ActorInitInfo& info, uintptr_t, uintptr_t) override;
+    void attackSensor(al::HitSensor* source, al::HitSensor* target) override;
 
     void exeWait();
     void exeThrowSign();
