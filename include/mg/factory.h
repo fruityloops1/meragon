@@ -474,7 +474,8 @@ constexpr const al::NameToCreatorActor actorTable[] {
     { "StreetPassObj", al::createActorFunction<StreetPassObj> },
     { "DemoStarter", al::createActorFunction<DemoStarter> },
     { "Gabon", mg::createActorFunction<mg::Gabon> }
-
 };
+
+constexpr const u8 actorTableEntryAmount = sizeof(mg::actorTable) / sizeof(mg::actorTable[0]);
 
 } // namespace mg

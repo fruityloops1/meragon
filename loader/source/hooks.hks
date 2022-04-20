@@ -1,5 +1,2 @@
-LoaderEntryPoint:
-    type:   softbranch
-    opcode: post
-    func:   LoaderMain
-    addr:   0x00100000
+00100000:
+    pb LoaderMain

@@ -1,14 +1,13 @@
-#include "mg/hooks.h"
-#include "mg/log.h"
-
 #include "mem.h"
+#include "mg/factory.h"
+#include "mg/log.h"
+#include "sead/heap/seadNew.h"
 
 void mMain()
 {
-    mg::initHooks();
+    mg::log("mMain");
 }
 
-void* opNew(size_t size);
 void* operator new(size_t size)
 {
     return opNew(size);
