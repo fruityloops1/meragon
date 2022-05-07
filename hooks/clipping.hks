@@ -1,2 +1,2 @@
-00242558:
-    bl removeClippingHook(void*, float*, char const*)
+00242544: // removes clipping (a.k.a. pop-in/low render distance)
+    0xeb  // 'blne al::invalidateClipping' -> 'bl al::invalidateClipping'
