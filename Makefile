@@ -36,7 +36,6 @@ BUILD		:=	build
 SOURCES		:=	source source/actors
 INCLUDES	:=	include
 
-
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
@@ -46,7 +45,8 @@ CFLAGS	:=	-g -Wall -O0 -mword-relocations \
 			-fomit-frame-pointer -ffunction-sections \
 			$(ARCH)
 
-CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS -nostdlib
+CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS -nostdlib \
+			-isystem $(DEVKITARM)/arm-none-eabi/include/ -isystem $(DEVKITARM)/arm-none-eabi/include/c++/11.2.0/ -isystem $(DEVKITARM)/arm-none-eabi/include/c++/11.2.0/arm-none-eabi/
 
 CXXFLAGS	:= $(CFLAGS) -fno-exceptions -fno-rtti -std=gnu++11
 
