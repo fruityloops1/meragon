@@ -25,4 +25,6 @@ void initActorPoseTFSV(al::LiveActor* actor);
 void initActorPoseTFGSV(al::LiveActor* actor);
 void initActorPoseTQSV(al::LiveActor* actor);
 
+void invalidateClipping(al::LiveActor* actor); // idk if this belongs here
+
 } // namespace  al

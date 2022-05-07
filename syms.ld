@@ -58,6 +58,8 @@ _ZN2al17initActorPoseTFSVEPNS_9LiveActorE = 0x00270b74;
 _ZN2al18initActorPoseTFGSVEPNS_9LiveActorE = 0x00244cc4;
 _ZN2al17initActorPoseTQSVEPNS_9LiveActorE = 0x00280590;
 
+_ZN2al18invalidateClippingEPNS_9LiveActorE = 0x0028065c;
+
 /* Action Util */
 _ZN2al11startActionEPNS_9LiveActorEPKcPvS4_ = 0x0027f244;
 
