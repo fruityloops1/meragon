@@ -1,11 +1,5 @@
-00242540: // remove clipping (a.k.a. pop-in/low render distance)
-    mov r0, r5 // make unconditional
-    bl al::invalidateClipping(al::LiveActor*) // ""
-
-00242558: // ignore InitClipping.byml 'Radius' key
-    mov r0, #0
-00242608: // ignore InitClipping.byml 'NearClipDistance' key
-    mov r0, #0
-
-002795c0: // make al::LiveActor::startClipped do nothing
-    bx lr
+// remove clipping (a.k.a. pop-in/low render distance)
+002795c0: // al::LiveActor::startClipped()+0
+    ldr r1, [r0]
+    ldr r1, [r1, #0x2c]
+    bx r1 // call virtual endClipped instead
