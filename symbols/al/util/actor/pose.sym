@@ -3,7 +3,7 @@ _ZN2al8getTransEPKNS_9LiveActorE = 0x0028028c;
 _ZN2al9getRotateEPKNS_9LiveActorE = 0x0026e734;
 _ZN2al8getScaleEPKNS_9LiveActorE = 0x0027e9dc;
 _ZN2al11getVelocityEPKNS_9LiveActorE = 0x00272dd8;
-_ZN2al18getFrontEPKNS_9LiveActorE = 0x0027d520;
+_ZN2al8getFrontEPKNS_9LiveActorE = 0x0027d520;
 _ZN2al7getQuatEPKNS_9LiveActorE = 0x0027ee24;
 _ZN2al10getGravityEPKNS_9LiveActorE = 0x0027d588;
 
