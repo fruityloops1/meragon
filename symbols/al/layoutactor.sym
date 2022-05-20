@@ -1,0 +1,11 @@
+/* al::LayoutActor */
+_ZTVN2al11LayoutActorE = 0x003d5ffc;
+_ZN2al11LayoutActorC1EPKc = 0x0027e648;
+_ZN2al11LayoutActorC4EPKc = 0x0027e648;
+_ZNK2al11LayoutActor14getNerveKeeperEv = 0x0032fa78;
+_ZN2al11LayoutActor6appearEv = 0x0027e82c;
+_ZN2al11LayoutActor4killEv = 0x0027e85c;
+_ZN2al11LayoutActor8movementEv = 0x001be04c;
+_ZN2al11LayoutActor8calcAnimEv = 0x001be028;
+
+_ZN2al11LayoutActor9initNerveEPKNS_5NerveEi = 0x0027e610;

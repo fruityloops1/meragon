@@ -2,7 +2,7 @@ bak/
 build/
 *.elf
 *.bin
-*.sym
+newcode.sym
 compile_commands.json
 .vscode/
 .cache/

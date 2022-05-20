@@ -67,7 +67,8 @@ ifneq ($(BUILD),$(notdir $(CURDIR)))
 #---------------------------------------------------------------------------------
 
 export LINKERSCRIPT 	:=$(CURDIR)/linker.x
-export SYMBOLSCRIPT 	:=$(CURDIR)/syms.ld
+export SYMBOLSCRIPT 	:=$(CURDIR)/$(BUILD)/syms.ld
+export SYMBOLSDIR 	:=$(CURDIR)/symbols
 
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
 
@@ -150,8 +151,6 @@ export LINKERSCRIPT_TEMPLATE
 
 #---------------------------------------------------------------------------------
 
-
-
 all: $(OUTPUT).bin $(OUTPUT).sym
 	
 $(OUTPUT).bin : $(OUTPUT).elf
@@ -165,8 +164,9 @@ $(OUTPUT).sym : $(OUTPUT).elf
 #---------------------------------------------------------------------------------
 %.elf: $(OFILES)
 	@echo generating linker script
-	echo "$$LINKERSCRIPT_TEMPLATE" > $(LINKERSCRIPT)
-	cp $(SYMBOLSCRIPT) syms.ld
+	@echo "$$LINKERSCRIPT_TEMPLATE" > $(LINKERSCRIPT)
+	@echo generating symbol script
+	find $(SYMBOLSDIR) -type f -name '*.sym' -exec cat {} + >syms.ld
 	
 	@echo linking $(notdir $@)
 	$(LD)  $(LDFLAGS) $(OFILES) $(LIBPATHS) $(LIBS) -o $@

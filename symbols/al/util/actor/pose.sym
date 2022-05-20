@@ -1,0 +1,21 @@
+/* Actor Pose Util */
+_ZN2al8getTransEPKNS_9LiveActorE = 0x0028028c;
+_ZN2al9getRotateEPKNS_9LiveActorE = 0x0026e734;
+_ZN2al8getScaleEPKNS_9LiveActorE = 0x0027e9dc;
+_ZN2al11getVelocityEPKNS_9LiveActorE = 0x00272dd8;
+_ZN2al18getFrontEPKNS_9LiveActorE = 0x0027d520;
+_ZN2al7getQuatEPKNS_9LiveActorE = 0x0027ee24;
+_ZN2al10getGravityEPKNS_9LiveActorE = 0x0027d588;
+
+_ZN2al11getTransPtrEPNS_9LiveActorE = 0x0027f3c4;
+_ZN2al12getRotatePtrEPNS_9LiveActorE = 0x0026e744;
+_ZN2al14getVelocityPtrEPNS_9LiveActorE = 0x00272dc0;
+_ZN2al11getFrontPtrEPNS_9LiveActorE = 0x0027c04c;
+_ZN2al10getQuatPtrEPNS_9LiveActorE = 0x0027f3b4;
+
+_ZN2al17initActorPoseTRSVEPNS_9LiveActorE = 0x00266f34;
+_ZN2al17initActorPoseTFSVEPNS_9LiveActorE = 0x00270b74;
+_ZN2al18initActorPoseTFGSVEPNS_9LiveActorE = 0x00244cc4;
+_ZN2al17initActorPoseTQSVEPNS_9LiveActorE = 0x00280590;
+
+_ZN2al18invalidateClippingEPNS_9LiveActorE = 0x0028065c;
