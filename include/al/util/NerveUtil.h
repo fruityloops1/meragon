@@ -1,8 +1,8 @@
 #pragma once
 
-#include "al/actor/liveactor.h"
-#include "al/nerve/nerve.h"
-#include "al/nerve/nervekeeper.h"
+#include "al/actor/LiveActor.h"
+#include "al/nerve/Nerve.h"
+#include "al/nerve/NerveKeeper.h"
 
 /**
  * @brief Adds a usable nerve for a LiveActor as a global variable. Always in anonymous namespaces
@@ -39,24 +39,9 @@
 
 namespace al {
 
-/**
- * @brief Initialize the NerveKeeper of an actor with a nerve
- * @param actor Actor
- * @param nerve Nerve to be initialized with
- * @param unk Initializes NerveStateCtrl if unk > 0
- */
 void initNerve(LiveActor* actor, const al::Nerve* nerve, int unk);
 
-/**
- * @brief Calls NerveKeeper::setNerve
- */
 void setNerve(IUseNerve* p, const al::Nerve* nerve);
-/**
- * @brief Checks if the active of p nerve equals nerve
- *
- * @param p NerveKeeper to check on
- * @param nerve The nerve to check for
- */
 bool isNerve(const IUseNerve* p, const al::Nerve* nerve);
 
 inline void setNerve(IUseNerve* i, const al::Nerve& nerve) { setNerve(i, &nerve); }

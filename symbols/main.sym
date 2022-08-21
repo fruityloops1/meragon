@@ -3,3 +3,4 @@ __addrCode = 0x00100000;
 __addrCustomCode = 0x00432000;
 
 _Z5opNewj = 0x002932b0;
+_Znwj = 0x002932b0;

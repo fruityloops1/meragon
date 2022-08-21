@@ -1,6 +1,5 @@
 #pragma once
 
-#include "al/actor/liveactor.h"
 #include "al/factory.h"
 #include "mg/actors/gabon.h"
 
@@ -231,11 +230,7 @@ class StreetPassObj;
 class DemoStarter;
 
 #include "sead/heap/seadNew.h"
-
-inline void* operator new(size_t, void* inst)
-{
-    return inst;
-} // no clue this is stupid
+#include <new>
 
 namespace mg {
 
@@ -247,7 +242,7 @@ al::LiveActor* createActorFunction(const char* name)
     return actor;
 }
 
-constexpr const al::NameToCreatorActor actorTable[] {
+constexpr const export al::NameToCreatorActor actorTable[] {
     { "Kinopio", al::createActorFunction<Kinopio> },
     { "Luigi", al::createActorFunction<Luigi> },
     { "Peach", al::createActorFunction<Peach> },
@@ -279,7 +274,7 @@ constexpr const al::NameToCreatorActor actorTable[] {
     { "Killer", al::createActorFunction<Killer> },
     { "KillerGenerator", al::createActorFunction<KillerGenerator> },
     { "KillerMagnum", al::createActorFunction<KillerMagnum> },
-    { "Kuribo", mg::createActorFunction<mg::Gabon> },
+    { "Kuribo", al::createActorFunction<Kuribo> },
     { "KuriboTail", al::createActorFunction<KuriboTail> },
     { "KuriboTailSearch", al::createActorFunction<KuriboTailSearch> },
     { "KuriboTower", al::createActorFunction<KuriboTower> },
@@ -473,9 +468,10 @@ constexpr const al::NameToCreatorActor actorTable[] {
     { "WaterFlowCube", al::createActorFunction<WaterFlowCube> },
     { "StreetPassObj", al::createActorFunction<StreetPassObj> },
     { "DemoStarter", al::createActorFunction<DemoStarter> },
+
     { "Gabon", mg::createActorFunction<mg::Gabon> }
 };
 
-constexpr const u8 actorTableEntryAmount = sizeof(mg::actorTable) / sizeof(mg::actorTable[0]);
+constexpr const export u8 actorTableEntryAmount = sizeof(mg::actorTable) / sizeof(mg::actorTable[0]);
 
 } // namespace mg

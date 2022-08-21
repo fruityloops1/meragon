@@ -6,26 +6,10 @@
 
 namespace al {
 
-/**
- * @brief Class that contains a LiveActors properties like Position, Rotation, etc. in the world
- * Only has Translation in the Base class, returns default values for the other components.
- * The components can be:
- * Trans     Vector3f Translation/Position of the actor
- * Rotate    Vector3f Euler rotation
- * Scale     Vector3f Scale of the model and other things
- * Velocity  Vector3f Velocity the actor is moving at
- * Front     Vector3f Vector the actor is facing to
- * Quat      Quatf    Quaternion rotation
- * Gravity   Vector3f Gravity of the actor
- */
 class ActorPoseKeeperBase {
     sead::Vector3f mTrans { 0, 0, 0 };
 
 public:
-    /**
-     * @brief Returns a read-only reference to the Translation of the actor
-     * @return const sead::Vector3f& Translation
-     */
     inline const sead::Vector3f& getTrans() const { return mTrans; }
     virtual const sead::Vector3f& getRotate() const;
     virtual const sead::Vector3f& getScale() const;
@@ -34,10 +18,6 @@ public:
     virtual const sead::Quatf& getQuat() const;
     virtual const sead::Vector3f& getGravity() const;
 
-    /**
-     * @brief Returns a mutable pointer to the Translation of the actor
-     * @return sead::Vector3f* Translation
-     */
     inline sead::Vector3f* getTransPtr() { return &mTrans; }
     virtual sead::Vector3f* getRotatePtr() { return nullptr; }
     virtual sead::Vector3f* getScalePtr() { return nullptr; }
@@ -46,10 +26,6 @@ public:
     virtual sead::Quatf* getQuatPtr() { return nullptr; }
     virtual sead::Vector3f* getGravityPtr() { return nullptr; }
 
-    /**
-     * @brief If the derivant does not have a Rotate component, the component it uses for Rotation will be set to rot
-     * @param rot Rotate rotation to convert
-     */
     virtual void updatePoseRotate(const sead::Vector3f& rot);
     virtual void updatePoseQuat(const sead::Quatf& quat);
     virtual void updatePoseMtx(const sead::Matrix34f* mtx);
@@ -57,9 +33,6 @@ public:
     virtual void unk2();
 };
 
-/**
- * @brief ActorPoseKeeper with Trans, Front, Scale, Velocity components
- */
 class ActorPoseKeeperTFSV : public ActorPoseKeeperBase {
     sead::Vector3f mFront { 0, 0, 0 };
     sead::Vector3f mScale { 1, 1, 1 };
@@ -75,9 +48,6 @@ public:
     sead::Vector3f* getFrontPtr() override { return &mFront; }
 };
 
-/**
- * @brief ActorPoseKeeper with Trans, Front, Gravity, Scale, Velocity components
- */
 class ActorPoseKeeperTFGSV : public ActorPoseKeeperTFSV {
     sead::Vector3f mGravity { 0, -1, 0 };
 
@@ -87,9 +57,6 @@ public:
     sead::Vector3f* getGravityPtr() override { return &mGravity; }
 };
 
-/**
- * @brief ActorPoseKeeper with Trans, Quat, Scale, Velocity components
- */
 class ActorPoseKeeperTQSV : public ActorPoseKeeperBase {
     sead::Quatf mQuat = sead::Quatf::unit;
     sead::Vector3f mScale { 1, 1, 1 };
@@ -105,9 +72,6 @@ public:
     sead::Quatf* getQuatPtr() override { return &mQuat; }
 };
 
-/**
- * @brief ActorPoseKeeper with Trans, Rotate, Scale, Velocity components
- */
 class ActorPoseKeeperTRSV : public ActorPoseKeeperBase {
     sead::Vector3f mRotate { 0, 0, 0 };
     sead::Vector3f mScale { 1, 1, 1 };

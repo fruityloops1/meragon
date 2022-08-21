@@ -1,54 +1,48 @@
 #pragma once
 
-#include "al/actor/actorinitinfo.h"
-#include "al/actor/actorposekeeper.h"
-#include "al/audio/audiokeeper.h"
-#include "al/effect/effectkeeper.h"
-#include "al/nerve/nerve.h"
-#include "al/sensor/hitsensor.h"
-#include "al/sensor/hitsensorkeeper.h"
-#include "mg/efun.h"
+#include "al/actor/ActorActionKeeper.h"
+#include "al/actor/ActorExecuteInfo.h"
+#include "al/actor/ActorInitInfo.h"
+#include "al/actor/ActorPoseKeeper.h"
+#include "al/actor/SubActorKeeper.h"
+#include "al/audio/AudioKeeper.h"
+#include "al/collision/Collider.h"
+#include "al/collision/CollisionParts.h"
+#include "al/effect/EffectKeeper.h"
+#include "al/model/ModelKeeper.h"
+#include "al/nerve/Nerve.h"
+#include "al/sensor/HitSensor.h"
+#include "al/sensor/HitSensorKeeper.h"
+#include "sead/math/seadMatrix.h"
 #include "types.h"
 
 namespace al {
 
-/**
- * @brief Object in a scene that can move, be animated, be interacted with, etc.
- */
 class LiveActor : public al::IUseNerve, public al::IUseEffectKeeper, public al::IUseAudioKeeper {
 public:
     virtual NerveKeeper* getNerveKeeper() const override { return mNerveKeeper; };
 
-    /**
-     * @brief Called by the engine and manually by parent actors during Scene initialization
-     * @param info See ActorInitInfo header
-     * @param unk1 Unknown
-     * @param unk2 Unknown
-     */
     virtual void init(const ActorInitInfo& info, uintptr_t unk1, uintptr_t unk2);
     virtual void initAfterPlacement();
     virtual void appear();
-    virtual void makeActorAlive();
+    virtual void makeActorAppeared();
     virtual void kill();
     virtual void makeActorDead();
     virtual void movement();
-    virtual void unk1();
-    virtual void gap1();
+    virtual void calcAnim();
+    virtual void draw();
     virtual void startClipped();
     virtual void endClipped();
     virtual void attackSensor(HitSensor* target, HitSensor* source);
     virtual bool receiveMsg();
-    virtual void unk3();
+    virtual sead::Matrix34f* getBaseMtx() const;
     virtual EffectKeeper* getEffectKeeper() const override { return mEffectKeeper; };
     virtual AudioKeeper* getAudioKeeper() const override { return mAudioKeeper; };
     virtual void gap2();
     virtual void gap3();
-    /**
-     * @brief Called every frame the actor is alive
-     */
     virtual void control();
-    virtual void gap4();
-    virtual void unk4();
+    virtual void calcAndSetBaseMtx();
+    virtual void updateCollider();
 
     LiveActor(const char* name);
 
@@ -58,11 +52,11 @@ private:
 
 protected:
     ActorPoseKeeperBase* mActorPoseKeeper = nullptr;
-    void* keeper18 = nullptr;
-    void* mActorActionKeeper = nullptr;
-    void* keeper20 = nullptr;
-    void* keeper24 = nullptr;
-    void* keeper28 = nullptr;
+    ActorExecuteInfo* mActorExecuteInfo = nullptr;
+    ActorActionKeeper* mActorActionKeeper = nullptr;
+    Collider* mCollider = nullptr;
+    CollisionParts* mCollisionParts = nullptr;
+    ModelKeeper* mModelKeeper = nullptr;
     NerveKeeper* mNerveKeeper = nullptr;
     HitSensorKeeper* mHitSensorKeeper = nullptr;
     EffectKeeper* mEffectKeeper = nullptr;
@@ -72,19 +66,16 @@ protected:
     void* keeper44 = nullptr;
     void* keeper48 = nullptr;
     void* keeper4C = nullptr;
-    void* keeper50 = nullptr;
+    SubActorKeeper* mSubActorKeeper = nullptr;
 
 private:
-    /**
-     * @brief Different boolean flags used by LiveActor internally
-     */
     struct LiveActorFlag {
         bool isDead = true;
-        bool flag2 = false;
+        bool isClipped = false;
         bool flag3 = true;
         bool flag4 = false;
         bool flag5 = false;
-        bool flag6 = false;
+        bool isHideModel = false;
         bool flag7 = true;
         bool flag8 = false;
         bool flag9 = false;

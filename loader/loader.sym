@@ -7,11 +7,11 @@ SYMBOL TABLE:
 003a191c l    d  .fini	00000000 .fini
 003a1934 l    d  .rodata.all_implied_fbits	00000000 .rodata.all_implied_fbits
 003a197c l    d  .eh_frame	00000000 .eh_frame
-00449f70 l    d  .init_array	00000000 .init_array
-00449f74 l    d  .fini_array	00000000 .fini_array
-00449f78 l    d  .data.__dso_handle	00000000 .data.__dso_handle
-00449f7c l    d  .bss.completed.1	00000000 .bss.completed.1
-00449f80 l    d  .bss.object.0	00000000 .bss.object.0
+00447f10 l    d  .init_array	00000000 .init_array
+00447f14 l    d  .fini_array	00000000 .fini_array
+00447f18 l    d  .data.__dso_handle	00000000 .data.__dso_handle
+00447f1c l    d  .bss.completed.1	00000000 .bss.completed.1
+00447f20 l    d  .bss.object.0	00000000 .bss.object.0
 00000000 l    d  .ARM.attributes	00000000 .ARM.attributes
 00000000 l    d  .comment	00000000 .comment
 00000000 l    d  .debug_info	00000000 .debug_info
@@ -28,11 +28,11 @@ SYMBOL TABLE:
 003a1934 l     O .rodata.all_implied_fbits	00000000 all_implied_fbits
 003a197c l     O .eh_frame	00000000 __EH_FRAME_BEGIN__
 003a1790 l     F .text	00000000 __do_global_dtors_aux
-00449f7c l     O .bss.completed.1	00000000 completed.1
-00449f74 l     O .fini_array	00000000 __do_global_dtors_aux_fini_array_entry
+00447f1c l     O .bss.completed.1	00000000 completed.1
+00447f14 l     O .fini_array	00000000 __do_global_dtors_aux_fini_array_entry
 003a17d0 l     F .text	00000000 frame_dummy
-00449f80 l     O .bss.object.0	00000000 object.0
-00449f70 l     O .init_array	00000000 __frame_dummy_init_array_entry
+00447f20 l     O .bss.object.0	00000000 object.0
+00447f10 l     O .init_array	00000000 __frame_dummy_init_array_entry
 00000000 l    df *ABS*	00000000 loader.c
 00000000 l    df *ABS*	00000000 svc.o
 00000000 l    df *ABS*	00000000 crtstuff.c
@@ -40,17 +40,17 @@ SYMBOL TABLE:
 003a19e0 l     O .eh_frame	00000000 __FRAME_END__
 00000000 l    df *ABS*	00000000 crtn.o
 003a1790 g       .text	00000000 __text_start
-00449f78 g     O .data.__dso_handle	00000000 .hidden __dso_handle
+00447f18 g     O .data.__dso_handle	00000000 .hidden __dso_handle
 003a18bc g     F .text	00000000 svcOpenProcess
 003a1904 g     F .init	00000000 _init
 003a18d0 g     F .text	00000000 svcGetProcessId
 003a18ec g     F .text	00000000 svcControlProcessMemory
-00449f70 g       .init_array	00000000 __data_end
+00447f10 g       .init_array	00000000 __data_end
 003a1904 g       .text	00000000 __text_end
 003a191c g     F .fini	00000000 _fini
 003a17fc g     F .text	0000007c LoaderMain
 003a1878 g     F .text	00000044 getCurrentProcessHandle
 003a18e4 g     F .text	00000000 svcBreak
-00449f70 g       .init_array	00000000 __data_start
+00447f10 g       .init_array	00000000 __data_start
 
 

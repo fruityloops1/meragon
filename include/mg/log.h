@@ -1,9 +1,9 @@
 #pragma once
 
 extern "C" {
-#include <3ds/svc.h>
+#include "3ds/svc.h"
 }
-#include <stdio.h>
+#include <cstdio>
 
 namespace mg {
 

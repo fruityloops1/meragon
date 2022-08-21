@@ -1,6 +1,6 @@
 #pragma once
 
-#include "al/sensor/hitsensor.h"
+#include "al/sensor/HitSensor.h"
 #include "sead/math/seadQuat.h"
 
 namespace al {

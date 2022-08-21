@@ -1,17 +1,26 @@
 #include "mg/actors/gabon.h"
-#include "al/actor/actorinitinfo.h"
-#include "al/actor/liveactor.h"
-#include "al/util/actor/action.h"
-#include "al/util/actor/init.h"
-#include "al/util/actor/model.h"
-#include "al/util/actor/pose.h"
-#include "al/util/nerve.h"
-#include "al/util/sensor/hitsensor.h"
-#include "al/util/sensor/msg.h"
+#include "al/actor/ActorInitInfo.h"
+#include "al/actor/LiveActor.h"
+#include "al/util/NerveUtil.h"
+#include "al/util/actor/Action.h"
+#include "al/util/actor/Init.h"
+#include "al/util/actor/Model.h"
+#include "al/util/actor/Pose.h"
+#include "al/util/sensor/HitSensorUtil.h"
+#include "al/util/sensor/MsgUtil.h"
 #include "mg/log.h"
 #include "sead/math/seadVector.h"
 
 namespace mg {
+
+namespace {
+    NERVE_DEF(Gabon, Wait);
+    NERVE_DEF(Gabon, ThrowSign);
+    NERVE_DEF(Gabon, Throw);
+
+    NERVE_DEF(GabonThrowObj, Generate);
+    NERVE_DEF(GabonThrowObj, Ground);
+}
 
 void GabonThrowObj::init(const al::ActorInitInfo& info, uintptr_t, uintptr_t)
 {

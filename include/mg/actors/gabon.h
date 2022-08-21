@@ -1,8 +1,6 @@
 #pragma once
 
-#include "al/actor/actorinitinfo.h"
-#include "al/actor/liveactor.h"
-#include "al/util/nerve.h"
+#include "al/actor/LiveActor.h"
 
 namespace mg {
 
@@ -53,12 +51,6 @@ namespace {
     constexpr int sAnimCountThrowSign = 70; // fix with al::isActionEnd
     constexpr int sAnimCountThrow = 21; // "
 
-    NERVE_DEF(Gabon, Wait);
-    NERVE_DEF(Gabon, ThrowSign);
-    NERVE_DEF(Gabon, Throw);
-
-    NERVE_DEF(GabonThrowObj, Generate);
-    NERVE_DEF(GabonThrowObj, Ground);
 }
 
 } // namespace mg

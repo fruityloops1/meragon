@@ -9,7 +9,13 @@ endif
 export PORTLIBS	:=	$(PORTLIBS_PATH)/armv6k $(PORTLIBS_PATH)/3ds
 #export PORTLIBS	:=	$(DEVKITPRO)/portlibs/arm
 export PATH		:=	$(DEVKITARM)/bin:$(PORTLIBS)/bin:$(PATH)
-CTRULIB	:=	$(DEVKITPRO)/libctru
+CTRULIB := $(DEVKITPRO)/libctru
+
+MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+MAKEFILE_DIR := $(dir $(MAKEFILE_PATH))
+
+export AEABI_LIB_DIR := $(DEVKITARM)/arm-none-eabi/lib/armv6k/fpu
+export LIBGCC_DIR := $(DEVKITARM)/lib/gcc/arm-none-eabi/12.1.0/armv6k/fpu
 
 #---------------------------------------------------------------------------------
 # the prefix on the compiler executables
@@ -39,28 +45,26 @@ INCLUDES	:=	include
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=softfp -mtp=soft -mfpu=vfpv2
+ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft -mfpu=vfpv2
 
-CFLAGS	:=	-g -Wall -O0 -mword-relocations \
-			-fomit-frame-pointer -ffunction-sections \
+CFLAGS	:=	-g -Wall -O2 -mword-relocations \
+			-fomit-frame-pointer -ffunction-sections -fshort-wchar \
 			$(ARCH)
 
-CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS -nostdlib \
-			-isystem $(DEVKITARM)/arm-none-eabi/include/ -isystem $(DEVKITARM)/arm-none-eabi/include/c++/11.2.0/ -isystem $(DEVKITARM)/arm-none-eabi/include/c++/11.2.0/arm-none-eabi/
+CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS
 
-CXXFLAGS	:= $(CFLAGS) -fno-exceptions -fno-rtti -std=gnu++11
+CXXFLAGS	:= $(CFLAGS) -fno-exceptions -fno-rtti -std=gnu++20
 
 ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	-T $(LINKERSCRIPT) -T $(SYMBOLSCRIPT) -g $(ARCH) -Wl,-Map,$(notdir $*.map)
+LDFLAGS	=	-T $(LINKERSCRIPT) -T $(SYMBOLSCRIPT) -g $(ARCH) -nostartfiles -nolibc -nodefaultlibs -Wl,--rpath="$(CURDIR)/../lib/" -Wl,--no-demangle -Wl,--no-wchar-size-warning -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lctru -lm
+LIBS	:= -L $(AEABI_LIB_DIR) -L $(LIBGCC_DIR) -lgcc -lc -lgcc -lstdc++ -lsysbase -lc -lctru
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(CTRULIB)  $(DEVKITARM) $(DEVKITARM)/arm-none-eabi 
-
+LIBDIRS	:=	$(CTRULIB)
 
 #---------------------------------------------------------------------------------
 ifneq ($(BUILD),$(notdir $(CURDIR)))
@@ -89,14 +93,13 @@ else
 	export LD	:=	$(CXX)
 endif
 
-
 export OFILES	:=	$(CPPFILES:.cc=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
 
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD)
- 
-export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib) -L$(DEVKITARM)/lib/gcc/arm-none-eabi/7.1.0
+
+export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 
 .PHONY: $(BUILD) clean
@@ -138,6 +141,7 @@ SECTIONS
         __text_start = . ;
         *(.text)
         *(.text.*)
+		KEEP (*(.text.hooks))
         *(.rodata)
         *(.data)
         *(.bss)
