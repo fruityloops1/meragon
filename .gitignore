@@ -3,6 +3,7 @@ build/
 *.elf
 *.bin
 newcode.sym
+loader.sym
 compile_commands.json
 .vscode/
 .cache/
