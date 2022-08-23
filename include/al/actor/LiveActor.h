@@ -22,7 +22,7 @@ class LiveActor : public al::IUseNerve, public al::IUseEffectKeeper, public al::
 public:
     virtual NerveKeeper* getNerveKeeper() const override { return mNerveKeeper; };
 
-    virtual void init(const ActorInitInfo& info, uintptr_t unk1, uintptr_t unk2);
+    virtual void init(const ActorInitInfo& info);
     virtual void initAfterPlacement();
     virtual void appear();
     virtual void makeActorAppeared();

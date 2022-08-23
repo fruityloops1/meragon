@@ -1,10 +1,15 @@
 #pragma once
 
 #include "al/nerve/HostStateBase.h"
+#include "game/scene/StageScene.h"
+#include "game/sequence/ProductStageStartParam.h"
 
 class ProductSequence;
 class ProductStateStage : public al::HostStateBase<ProductStateStage> {
-    u8 unk[0x2c];
+    ProductStageStartParam* mStageStartParam = nullptr;
+    ProductStageStartParam* mLastStageStartParam = nullptr;
+    StageScene* mStageScene = nullptr;
+    u8 unk[0x20];
 
 public:
     ProductStateStage(ProductSequence* parent /*, ... */);

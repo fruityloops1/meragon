@@ -1,10 +1,12 @@
 #pragma once
 
 #include "al/sequence/Sequence.h"
+#include "game/sequence/ProductStageStartParam.h"
 #include "game/sequence/states/ProductStateStage.h"
 
 class ProductSequence : public al::Sequence {
-    void* unk[6];
+    ProductStageStartParam* mStageStartParam = nullptr;
+    void* unk[5];
     class ProductStateTitle* mStateTitle = nullptr;
     class ProductStateOpening* mStateOpening = nullptr;
     class ProductStateCourseSelect* mStateCourseSelect = nullptr;

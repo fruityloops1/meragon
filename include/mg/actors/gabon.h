@@ -15,7 +15,7 @@ public:
     {
     }
 
-    void init(const al::ActorInitInfo& info, uintptr_t, uintptr_t) override;
+    void init(const al::ActorInitInfo& info) override;
     void attackSensor(al::HitSensor* source, al::HitSensor* target) override;
 
     void exeGenerate();
@@ -38,7 +38,7 @@ public:
     {
     }
 
-    void init(const al::ActorInitInfo& info, uintptr_t, uintptr_t) override;
+    void init(const al::ActorInitInfo& info) override;
     void attackSensor(al::HitSensor* source, al::HitSensor* target) override;
 
     void exeWait();

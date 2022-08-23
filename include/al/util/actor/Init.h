@@ -6,8 +6,8 @@
 
 namespace al {
 
+void initActor(LiveActor* actor, const ActorInitInfo& actorInitInfo);
 void initActorWithArchiveName(LiveActor* actor, const ActorInitInfo& actorInitInfo, const sead::SafeString& archiveName, const char* subArchiveName);
-void initActor(LiveActor* actor, const ActorInitInfo& actorInitInfo, uintptr_t unk1, uintptr_t unk2);
 void initMapPartsActor(LiveActor* actor, const al::ActorInitInfo& actorInitInfo);
 void initCreateActorNoPlacementInfo(LiveActor* actor, const ActorInitInfo& actorInitInfo);
 

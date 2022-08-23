@@ -1,0 +1,4 @@
+/* Actor Action Util */
+
+_ZN2al11startActionEPNS_9LiveActorEPKc = 0x0027f244;
+_ZN2al13getActionNameEPKNS_9LiveActorE = 0x0026de34;

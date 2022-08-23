@@ -22,7 +22,7 @@ namespace {
     NERVE_DEF(GabonThrowObj, Ground);
 }
 
-void GabonThrowObj::init(const al::ActorInitInfo& info, uintptr_t, uintptr_t)
+void GabonThrowObj::init(const al::ActorInitInfo& info)
 {
     al::initNerve(this, &nrvGabonThrowObjGenerate, 0);
     al::initActorWithArchiveName(this, info, mThrowObjModelName, nullptr);
@@ -31,7 +31,7 @@ void GabonThrowObj::init(const al::ActorInitInfo& info, uintptr_t, uintptr_t)
 void GabonThrowObj::exeGenerate()
 {
     if (al::isFirstStep(this))
-        al::startAction(this, "Generate", nullptr, nullptr);
+        al::startAction(this, "Generate");
     if (al::isStep(this, sAnimCountThrowSign))
         al::setNerve(this, nrvGabonThrowObjGround);
 }
@@ -39,7 +39,7 @@ void GabonThrowObj::exeGenerate()
 void GabonThrowObj::exeGround()
 {
     if (al::isFirstStep(this))
-        al::startAction(this, "Ground", nullptr, nullptr);
+        al::startAction(this, "Ground");
     mActorPoseKeeper->getTransPtr()->z += 20;
 }
 
@@ -51,7 +51,7 @@ void GabonThrowObj::attackSensor(al::HitSensor* source, al::HitSensor* target)
         al::sendMsgEnemyAttack(target, source);
 }
 
-void Gabon::init(const al::ActorInitInfo& info, uintptr_t, uintptr_t)
+void Gabon::init(const al::ActorInitInfo& info)
 {
     al::initNerve(this, &nrvGabonWait, 0);
     al::initActorWithArchiveName(this, info, "Gabon", nullptr);
@@ -62,7 +62,7 @@ void Gabon::init(const al::ActorInitInfo& info, uintptr_t, uintptr_t)
         mNeedleRollers[i] = roller;
     }
 
-    makeActorAlive();
+    makeActorAppeared();
 }
 
 void Gabon::attackSensor(al::HitSensor* source, al::HitSensor* target)
@@ -73,7 +73,7 @@ void Gabon::attackSensor(al::HitSensor* source, al::HitSensor* target)
 void Gabon::exeWait()
 {
     if (al::isFirstStep(this))
-        al::startAction(this, "Wait", nullptr, nullptr);
+        al::startAction(this, "Wait");
 
     if (al::isStep(this, mThrowInterval))
         al::setNerve(this, nrvGabonThrowSign);
@@ -82,14 +82,14 @@ void Gabon::exeWait()
 void Gabon::exeThrowSign()
 {
     if (al::isFirstStep(this)) {
-        al::startAction(this, "ThrowSign", nullptr, nullptr);
+        al::startAction(this, "ThrowSign");
         if (mThrowIndex >= sNeedleRollerAmount)
             mThrowIndex = 0;
 
         GabonThrowObj* roller = mNeedleRollers[mThrowIndex];
         mCurRoller = roller;
         mThrowIndex++;
-        roller->makeActorAlive();
+        roller->makeActorAppeared();
 
         al::setNerve(roller, nrvGabonThrowObjGenerate);
     }
@@ -107,7 +107,7 @@ void Gabon::exeThrowSign()
 void Gabon::exeThrow()
 {
     if (al::isFirstStep(this))
-        al::startAction(this, "Throw", nullptr, nullptr);
+        al::startAction(this, "Throw");
     if (al::isStep(this, sAnimCountThrow))
         al::setNerve(this, nrvGabonWait);
 }

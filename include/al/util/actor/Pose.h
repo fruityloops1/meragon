@@ -20,10 +20,16 @@ sead::Vector3f* getVelocityPtr(al::LiveActor* actor);
 sead::Vector3f* getFrontPtr(al::LiveActor* actor);
 sead::Quatf* getQuatPtr(al::LiveActor* actor);
 
+void setTrans(al::LiveActor* actor, const sead::Vector3f& trans);
+
+void updatePoseRotate(al::LiveActor* actor, const sead::Vector3f& rotate);
+
 void initActorPoseTRSV(al::LiveActor* actor);
 void initActorPoseTFSV(al::LiveActor* actor);
 void initActorPoseTFGSV(al::LiveActor* actor);
 void initActorPoseTQSV(al::LiveActor* actor);
+
+void initActorSRTAndPoseTRSV(al::LiveActor* actor, const ActorInitInfo& info);
 
 void invalidateClipping(al::LiveActor* actor); // idk if this belongs here
 

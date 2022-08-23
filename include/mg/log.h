@@ -10,9 +10,9 @@ namespace mg {
 template <typename... Args>
 void log(const char* fmt, Args... args)
 {
-    size_t size = snprintf(nullptr, 0, fmt, args...);
+    size_t size = std::snprintf(nullptr, 0, fmt, args...);
     char data[size + 1];
-    sprintf(data, fmt, args...);
+    std::snprintf(data, size + 1, fmt, args...);
     svcOutputDebugString(data, size);
 }
 

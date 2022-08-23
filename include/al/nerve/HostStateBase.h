@@ -6,6 +6,7 @@ namespace al {
 
 template <typename T>
 class HostStateBase : public NerveStateBase {
+protected:
     T* const mHost = nullptr;
 
 public:

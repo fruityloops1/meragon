@@ -13,9 +13,15 @@ _ZN2al14getVelocityPtrEPNS_9LiveActorE = 0x00272dc0;
 _ZN2al11getFrontPtrEPNS_9LiveActorE = 0x0027c04c;
 _ZN2al10getQuatPtrEPNS_9LiveActorE = 0x0027f3b4;
 
+_ZN2al8setTransEPNS_9LiveActorERKN4sead7Vector3IfEE = 0x0027f394;
+
+_ZN2al16updatePoseRotateEPNS_9LiveActorERKN4sead7Vector3IfEE = 0x0026e81c;
+
 _ZN2al17initActorPoseTRSVEPNS_9LiveActorE = 0x00266f34;
 _ZN2al17initActorPoseTFSVEPNS_9LiveActorE = 0x00270b74;
 _ZN2al18initActorPoseTFGSVEPNS_9LiveActorE = 0x00244cc4;
 _ZN2al17initActorPoseTQSVEPNS_9LiveActorE = 0x00280590;
+
+_ZN2al23initActorSRTAndPoseTRSVEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x00270ab0;
 
 _ZN2al18invalidateClippingEPNS_9LiveActorE = 0x0028065c;
