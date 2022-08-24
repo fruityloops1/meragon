@@ -8,10 +8,10 @@ class LiveActorKit {
     int mAllActorsBufferSize = 0;
     void* unk[14];
 
+public:
     LiveActorGroup* mLiveActorGroup = nullptr;
     void* unk2;
 
-public:
     LiveActorKit(int groupBufSize);
 };
 

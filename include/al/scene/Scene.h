@@ -12,7 +12,11 @@ struct IUseUnknown {
 
 class Scene : public NerveExecutor, public IUseUnknown {
     void* mUnknown = nullptr;
+
+public:
     LiveActorKit* mLiveActorKit = nullptr;
+
+private:
     LayoutKit* mLayoutKit = nullptr;
     void* unk[6];
     bool mIsAlive = false;

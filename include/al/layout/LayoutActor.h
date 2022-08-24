@@ -2,6 +2,7 @@
 
 #include "al/nerve/Nerve.h"
 #include "al/nerve/NerveKeeper.h"
+#include "sead/basis/seadTypes.h"
 #include "sead/prim/seadSafeString.h"
 
 namespace al {
@@ -38,10 +39,14 @@ protected:
     NerveKeeper* mNerveKeeper = nullptr;
     void* _18 = nullptr;
     void* mSomething = nullptr;
+    void* _1C = nullptr;
     void* _20 = nullptr;
     void* _24 = nullptr;
     void* _28 = nullptr;
     bool mIsAlive = false;
 };
+
+void setPaneString(LayoutActor* actor, const char* paneName, const char16* text);
+void hidePane(LayoutActor* actor, const char* paneName);
 
 } // namespace al

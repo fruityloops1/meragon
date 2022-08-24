@@ -7,9 +7,10 @@ namespace al {
 
 class LiveActorGroup {
     const char* const mName = nullptr;
-    sead::PtrArray<LiveActor> mActors;
 
 public:
+    sead::PtrArray<LiveActor> mActors;
+
     LiveActorGroup(const char* name, int bufSize);
 
     virtual void registerActor(LiveActor* actor);

@@ -12,3 +12,6 @@ _ZN2al11LayoutActor3gapEv = 0x0;
 _ZN2al11LayoutActor7controlEv = 0x001be024;
 
 _ZN2al11LayoutActor9initNerveEPKNS_5NerveEi = 0x0027e610;
+
+_ZN2al13setPaneStringEPNS_11LayoutActorEPKcPKDs = 0x00268dac;
+_ZN2al8hidePaneEPNS_11LayoutActorEPKc = 0x00273458;

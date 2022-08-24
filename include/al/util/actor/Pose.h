@@ -21,6 +21,8 @@ sead::Vector3f* getFrontPtr(al::LiveActor* actor);
 sead::Quatf* getQuatPtr(al::LiveActor* actor);
 
 void setTrans(al::LiveActor* actor, const sead::Vector3f& trans);
+void setScale(al::LiveActor* actor, const sead::Vector3f& scale);
+void setFront(al::LiveActor* actor, const sead::Vector3f& front);
 
 void updatePoseRotate(al::LiveActor* actor, const sead::Vector3f& rotate);
 

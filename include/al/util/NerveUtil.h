@@ -39,7 +39,7 @@
 
 namespace al {
 
-void initNerve(LiveActor* actor, const al::Nerve* nerve, int unk);
+void initNerve(LiveActor* actor, const al::Nerve* nerve, int step = 0);
 
 void setNerve(IUseNerve* p, const al::Nerve* nerve);
 bool isNerve(const IUseNerve* p, const al::Nerve* nerve);

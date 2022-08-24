@@ -1,7 +1,7 @@
 #pragma once
 
 #include "al/factory.h"
-#include "mg/actors/gabon.h"
+#include "mg/actors/Gabon.h"
 
 class Kinopio;
 class Luigi;

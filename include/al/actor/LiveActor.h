@@ -13,6 +13,7 @@
 #include "al/nerve/Nerve.h"
 #include "al/sensor/HitSensor.h"
 #include "al/sensor/HitSensorKeeper.h"
+#include "al/sensor/SensorMsg.h"
 #include "sead/math/seadMatrix.h"
 #include "types.h"
 
@@ -33,8 +34,8 @@ public:
     virtual void draw();
     virtual void startClipped();
     virtual void endClipped();
-    virtual void attackSensor(HitSensor* target, HitSensor* source);
-    virtual bool receiveMsg();
+    virtual void attackSensor(HitSensor* me, HitSensor* other);
+    virtual bool receiveMsg(SensorMsg msg, HitSensor* other, HitSensor* me);
     virtual sead::Matrix34f* getBaseMtx() const;
     virtual EffectKeeper* getEffectKeeper() const override { return mEffectKeeper; };
     virtual AudioKeeper* getAudioKeeper() const override { return mAudioKeeper; };
@@ -43,6 +44,8 @@ public:
     virtual void control();
     virtual void calcAndSetBaseMtx();
     virtual void updateCollider();
+
+    inline const char* getName() { return mActorName; }
 
     LiveActor(const char* name);
 
