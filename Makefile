@@ -39,7 +39,7 @@ export OBJDUMP	:=	$(PREFIX)objdump
 #---------------------------------------------------------------------------------
 TARGET		:=	newcode
 BUILD		:=	build
-SOURCES		:=	source source/actors source/al/util/actor
+SOURCES		:=	source source/actors source/al/util/actor source/scene
 INCLUDES	:=	include
 
 #---------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-exceptions -fno-rtti -std=gnu++20
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-T $(LINKERSCRIPT) -T $(SYMBOLSCRIPT) -g $(ARCH) -nostartfiles -nolibc -nodefaultlibs -Wl,--rpath="$(CURDIR)/../lib/" -Wl,--no-demangle -Wl,--no-wchar-size-warning -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -L $(AEABI_LIB_DIR) -L $(LIBGCC_DIR) -lgcc -lc -lgcc -lstdc++ -lsysbase -lc -lctru -lm
+LIBS	:= -L $(AEABI_LIB_DIR) -L $(LIBGCC_DIR) -lgcc -lc -lgcc -lstdc++ -lsysbase -lc -lctru -lc -lm
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

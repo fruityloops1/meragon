@@ -229,8 +229,7 @@ class WaterFlowCube;
 class StreetPassObj;
 class DemoStarter;
 
-#include "sead/heap/seadNew.h"
-#include <new>
+#include "sead/basis/seadNew.h"
 
 namespace mg {
 

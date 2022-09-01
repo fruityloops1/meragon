@@ -3,7 +3,7 @@
 namespace al {
 
 enum class SensorMsg : int {
-    EnemyAttack
+    EnemyAttack = 0x2d
 };
 
 } // namespace al

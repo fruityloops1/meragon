@@ -1,5 +1,6 @@
 #pragma once
 
+#include "al/layout/LayoutInitInfo.h"
 #include "al/nerve/Nerve.h"
 #include "al/nerve/NerveKeeper.h"
 #include "sead/basis/seadTypes.h"
@@ -15,7 +16,7 @@ public:
     virtual void* getSomething() const = 0;
 };
 
-class LayoutActor : public al::IUseSomething, public al::IUseNerve {
+class LayoutActor : public al::IUseNerve, public al::IUseSomething {
 public:
     LayoutActor(const char* name);
 
@@ -29,7 +30,7 @@ private:
     virtual void gap();
 
 public:
-    virtual void* getSomething() const override { return mSomething; };
+    void* getSomething() const override { return mSomething; };
     virtual void control();
 
     void initNerve(const al::Nerve* nerve, int);
@@ -45,6 +46,10 @@ protected:
     void* _28 = nullptr;
     bool mIsAlive = false;
 };
+
+void initLayoutActor(al::LayoutActor* layoutActor, const LayoutInitInfo& info, const char* archiveName, const char*);
+
+void startAction(al::LayoutActor* actor, const sead::SafeString& actionName);
 
 void setPaneString(LayoutActor* actor, const char* paneName, const char16* text);
 void hidePane(LayoutActor* actor, const char* paneName);

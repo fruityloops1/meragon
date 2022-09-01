@@ -29,6 +29,9 @@ public:
         return mStringTop;
     }
 
+    bool isEqual(const SafeStringBase<T>& str) const;
+    void assureTerminationImpl_();
+
     static const T cNullChar = 0;
     static const T cLineBreakChar;
     static const SafeStringBase cEmptyString;

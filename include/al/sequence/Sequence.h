@@ -1,15 +1,18 @@
 #pragma once
 
 #include "al/nerve/NerveExecutor.h"
+#include "al/scene/Scene.h"
 #include "sead/prim/seadSafeString.h"
 
 namespace al {
 
 class Sequence : public NerveExecutor {
     sead::FixedSafeString<64> mName;
-    u8 unk[0xf4];
 
 public:
+    Scene* mCurrentScene = nullptr;
+    u8 unk[0xf0];
+
     Sequence(const char* name);
 
     virtual void init(/*SequenceInitInfo& ?*/);

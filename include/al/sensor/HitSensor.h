@@ -4,7 +4,22 @@
 namespace al {
 
 enum class SensorType : int {
-
+    Player = 1,
+    Npc,
+    Ride,
+    Enemy,
+    EnemyBody,
+    EnemyAttack,
+    Dossun,
+    KillerMagnum,
+    EnemySimple,
+    MapObj,
+    MapObjSimple,
+    Bindable,
+    CollisionParts,
+    KickKoura,
+    PlayerFireBall,
+    WooGanSandBody
 };
 
 class LiveActor;

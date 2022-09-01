@@ -1,33 +1,33 @@
 #pragma once
 
 #include "al/nerve/NerveExecutor.h"
+#include "al/scene/CreatorClassNameTableHolder.h"
 #include "al/scene/LayoutKit.h"
 #include "al/scene/LiveActorKit.h"
+#include "al/scene/SceneObjHolder.h"
 
 namespace al {
 
-struct IUseUnknown {
-    virtual void* getUnknown() const = 0;
-};
-
-class Scene : public NerveExecutor, public IUseUnknown {
-    void* mUnknown = nullptr;
+class Scene : public NerveExecutor {
+    void* mUnknown[2] { nullptr };
 
 public:
     LiveActorKit* mLiveActorKit = nullptr;
 
 private:
     LayoutKit* mLayoutKit = nullptr;
-    void* unk[6];
-    bool mIsAlive = false;
+    SceneObjHolder* mSceneObjHolder = nullptr;
+    CreatorClassNameTableHolder* mCCNTHolder = nullptr;
+    void* unk[4];
 
 public:
+    bool mIsAlive = false;
+
     Scene(const char* name);
 
-    void* getUnknown() const override;
     virtual void appear();
     virtual void kill();
-    virtual void init(/*SceneInitInfo& ?*/);
+    virtual void init(/*SceneInitInfo& ?*/) = 0;
     virtual void movement();
     virtual void control();
     virtual void unk1(); // drawMain?

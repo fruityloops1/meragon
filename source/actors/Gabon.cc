@@ -1,4 +1,4 @@
-#include "mg/actors/gabon.h"
+#include "mg/actors/Gabon.h"
 #include "al/actor/ActorInitInfo.h"
 #include "al/actor/LiveActor.h"
 #include "al/util/NerveUtil.h"

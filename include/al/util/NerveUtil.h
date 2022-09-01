@@ -4,11 +4,6 @@
 #include "al/nerve/Nerve.h"
 #include "al/nerve/NerveKeeper.h"
 
-/**
- * @brief Adds a usable nerve for a LiveActor as a global variable. Always in anonymous namespaces
- * @param CLASS Class the nerve is defined in
- * @param ACTION Name of the execution function suffix (e.g. Wait = void CLASS::exeWait())
- */
 #define NERVE_DEF(CLASS, ACTION)                                    \
     struct CLASS##Nrv##ACTION : public al::Nerve {                  \
         inline void execute(al::NerveKeeper* keeper) const override \
@@ -18,12 +13,6 @@
     };                                                              \
     const CLASS##Nrv##ACTION nrv##CLASS##ACTION;
 
-/**
- * @brief Same as NERVE_DEF, but defines the executeOnEnd action too.
- * @param CLASS Class the nerve is defined in
- * @param ACTION Name of the execution function suffix (e.g. Wait = void CLASS::exeWait())
- * @param ENDACTION Name of the end execution function
- */
 #define NERVE_DEF_END(CLASS, ACTION, ENDACTION)                          \
     struct CLASS##Nrv##ACTION : public al::Nerve {                       \
         inline void execute(al::NerveKeeper* keeper) const override      \

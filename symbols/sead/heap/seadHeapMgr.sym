@@ -1,0 +1,4 @@
+/* sead/heap/seadHeapMgr.h */
+
+_ZN4sead7HeapMgr12sInstancePtrE = 0x003e23b8;
+_ZN4sead7HeapMgr15setCurrentHeap_EPNS_4HeapE = 0x002932ec;

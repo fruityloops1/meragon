@@ -17,4 +17,7 @@ public:
     virtual void control();
 };
 
+void initNerveState(IUseNerve*, NerveStateBase* state, const Nerve* stateNrv, const char* name);
+bool updateNerveState(IUseNerve*); // returns if nerve state is dead
+
 } // namespace al

@@ -1,0 +1,10 @@
+/* al/nerve/NerveStateBase.h */
+
+_ZN2al14NerveStateBaseC2EPKc = 0x002684e0;
+_ZN2al14NerveStateBase6appearEv = 0x001e2db0;
+_ZN2al14NerveStateBase4killEv = 0x001e2da4;
+_ZN2al14NerveStateBase6updateEv = 0x001e2dbc;
+_ZN2al14NerveStateBase7controlEv = 0x001e2df0;
+
+_ZN2al14initNerveStateEPNS_9IUseNerveEPNS_14NerveStateBaseEPKNS_5NerveEPKc = 0x001cacb4;
+_ZN2al16updateNerveStateEPNS_9IUseNerveE = 0x001cac78;

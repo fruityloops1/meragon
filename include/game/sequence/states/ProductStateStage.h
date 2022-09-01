@@ -5,7 +5,7 @@
 #include "game/sequence/ProductStageStartParam.h"
 
 class ProductSequence;
-class ProductStateStage : public al::HostStateBase<ProductStateStage> {
+class ProductStateStage : public al::HostStateBase<ProductSequence> {
     ProductStageStartParam* mStageStartParam = nullptr;
     ProductStageStartParam* mLastStageStartParam = nullptr;
     StageScene* mStageScene = nullptr;
