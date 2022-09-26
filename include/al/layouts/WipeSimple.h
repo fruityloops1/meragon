@@ -1,6 +1,6 @@
 #pragma once
 
-#include "al/layout/LayoutActor.h"
+#include "al/Layout/LayoutActor.h"
 
 namespace al {
 

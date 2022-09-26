@@ -1,6 +1,6 @@
 #pragma once
 
-#include "al/factory.h"
+#include "al/Factory/Factory.h"
 #include "mg/actors/Gabon.h"
 
 class Kinopio;

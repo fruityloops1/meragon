@@ -1,0 +1,19 @@
+#pragma once
+
+#include "al/Scene/Scene.h"
+#include "game/Player/PlayerActor.h"
+#include "game/Sequence/ProductStageStartParam.h"
+
+class StageScene : public al::Scene {
+public:
+    StageScene(ProductStageStartParam* stageStartParam);
+
+    ProductStageStartParam* mStageStartParam = nullptr;
+    PlayerActor* mPlayerActor = nullptr;
+    void* unk[9];
+    class StageSceneStateGameOver* mStateGameOver = nullptr;
+    void* unk2[14];
+
+    void appear() override;
+    void control() override;
+};

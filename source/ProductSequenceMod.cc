@@ -1,8 +1,8 @@
-#include "al/nerve/NerveKeeper.h"
-#include "al/nerve/NerveStateBase.h"
-#include "al/util/NerveUtil.h"
-#include "game/sequence/ProductSequence.h"
-#include "mg/scene/ProductStateTest.h"
+#include "al/Nerve/NerveKeeper.h"
+#include "al/Nerve/NerveStateBase.h"
+#include "al/Util/NerveUtil.h"
+#include "game/Sequence/ProductSequence.h"
+#include "mg/Scene/ProductStateTest.h"
 
 namespace {
 

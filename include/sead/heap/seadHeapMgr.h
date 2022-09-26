@@ -62,7 +62,6 @@ public:
 
     sead::Heap* setCurrentHeap_(sead::Heap* heap);
 
-private:
     friend class ScopedCurrentHeapSetter;
 
     /// Set the current heap to the specified heap and returns the previous "current heap".
@@ -73,6 +72,7 @@ private:
     static CriticalSection sHeapTreeLockCS;
     static TickSpan sSleepSpanAtRemoveCacheFailure;
 
+private:
     /// fallback heap that is returned when getting the current heap outside of an sead::Thread
     Heap* mAllocFromNotSeadThreadHeap = nullptr;
     IAllocFailedCallback* mAllocFailedCallback = nullptr;

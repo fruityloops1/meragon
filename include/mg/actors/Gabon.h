@@ -1,6 +1,6 @@
 #pragma once
 
-#include "al/actor/LiveActor.h"
+#include "al/LiveActor/LiveActor.h"
 
 namespace mg {
 

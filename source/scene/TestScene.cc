@@ -1,5 +1,5 @@
-#include "mg/scene/TestScene.h"
-#include "al/util/NerveUtil.h"
+#include "mg/Scene/TestScene.h"
+#include "al/Util/NerveUtil.h"
 
 namespace mg {
 

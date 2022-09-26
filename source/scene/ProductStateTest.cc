@@ -1,9 +1,9 @@
-#include "mg/scene/ProductStateTest.h"
-#include "al/system/MemorySystem.h"
-#include "al/system/SceneHeapSetter.h"
-#include "al/util/NerveUtil.h"
-#include "game/sequence/ProductSequence.h"
-#include "mg/scene/TestScene.h"
+#include "mg/Scene/ProductStateTest.h"
+#include "al/System/MemorySystem.h"
+#include "al/System/SceneHeapSetter.h"
+#include "al/Util/NerveUtil.h"
+#include "game/Sequence/ProductSequence.h"
+#include "mg/Scene/TestScene.h"
 #include "sead/heap/seadHeapMgr.h"
 
 namespace {
