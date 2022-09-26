@@ -1,5 +1,6 @@
 #pragma once
 
+#include "al/Factory/Factory.h"
 #include "al/System/ByamlIter.h"
 
 namespace al {
@@ -10,6 +11,8 @@ class CreatorClassNameTableHolder {
 
 public:
     CreatorClassNameTableHolder() = default;
+
+    CreateActorFunctionT getCreator(const char* objectName) const;
 };
 
 } // namespace al
