@@ -1,4 +1,5 @@
 /* al::LiveActor */
+
 _ZTVN2al9LiveActorE = 0x003d7974;
 _ZN2al9LiveActorC1EPKc = 0x0027fe9c;
 _ZN2al9LiveActorC2EPKc = 0x0027fe9c;
