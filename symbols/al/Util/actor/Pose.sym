@@ -1,4 +1,4 @@
-/* Actor Pose Util */
+/* al/Util/Actor/Pose.h */
 _ZN2al8getTransEPKNS_9LiveActorE = 0x0028028c;
 _ZN2al9getRotateEPKNS_9LiveActorE = 0x0026e734;
 _ZN2al8getScaleEPKNS_9LiveActorE = 0x0027e9dc;

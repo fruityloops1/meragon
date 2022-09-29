@@ -1,4 +1,4 @@
-/* Actor Util */
+/* al/Util/Actor/Actor.h */
 
 _ZN2al9initActorEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x0027b690;
 _ZN2al24initActorWithArchiveNameEPNS_9LiveActorERKNS_13ActorInitInfoERKN4sead14SafeStringBaseIcEEPKc = 0x002801e0;

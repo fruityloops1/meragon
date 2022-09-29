@@ -1,3 +1,5 @@
+/* al/Factory/Factory.h */
+
 /* al::LiveActor* al::createActorFunction<T>(const char* name) */
 _ZN2al19createActorFunctionI7KinopioEEPNS_9LiveActorEPKc = 0x003985ec;
 _ZN2al19createActorFunctionI5LuigiEEPNS_9LiveActorEPKc = 0x003980ac;
