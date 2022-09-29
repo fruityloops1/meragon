@@ -1,7 +1,7 @@
 #pragma once
 
 #include "al/Factory/Factory.h"
-#include "al/System/ByamlIter.h"
+#include "al/System/Byaml/ByamlIter.h"
 
 namespace al {
 

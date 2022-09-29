@@ -11,6 +11,7 @@ enum class ByamlDataType : const u8 {
     Array = 0xC0,
     Hash = 0xC1,
     StringTable = 0xC2,
+    BinaryTable = 0xC3,
     Bool = 0xD0,
     Int = 0xD1,
     Float = 0xD2,
