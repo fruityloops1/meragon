@@ -1,6 +1,6 @@
 #pragma once
 
-#include "al/System/ByamlIter.h"
+#include "al/System/Byaml/ByamlIter.h"
 #include "sead/math/seadVector.h"
 
 namespace al {
