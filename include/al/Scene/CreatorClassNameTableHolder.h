@@ -1,13 +1,13 @@
 #pragma once
 
-#include "al/Factory/Factory.h"
+#include "al/Factory/ActorFactory.h"
 #include "al/System/Byaml/ByamlIter.h"
 
 namespace al {
 
 class CreatorClassNameTableHolder {
     void* unk = nullptr;
-    ByamlIter* mIter = nullptr;
+    ByamlIter* mTable = nullptr;
 
 public:
     CreatorClassNameTableHolder() = default;

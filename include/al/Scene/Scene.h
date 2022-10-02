@@ -5,6 +5,7 @@
 #include "al/Scene/CreatorClassNameTableHolder.h"
 #include "al/Scene/LayoutKit.h"
 #include "al/Scene/SceneObjHolder.h"
+#include "al/System/Resource.h"
 
 namespace al {
 
@@ -17,10 +18,11 @@ public:
 private:
     LayoutKit* mLayoutKit = nullptr;
     SceneObjHolder* mSceneObjHolder = nullptr;
+
+public:
     CreatorClassNameTableHolder* mCCNTHolder = nullptr;
     void* unk[4];
 
-public:
     bool mIsAlive = false;
 
     Scene(const char* name);
@@ -43,6 +45,8 @@ public:
     virtual void unk10();
     virtual void gap2();
     virtual void gap3();
+
+    void initPlacement(al::Resource* stageFile, const ActorInitInfo& info, const char* infoIterName);
 };
 
 } // namespace al

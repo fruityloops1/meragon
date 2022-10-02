@@ -8,6 +8,6 @@ class LayoutInitInfo {
     void* unk[3];
 };
 
-void initLayoutInitInfo(LayoutInitInfo* info, al::LiveActorKit*); // why LiveActorKit ?
+void initLayoutInitInfo(LayoutInitInfo* info, LiveActorKit*); // why LiveActorKit ?
 
 } // namespace al

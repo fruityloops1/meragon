@@ -1,0 +1,11 @@
+/* al/System/Byaml/ByamlIter.h */
+
+_ZN2al9ByamlIterC1Ev = 0x002910e8;
+_ZN2al9ByamlIterC1EPKh = 0x002905f0;
+
+_ZNK2al9ByamlIter7getSizeEv = 0x002910f8;
+
+_ZNK2al9ByamlIter17tryGetStringByKeyEPPKcS2_ = 0x0029101c;
+
+_ZNK2al9ByamlIter17tryGetIterByIndexEPS0_i = 0x0029107c;
+_ZNK2al9ByamlIter15tryGetIterByKeyEPS0_PKc = 0x00290fb0;

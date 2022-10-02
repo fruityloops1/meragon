@@ -19,7 +19,7 @@ enum class ByamlDataType : const u8 {
 };
 
 class ByamlData {
-    u32 mValue = 0;
+    u32 mValue = 0; // should be a union
     ByamlDataType mType = ByamlDataType::Invalid;
 
 public:

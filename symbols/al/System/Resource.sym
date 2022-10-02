@@ -1,0 +1,4 @@
+/* al/System/Resource.h */
+
+_ZN2al8Resource7getBymlERKN4sead14SafeStringBaseIcEE = 0x00290640;
+_ZN2al8Resource5getPaERKN4sead14SafeStringBaseIcEE = 0x003373ac;

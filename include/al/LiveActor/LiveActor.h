@@ -5,10 +5,12 @@
 #include "al/LiveActor/ActorActionKeeper.h"
 #include "al/LiveActor/ActorExecuteInfo.h"
 #include "al/LiveActor/ActorInitInfo.h"
+#include "al/LiveActor/ActorLightKeeper.h"
 #include "al/LiveActor/ActorPoseKeeper.h"
 #include "al/LiveActor/Collider.h"
 #include "al/LiveActor/HitSensor.h"
 #include "al/LiveActor/HitSensorKeeper.h"
+#include "al/LiveActor/LiveActorFlag.h"
 #include "al/LiveActor/ModelKeeper.h"
 #include "al/LiveActor/SensorMsg.h"
 #include "al/LiveActor/SubActorKeeper.h"
@@ -67,22 +69,12 @@ protected:
     void* keeper3C = nullptr;
     void* keeper40 = nullptr;
     void* keeper44 = nullptr;
-    void* keeper48 = nullptr;
+    ActorLightKeeper* mActorLightKeeper = nullptr;
     void* keeper4C = nullptr;
     SubActorKeeper* mSubActorKeeper = nullptr;
 
 private:
-    struct LiveActorFlag {
-        bool isDead = true;
-        bool isClipped = false;
-        bool flag3 = true;
-        bool flag4 = false;
-        bool flag5 = false;
-        bool isHideModel = false;
-        bool flag7 = true;
-        bool flag8 = false;
-        bool flag9 = false;
-    } mLiveActorFlag;
+    LiveActorFlag mLiveActorFlag;
 };
 
 static_assert(sizeof(LiveActor) == 0x60, "");
