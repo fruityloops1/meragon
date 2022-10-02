@@ -1,4 +1,4 @@
-/* al/Util/Sensor/MsgUtil.h */
+/* al/Util/HitSensorUtil.h */
 
 _ZN2al18sendMsgEnemyAttackEPNS_9HitSensorES1_ = 0x0027d56c;
 

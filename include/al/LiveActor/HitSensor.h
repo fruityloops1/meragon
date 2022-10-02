@@ -1,5 +1,6 @@
 #pragma once
 
+#include "sead/math/seadVector.h"
 #include "types.h"
 
 namespace al {
@@ -34,5 +35,9 @@ public:
 
     inline const char* getName() { return mName; }
 };
+
+bool isSensorName(HitSensor* sensor, const char* name);
+
+bool isHitCylinderSensor(HitSensor*, HitSensor*, const sead::Vector3f&, float);
 
 } // namespace al

@@ -77,6 +77,8 @@ private:
     LiveActorFlag mLiveActorFlag;
 };
 
+void initNerve(LiveActor* actor, const al::Nerve* nerve, int step = 0);
+
 static_assert(sizeof(LiveActor) == 0x60, "");
 
 } // namespace al

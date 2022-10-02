@@ -8,4 +8,4 @@ void sendMsgEnemyAttack(HitSensor* source, HitSensor* target);
 
 bool isSensorPlayer(const al::HitSensor* sensor);
 
-} // namespace
+} // namespace al

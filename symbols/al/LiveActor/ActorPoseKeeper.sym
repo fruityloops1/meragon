@@ -24,5 +24,3 @@ _ZN2al18initActorPoseTFGSVEPNS_9LiveActorE = 0x00244cc4;
 _ZN2al17initActorPoseTQSVEPNS_9LiveActorE = 0x00280590;
 
 _ZN2al23initActorSRTAndPoseTRSVEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x00270ab0;
-
-_ZN2al18invalidateClippingEPNS_9LiveActorE = 0x0028065c;

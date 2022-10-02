@@ -1,3 +1,0 @@
-/* al/Util/NerveUtil.h */
-_ZN2al8setNerveEPNS_9IUseNerveEPKNS_5NerveE = 0x00280610;
-_ZN2al7isNerveEPKNS_9IUseNerveEPKNS_5NerveE = 0x002806a8;

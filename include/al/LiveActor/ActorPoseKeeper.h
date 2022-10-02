@@ -87,4 +87,36 @@ public:
     sead::Vector3f* getVelocityPtr() override { return &mVelocity; }
 };
 
+class ActorInitInfo;
+class LiveActor;
+
+// wrappers
+
+const sead::Vector3f& getTrans(const LiveActor* actor);
+const sead::Vector3f& getRotate(const LiveActor* actor);
+const sead::Vector3f& getScale(const LiveActor* actor);
+const sead::Vector3f& getVelocity(const LiveActor* actor);
+const sead::Vector3f& getFront(const LiveActor* actor);
+const sead::Quatf& getQuat(const LiveActor* actor);
+const sead::Vector3f& getGravity(const LiveActor* actor);
+
+sead::Vector3f* getTransPtr(LiveActor* actor);
+sead::Vector3f* getRotatePtr(LiveActor* actor);
+sead::Vector3f* getVelocityPtr(LiveActor* actor);
+sead::Vector3f* getFrontPtr(LiveActor* actor);
+sead::Quatf* getQuatPtr(LiveActor* actor);
+
+void setTrans(LiveActor* actor, const sead::Vector3f& trans);
+void setScale(LiveActor* actor, const sead::Vector3f& scale);
+void setFront(LiveActor* actor, const sead::Vector3f& front);
+
+void updatePoseRotate(LiveActor* actor, const sead::Vector3f& rotate);
+
+void initActorPoseTRSV(LiveActor* actor);
+void initActorPoseTFSV(LiveActor* actor);
+void initActorPoseTFGSV(LiveActor* actor);
+void initActorPoseTQSV(LiveActor* actor);
+
+void initActorSRTAndPoseTRSV(LiveActor* actor, const ActorInitInfo& info);
+
 } // namespace al

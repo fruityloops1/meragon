@@ -22,3 +22,5 @@ _ZNK2al9LiveActor10getBaseMtxEv = 0x003375dc;
 _ZN2al9LiveActor7controlEv = 0x001ebf2c;
 _ZN2al9LiveActor17calcAndSetBaseMtxEv = 0x0;
 _ZN2al9LiveActor14updateColliderEv = 0x001ebcec;
+
+_ZN2al9initNerveEPNS_9LiveActorEPKNS_5NerveEi = 0x001ebd94;

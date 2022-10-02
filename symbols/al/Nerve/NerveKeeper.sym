@@ -3,3 +3,6 @@
 _ZN2al11NerveKeeper6updateEv = 0x001bee64;
 _ZN2al11NerveKeeper15getCurrentNerveEv = 0x0032fd54;
 _ZN2al11NerveKeeper8setNerveEPKNS_5NerveE = 0x001bee64;
+
+_ZN2al8setNerveEPNS_9IUseNerveEPKNS_5NerveE = 0x00280610;
+_ZN2al7isNerveEPKNS_9IUseNerveEPKNS_5NerveE = 0x002806a8;
