@@ -1,3 +1,4 @@
+#include "al/Factory/Factory.h"
 #include "al/Layout/LayoutActor.h"
 #include "al/Layout/LayoutInitInfo.h"
 #include "al/LiveActor/ActorInitInfo.h"
@@ -102,6 +103,23 @@ void playerInitHook(PlayerActor* player, const al::ActorInitInfo& info)
     al::initCreateActorNoPlacementInfo(demon, info);*/
 }
 
+static al::CreateActorFunctionT getCreatorFromClassNameTable(al::ByamlIter* table, const char* pObjectName)
+{
+    for (int i = 0; i < table->getSize(); i++) {
+        al::ByamlIter entry;
+        table->tryGetIterByIndex(&entry, i);
+        const char* objectName = nullptr;
+        entry.tryGetStringByKey(&objectName, "ObjectName");
+        if (objectName && al::isEqualString(objectName, pObjectName)) {
+            const char* className = nullptr;
+            entry.tryGetStringByKey(&className, "ClassName");
+            if (className)
+                return mg::getActorCreatorFromFactory(className);
+        }
+    }
+    return nullptr;
+}
+
 // replaces Scene::initPlacement
 void sceneInitPlacementHook(al::Scene* scene, al::Resource* stageFile, const al::ActorInitInfo& baseInfo, const char* infoIterName)
 {
@@ -118,17 +136,11 @@ void sceneInitPlacementHook(al::Scene* scene, al::Resource* stageFile, const al:
                     const char* className = nullptr;
                     placement.tryGetStringByKey(&objectName, "name");
                     placement.tryGetStringByKey(&className, "ClassName");
-                    if (className && objectName) {
-                        if (auto create = mg::getActorCreatorFromFactory(className)) {
-                            al::ActorInitInfo info;
-                            al::initActorInitInfo(&info, &placement, baseInfo);
-                            al::LiveActor* newActor = create(objectName);
-                            al::initCreateActorWithPlacementInfo(newActor, info);
-                        }
-                    } else if (objectName) {
+                    al::CreateActorFunctionT create = className != nullptr ? mg::getActorCreatorFromFactory(className) : getCreatorFromClassNameTable(scene->mCCNTHolder->mTable, objectName);
+                    if (create) {
                         al::ActorInitInfo info;
                         al::initActorInitInfo(&info, &placement, baseInfo);
-                        al::LiveActor* newActor = scene->mCCNTHolder->getCreator(objectName)(objectName);
+                        al::LiveActor* newActor = create(objectName);
                         al::initCreateActorWithPlacementInfo(newActor, info);
                     }
                 }

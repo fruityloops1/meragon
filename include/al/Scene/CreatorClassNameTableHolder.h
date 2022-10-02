@@ -7,9 +7,10 @@ namespace al {
 
 class CreatorClassNameTableHolder {
     void* unk = nullptr;
-    ByamlIter* mTable = nullptr;
 
 public:
+    ByamlIter* mTable = nullptr;
+
     CreatorClassNameTableHolder() = default;
 
     CreateActorFunctionT getCreator(const char* objectName) const;
