@@ -2,6 +2,7 @@
 
 #include "al/LiveActor/HitSensor.h"
 #include "sead/container/seadPtrArray.h"
+
 namespace al {
 
 class HitSensorKeeper {

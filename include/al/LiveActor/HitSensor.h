@@ -25,7 +25,7 @@ enum class SensorType : int {
 
 class LiveActor;
 class HitSensor {
-    const char* mName { nullptr };
+    const char* mName = nullptr;
     SensorType mSensorType;
     u8 unk[0x20];
 

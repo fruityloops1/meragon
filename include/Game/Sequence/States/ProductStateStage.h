@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Game/Scene/StageScene.h"
+#include "Game/Sequence/ProductStageStartParam.h"
 #include "al/Nerve/HostStateBase.h"
-#include "game/Scene/StageScene.h"
-#include "game/Sequence/ProductStageStartParam.h"
 
 class ProductSequence;
 class ProductStateStage : public al::HostStateBase<ProductSequence> {

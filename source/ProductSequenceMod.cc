@@ -1,7 +1,7 @@
+#include "Game/Sequence/ProductSequence.h"
 #include "al/Nerve/NerveKeeper.h"
 #include "al/Nerve/NerveStateBase.h"
 #include "al/Util/NerveUtil.h"
-#include "game/Sequence/ProductSequence.h"
 #include "mg/Scene/ProductStateTest.h"
 
 namespace {

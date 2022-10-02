@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Game/Player/PlayerActor.h"
 #include "al/LiveActor/LiveActor.h"
-#include "game/Player/PlayerActor.h"
 
 namespace mg {
 

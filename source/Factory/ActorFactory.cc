@@ -1,6 +1,6 @@
 #include "mg/Factory/ActorFactory.h"
+#include "Game/Factory/ActorFactory.h"
 #include "al/Util/StringUtil.h"
-#include "game/Factory/ActorFactory.h"
 
 namespace mg {
 

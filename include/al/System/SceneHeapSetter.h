@@ -1,9 +1,11 @@
 #pragma once
 
+#include "sead/heap/seadHeap.h"
+
 namespace al {
 
 class SceneHeapSetter {
-    void* unk[2];
+    sead::Heap* mHeaps[2] { nullptr };
 
 public:
     SceneHeapSetter();

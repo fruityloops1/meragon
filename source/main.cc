@@ -1,3 +1,8 @@
+#include "Game/Layout/WindowConfirmSingle.h"
+#include "Game/Player/PlayerActor.h"
+#include "Game/Scene/CourseSelectScene.h"
+#include "Game/Scene/StageScene.h"
+#include "Game/Sequence/ProductSequence.h"
 #include "al/Factory/Factory.h"
 #include "al/Layout/LayoutActor.h"
 #include "al/Layout/LayoutInitInfo.h"
@@ -11,11 +16,6 @@
 #include "al/Util/actor/Action.h"
 #include "al/Util/actor/Init.h"
 #include "al/Util/actor/Pose.h"
-#include "game/Layout/WindowConfirmSingle.h"
-#include "game/Player/PlayerActor.h"
-#include "game/Scene/CourseSelectScene.h"
-#include "game/Scene/StageScene.h"
-#include "game/Sequence/ProductSequence.h"
 #include "mg/Factory/ActorFactory.h"
 #include "mg/MapObj/GreenDemon.h"
 #include "mg/diag.h"
@@ -103,7 +103,7 @@ void playerInitHook(PlayerActor* player, const al::ActorInitInfo& info)
     al::initCreateActorNoPlacementInfo(demon, info);*/
 }
 
-static al::CreateActorFunctionT getCreatorFromClassNameTable(al::ByamlIter* table, const char* pObjectName)
+static al::CreateActorFunctionT getCreatorFromTable(al::ByamlIter* table, const char* pObjectName)
 {
     for (int i = 0; i < table->getSize(); i++) {
         al::ByamlIter entry;
@@ -136,7 +136,7 @@ void sceneInitPlacementHook(al::Scene* scene, al::Resource* stageFile, const al:
                     const char* className = nullptr;
                     placement.tryGetStringByKey(&objectName, "name");
                     placement.tryGetStringByKey(&className, "ClassName");
-                    al::CreateActorFunctionT create = className != nullptr ? mg::getActorCreatorFromFactory(className) : getCreatorFromClassNameTable(scene->mCCNTHolder->mTable, objectName);
+                    al::CreateActorFunctionT create = className != nullptr ? mg::getActorCreatorFromFactory(className) : getCreatorFromTable(scene->mCCNTHolder->mTable, objectName);
                     if (create) {
                         al::ActorInitInfo info;
                         al::initActorInitInfo(&info, &placement, baseInfo);

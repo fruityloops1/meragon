@@ -198,6 +198,12 @@ class WarpPorter;
 class Dokan;
 class WarpDoor;
 class AttackRevolvingPanel;
+class WaterFlowCube;
+class StreetPassObj;
+class DemoStarter;
+
+namespace al {
+
 class ClockMapParts;
 class CollapseBreakMapParts;
 class CollapseMapParts;
@@ -226,8 +232,7 @@ class EffectObjReEmit;
 class EffectObjSensor;
 class EffectObjStream;
 class EffectObjSwitch;
-class WaterFlowCube;
-class StreetPassObj;
-class DemoStarter;
+
+} // namespace al
 
 const extern al::NameToCreatorActor sActorFactoryEntries[225];

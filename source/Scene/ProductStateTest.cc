@@ -1,8 +1,8 @@
 #include "mg/Scene/ProductStateTest.h"
+#include "Game/Sequence/ProductSequence.h"
 #include "al/System/MemorySystem.h"
 #include "al/System/SceneHeapSetter.h"
 #include "al/Util/NerveUtil.h"
-#include "game/Sequence/ProductSequence.h"
 #include "mg/Scene/TestScene.h"
 #include "sead/heap/seadHeapMgr.h"
 
@@ -28,11 +28,12 @@ void ProductStateTest::appear() { }
 void ProductStateTest::exeLoad()
 {
     if (al::isFirstStep(this)) {
-        al::createCourseSelectHeap();
-        // sead::HeapMgr::instance()->setCurrentHeap_(al::getCourseSelectHeap());
-
-        mScene = new mg::TestScene();
-        mScene->init();
+        al::createSceneHeap("KoopaLastStage");
+        {
+            al::SceneHeapSetter setter;
+            mScene = new mg::TestScene();
+            mScene->init();
+        }
     }
     al::setNerve(this, &nrvProductStateTestWait);
 }

@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Game/Sequence/ProductStageStartParam.h"
+#include "Game/Sequence/States/ProductStateStage.h"
+#include "Game/Stage/StageWipeKeeper.h"
 #include "al/Sequence/Sequence.h"
-#include "game/Sequence/ProductStageStartParam.h"
-#include "game/Sequence/States/ProductStateStage.h"
-#include "game/Stage/StageWipeKeeper.h"
 #include "mg/Scene/ProductStateTest.h"
 
 class ProductSequence : public al::Sequence {

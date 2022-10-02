@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Game/Sequence/ProductStageStartParam.h"
 #include "al/Scene/Scene.h"
-#include "game/Sequence/ProductStageStartParam.h"
 
 class CourseSelectScene : public al::Scene {
 public:

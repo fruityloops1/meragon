@@ -1,10 +1,10 @@
 #include "mg/MapObj/GreenDemon.h"
+#include "Game/Player/PlayerActor.h"
 #include "al/Util/NerveUtil.h"
 #include "al/Util/actor/Init.h"
 #include "al/Util/actor/Pose.h"
 #include "al/Util/sensor/HitSensorUtil.h"
 #include "al/Util/sensor/MsgUtil.h"
-#include "game/Player/PlayerActor.h"
 #include "mg/log.h"
 #include "sead/math/seadVector.h"
 
