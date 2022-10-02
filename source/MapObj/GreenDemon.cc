@@ -1,4 +1,4 @@
-#include "mg/actors/GreenDemon.h"
+#include "mg/MapObj/GreenDemon.h"
 #include "al/Util/NerveUtil.h"
 #include "al/Util/actor/Init.h"
 #include "al/Util/actor/Pose.h"

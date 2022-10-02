@@ -29,8 +29,6 @@
 void mMain()
 {
     mg::log("mMain");
-    mg::log("Initializing Actor Factory");
-    mg::initCustomActorFactory();
 }
 
 mg::GreenDemon* demon = nullptr;
