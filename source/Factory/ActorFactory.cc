@@ -5,7 +5,7 @@
 namespace mg {
 
 constexpr al::NameToCreatorActor sActorFactoryCustomEntries[] {
-    { "Gabon", al::createActorFunction<Gabon> }
+    { "Gabon", mg::createActorFunction<Gabon> }
 };
 
 al::CreateActorFunctionT getActorCreatorFromFactory(const char* className)
