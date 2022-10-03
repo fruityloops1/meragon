@@ -1,6 +1,7 @@
 #include "mg/Factory/ActorFactory.h"
 #include "Game/Factory/ActorFactory.h"
 #include "al/Util/StringUtil.h"
+#include "mg/MapObj/Gabon.h"
 
 namespace mg {
 

@@ -1,0 +1,15 @@
+/* al/Camera/CameraPoser.h */
+
+_ZTVN2al11CameraPoserE = 0x003c5988;
+
+_ZN2al11CameraPoserC1EPKc = 0x00261008;
+_ZN2al11CameraPoserC2EPKc = 0x00261008;
+
+_ZN2al11CameraPoser4loadEPKNS_9ByamlIterE = 0x00260a84;
+_ZN2al11CameraPoser2v1Ev = 0x0012a6c4;
+_ZN2al11CameraPoser2v2Ev = 0x0012a6b0;
+_ZN2al11CameraPoser2v3Ev = 0x0012a6bc;
+_ZN2al11CameraPoser2v4Ev = 0x0012a6b4;
+_ZN2al11CameraPoser2v5Ev = 0x0012a6b8;
+_ZN2al11CameraPoser6updateEv = 0x0012a6c0;
+_ZN2al11CameraPoser2v7Ev = 0x0012a6c4;

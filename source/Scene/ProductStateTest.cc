@@ -28,7 +28,7 @@ void ProductStateTest::appear() { }
 void ProductStateTest::exeLoad()
 {
     if (al::isFirstStep(this)) {
-        al::createSceneHeap("KoopaLastStage");
+        al::createSceneHeap("");
         {
             al::SceneHeapSetter setter;
             mScene = new mg::TestScene();

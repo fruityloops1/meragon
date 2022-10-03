@@ -6,3 +6,5 @@ _ZN2al11NerveKeeper8setNerveEPKNS_5NerveE = 0x001bee64;
 
 _ZN2al8setNerveEPNS_9IUseNerveEPKNS_5NerveE = 0x00280610;
 _ZN2al7isNerveEPKNS_9IUseNerveEPKNS_5NerveE = 0x002806a8;
+
+_ZN2al11isFirstStepEPNS_9IUseNerveE = 0x0027f514;

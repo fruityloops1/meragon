@@ -62,11 +62,15 @@ void courseSelectSceneControlHook(CourseSelectScene* scene)
 {
     scene->al::Scene::control();
 }
+
+sead::Vector3f gPlayerTrans { 0, 0, 0 };
+
 void stageSceneControlHook(StageScene* scene)
 {
     scene->StageScene::control();
     PlayerActor* player = scene->mPlayerActor;
     if (player) {
+        gPlayerTrans = al::getTrans(player); // garbage
         /*sead::Vector3f* trans = al::getTransPtr(player);
         static const char* lastAnim = "";
         const char* anim = al::getActionName(player);

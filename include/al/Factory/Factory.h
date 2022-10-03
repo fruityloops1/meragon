@@ -1,7 +1,5 @@
 #pragma once
 
-#include "al/LiveActor/LiveActor.h"
-
 namespace al {
 
 template <typename T>

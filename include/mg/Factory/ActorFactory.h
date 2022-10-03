@@ -2,7 +2,6 @@
 
 #include "Game/Factory/ActorFactory.h"
 #include "al/Factory/ActorFactory.h"
-#include "mg/MapObj/Gabon.h"
 #include "sead/basis/seadNew.h"
 #include <type_traits>
 
