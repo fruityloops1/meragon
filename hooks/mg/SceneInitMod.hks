@@ -1,0 +1,2 @@
+00274ef0:
+    b sceneInitPlacementHook(al::Scene*, al::Resource*, al::ActorInitInfo const&, char const*)

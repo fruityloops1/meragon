@@ -1,6 +1,6 @@
 #include "mg/Camera/CameraPoserCustom.h"
 
-extern sead::Vector3f gPlayerTrans;
+const sead::Vector3f customCameraTrans { 0, 0, 0 };
 
 namespace mg {
 
@@ -11,8 +11,8 @@ void CameraPoserCustom::load(const al::ByamlIter* ticket)
 
 void CameraPoserCustom::update()
 {
-    mCameraTarget = gPlayerTrans;
-    mCameraAt = gPlayerTrans + sead::Vector3f { 0, 1500, -1500 };
+    mCameraTarget = customCameraTrans;
+    mCameraAt = customCameraTrans + sead::Vector3f { 0, 1500, -1500 };
 }
 
 } // namespace mg

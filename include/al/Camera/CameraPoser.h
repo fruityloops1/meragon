@@ -6,7 +6,7 @@
 namespace al {
 
 class CameraPoser {
-protected:
+public:
     const char* const mName = nullptr;
     int unk1[3];
     sead::Vector3f mCameraAt;

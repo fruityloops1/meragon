@@ -7,7 +7,7 @@
 namespace mg {
 
 constexpr al::NameToCreatorCameraPoser sCameraPoserFactoryCustomEntries[] {
-    { "Parallel", mg::createCameraPoserFunction<CameraPoserCustom> }
+    { "Custom", mg::createCameraPoserFunction<CameraPoserCustom> }
 };
 
 al::CreateCameraPoserFunctionT getCameraPoserCreatorFromFactory(const char* className)

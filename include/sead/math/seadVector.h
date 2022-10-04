@@ -200,6 +200,7 @@ struct Vector4 : public Policies<T>::Vec4Base {
 };
 
 typedef Vector2<f32> Vector2f;
+typedef Vector2<s32> Vector2i;
 typedef Vector3<f32> Vector3f;
 typedef Vector4<f32> Vector4f;
 
