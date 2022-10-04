@@ -93,9 +93,7 @@ void Gabon::exeThrowSign()
         al::setNerve(this, nrvGabonThrow);
 
     if (mCurRoller) {
-        sead::Vector3f generatorPos = mActorPoseKeeper->getTrans();
-        al::calcJointPos(&generatorPos, this, "GeneratorPosition");
-        *mCurRoller->mActorPoseKeeper->getTransPtr() = generatorPos;
+        al::calcJointPos(al::getTransPtr(mCurRoller), this, "GeneratorPosition");
         mCurRoller->mActorPoseKeeper->updatePoseQuat(al::getQuat(this));
     }
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "al/LiveActor/LiveActor.h"
 #include "al/Nerve/Nerve.h"
 #include "al/Nerve/NerveKeeper.h"
 
