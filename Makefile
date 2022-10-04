@@ -39,7 +39,7 @@ export OBJDUMP	:=	$(PREFIX)objdump
 #---------------------------------------------------------------------------------
 TARGET		:=	newcode
 BUILD		:=	build
-SOURCES		:=	source source/Camera source/Factory source/MapObj source/Scene source/al/LiveActor source/al/Util
+SOURCES		:=	source source/al/LiveActor source/al/Util source/mg source/mg/Camera source/mg/Factory source/mg/MapObj source/mg/Scene
 INCLUDES	:=	include
 
 #---------------------------------------------------------------------------------
