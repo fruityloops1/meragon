@@ -1,6 +1,6 @@
 #include "mg/Freecam.h"
-#include "al/Camera/CameraPoser.h"
-#include "al/Util/InputUtil.h"
+#include "al/Camera/Camera.h"
+#include "al/Controller/ControllerUtil.h"
 #include "mg/log.h"
 
 namespace mg {

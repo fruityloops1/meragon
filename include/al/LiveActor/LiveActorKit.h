@@ -5,14 +5,17 @@
 namespace al {
 
 class LiveActorKit {
-    int mAllActorsBufferSize = 0;
+    int mAllActorsBufferSize;
     void* unk[14];
-
-public:
-    LiveActorGroup* mLiveActorGroup = nullptr;
+    LiveActorGroup* mAllActors;
     void* unk2;
 
+public:
     LiveActorKit(int groupBufSize);
+
+    LiveActorGroup* getAllActors() { return mAllActors; }
 };
+
+LiveActorKit* getLiveActorKit();
 
 } // namespace al

@@ -5,13 +5,13 @@
 namespace al {
 
 class NerveExecutor : public IUseNerve {
-    al::NerveKeeper* mNerveKeeper = nullptr;
+    al::NerveKeeper* mNerveKeeper;
 
 public:
     NerveExecutor(const char* name);
 
     virtual NerveKeeper* getNerveKeeper() const;
-    virtual ~NerveExecutor() = default;
+    virtual ~NerveExecutor() {};
 
     void initNerve(const Nerve*, int step = 0);
     void updateNerve();

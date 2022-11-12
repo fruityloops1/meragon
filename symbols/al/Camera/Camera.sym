@@ -1,0 +1,15 @@
+/* al/Camera/Camera.h */
+
+_ZTVN2al6CameraE = 0x003c5988;
+
+_ZN2al6CameraC1EPKc = 0x00261008;
+_ZN2al6CameraC2EPKc = 0x00261008;
+
+_ZN2al6Camera4loadEPKNS_9ByamlIterE = 0x00260a84;
+_ZN2al6Camera2v1Ev = 0x0012a6c4;
+_ZN2al6Camera2v2Ev = 0x0012a6b0;
+_ZN2al6Camera2v3Ev = 0x0012a6bc;
+_ZN2al6Camera2v4Ev = 0x0012a6b4;
+_ZN2al6Camera2v5Ev = 0x0012a6b8;
+_ZN2al6Camera4calcEv = 0x0012a6c0;
+_ZN2al6Camera2v7Ev = 0x0012a6c4;

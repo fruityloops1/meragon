@@ -1,8 +1,9 @@
 #include "Game/Scene/CourseSelectScene.h"
 #include "Game/Scene/StageScene.h"
-#include "al/Camera/CameraPoser.h"
+#include "al/Camera/Camera.h"
+#include "al/Controller/ControllerUtil.h"
 #include "al/Layout/LayoutInitInfo.h"
-#include "al/Util/InputUtil.h"
+#include "al/LiveActor/LiveActorFunction.h"
 #include "mg/Freecam.h"
 #include "mg/MapObj/GreenDemon.h"
 #include "mg/log.h"
@@ -45,11 +46,11 @@ void playerInitHook(PlayerActor* player, const al::ActorInitInfo& info)
     al::initCreateActorNoPlacementInfo(demon, info);*/
 }
 
-void freecamApplyHook(al::CameraPoser* camera)
+void freecamApplyHook(al::Camera* camera)
 {
-    camera->update();
-    camera->mCameraTarget += mg::getFreecamOffset();
-    camera->mCameraAt += mg::getFreecamOffset();
+    camera->calc();
+    camera->mTarget += mg::getFreecamOffset();
+    camera->mPos += mg::getFreecamOffset();
 }
 
 static const sead::Vector2f neutral { 0, 0 };

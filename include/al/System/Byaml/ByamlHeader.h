@@ -4,21 +4,26 @@
 
 namespace al {
 
+#pragma diag_suppress 368 // struct only for reading data
 class ByamlHeader {
-public:
-    u16 getTag() const;
-    bool isInvertOrder() const;
-    u16 getVersion() const;
-    u32 getHashKeyTableOffset() const;
-    u32 getStringTableOffset() const;
-    u32 getDataOffset() const;
+    const u16 mTag;
+    const u16 mVersion;
+    const int mHashKeyOffset;
+    const int mStringTableOffset;
+    const int mDataOffset;
 
-private:
-    u16 mTag;
-    u16 mVersion;
-    int mHashKeyOffset;
-    int mStringTableOffset;
-    int mDataOffset;
+public:
+    u16 getTag() const { return mTag; }
+    u16 getVersion() const { return mVersion; }
+    u32 getHashKeyTableOffset() const { return mHashKeyOffset; }
+    u32 getStringTableOffset() const { return mStringTableOffset; };
+    u32 getDataOffset() const { return mDataOffset; };
 };
 
 } // namespace al
+
+namespace alByamlLocalUtil {
+
+bool verifiByaml(const u8* data);
+
+} // namespace alByamlLocalUtil

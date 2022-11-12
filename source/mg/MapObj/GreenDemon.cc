@@ -1,20 +1,20 @@
 #include "mg/MapObj/GreenDemon.h"
 #include "Game/Player/PlayerActor.h"
-#include "al/Util/HitSensorUtil.h"
-#include "al/Util/LiveActorUtil.h"
-#include "al/Util/NerveUtil.h"
+#include "al/LiveActor/HitSensorFunction.h"
+#include "al/LiveActor/LiveActorFunction.h"
+#include "al/Nerve/NerveFunction.h"
 #include "mg/log.h"
-#include "sead/math/seadVector.h"
+#include <sead/math/seadVector.h>
 
 namespace mg {
 
-namespace {
+namespace NrvGreenDemon {
 
     NERVE_DEF(GreenDemon, Stall);
     NERVE_DEF(GreenDemon, Follow);
     NERVE_DEF(GreenDemon, Death);
 
-} // namespace
+} // namespace NrvGreenDemon
 
 GreenDemon::GreenDemon(PlayerActor* target)
     : LiveActor("Green Demon")
@@ -25,7 +25,7 @@ GreenDemon::GreenDemon(PlayerActor* target)
 void GreenDemon::init(const al::ActorInitInfo& info)
 {
     al::initActorWithArchiveName(this, info, "KinokoOneUp", nullptr);
-    al::initNerve(this, &nrvGreenDemonStall);
+    al::initNerve(this, &NrvGreenDemon::Stall);
 
     al::setTrans(this, al::getTrans(mPlayer) + sead::Vector3f(0, 300, 0));
 
@@ -35,10 +35,10 @@ void GreenDemon::init(const al::ActorInitInfo& info)
 
 void GreenDemon::attackSensor(al::HitSensor* me, al::HitSensor* other)
 {
-    if (!al::isNerve(this, &nrvGreenDemonDeath) && al::isSensorName(me, "Body") && al::isSensorPlayer(other)) {
+    if (!al::isNerve(this, &NrvGreenDemon::Death) && al::isSensorName(me, "Body") && al::isSensorPlayer(other)) {
         mBodySensor = me;
         mPlayerSensor = other;
-        al::setNerve(this, &nrvGreenDemonDeath);
+        al::setNerve(this, &NrvGreenDemon::Death);
     }
 }
 
@@ -48,7 +48,7 @@ void GreenDemon::exeStall()
     float sum = std::abs(playerVel.x) + std::abs(playerVel.y) + std::abs(playerVel.z);
 
     if (sum > 10)
-        al::setNerve(this, &nrvGreenDemonFollow);
+        al::setNerve(this, &NrvGreenDemon::Follow);
 }
 
 static void normalize(sead::Vector3f* vec)
@@ -73,20 +73,11 @@ void GreenDemon::exeFollow()
 
 void GreenDemon::exeDeath()
 {
-    static int i = 0;
-    i++;
-    if (i == 60) {
-        i = 0;
-        mStepSinceCaughtPlayer++;
-        mPlayer->receiveMsg((al::SensorMsg)mStepSinceCaughtPlayer, mBodySensor, mPlayerSensor);
-        mg::log("Sent message %d", mStepSinceCaughtPlayer);
-    }
-
     float s = al::getScale(this).x;
     s /= 1.3;
     al::setScale(this, { s, s, s });
     if (s < 0.05) {
-        // makeActorDead();
+        makeActorDead();
     }
 }
 

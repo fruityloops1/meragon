@@ -33,4 +33,6 @@ public:
     bool isDisposable() const override;
 
     void exeTest(); // fake
+
+    friend class ProductStateTest;
 };

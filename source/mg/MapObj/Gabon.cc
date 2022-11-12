@@ -1,26 +1,30 @@
 #include "mg/MapObj/Gabon.h"
 #include "al/LiveActor/ActorInitInfo.h"
-#include "al/LiveActor/LiveActor.h"
-#include "al/Util/HitSensorUtil.h"
-#include "al/Util/LiveActorUtil.h"
-#include "al/Util/NerveUtil.h"
+#include "al/LiveActor/HitSensorFunction.h"
+#include "al/LiveActor/LiveActorFunction.h"
+#include "al/LiveActor/SensorMsg.h"
+#include "al/Nerve/NerveFunction.h"
 #include "mg/log.h"
-#include "sead/math/seadVector.h"
+#include <sead/math/seadVector.h>
 
 namespace mg {
 
-namespace {
+namespace NrvGabon {
     NERVE_DEF(Gabon, Wait);
     NERVE_DEF(Gabon, ThrowSign);
     NERVE_DEF(Gabon, Throw);
+} // namespace NrvGabon
+
+namespace NrvGabonThrowObj {
 
     NERVE_DEF(GabonThrowObj, Generate);
     NERVE_DEF(GabonThrowObj, Ground);
-}
+
+} // namespace NrvGabonThrowObj
 
 void GabonThrowObj::init(const al::ActorInitInfo& info)
 {
-    al::initNerve(this, &nrvGabonThrowObjGenerate, 0);
+    al::initNerve(this, &NrvGabonThrowObj::Generate, 0);
     al::initActorWithArchiveName(this, info, mThrowObjModelName, nullptr);
 }
 
@@ -29,7 +33,7 @@ void GabonThrowObj::exeGenerate()
     if (al::isFirstStep(this))
         al::startAction(this, "Generate");
     if (al::isStep(this, sAnimCountThrowSign))
-        al::setNerve(this, nrvGabonThrowObjGround);
+        al::setNerve(this, &NrvGabonThrowObj::Ground);
 }
 
 void GabonThrowObj::exeGround()
@@ -42,14 +46,14 @@ void GabonThrowObj::exeGround()
 void GabonThrowObj::attackSensor(al::HitSensor* source, al::HitSensor* target)
 {
     if (al::isSensorName(source, "Damage")
-        && !(al::isNerve(this, nrvGabonThrowObjGenerate) && al::isLessStep(this, sAnimCountThrowSign / 2))
+        && !(al::isNerve(this, &NrvGabonThrowObj::Generate) && al::isLessStep(this, sAnimCountThrowSign / 2))
         && al::isHitCylinderSensor(target, source, { 1, 0, 0 }, 30.0))
         al::sendMsgEnemyAttack(target, source);
 }
 
 void Gabon::init(const al::ActorInitInfo& info)
 {
-    al::initNerve(this, &nrvGabonWait, 0);
+    al::initNerve(this, &NrvGabon::Wait, 0);
     al::initActorWithArchiveName(this, info, "Gabon", nullptr);
 
     for (int i = 0; i < sNeedleRollerAmount; i++) {
@@ -72,7 +76,7 @@ void Gabon::exeWait()
         al::startAction(this, "Wait");
 
     if (al::isStep(this, mThrowInterval))
-        al::setNerve(this, nrvGabonThrowSign);
+        al::setNerve(this, &NrvGabon::ThrowSign);
 }
 
 void Gabon::exeThrowSign()
@@ -87,10 +91,10 @@ void Gabon::exeThrowSign()
         mThrowIndex++;
         roller->makeActorAppeared();
 
-        al::setNerve(roller, nrvGabonThrowObjGenerate);
+        al::setNerve(roller, &NrvGabonThrowObj::Generate);
     }
     if (al::isStep(this, sAnimCountThrowSign))
-        al::setNerve(this, nrvGabonThrow);
+        al::setNerve(this, &NrvGabon::Throw);
 
     if (mCurRoller) {
         al::calcJointPos(al::getTransPtr(mCurRoller), this, "GeneratorPosition");
@@ -103,7 +107,7 @@ void Gabon::exeThrow()
     if (al::isFirstStep(this))
         al::startAction(this, "Throw");
     if (al::isStep(this, sAnimCountThrow))
-        al::setNerve(this, nrvGabonWait);
+        al::setNerve(this, &NrvGabon::Wait);
 }
 
 } // namespace mg

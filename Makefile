@@ -39,7 +39,7 @@ export OBJDUMP	:=	$(PREFIX)objdump
 #---------------------------------------------------------------------------------
 TARGET		:=	newcode
 BUILD		:=	build
-SOURCES		:=	source source/al/LiveActor source/al/Util source/mg source/mg/Camera source/mg/Factory source/mg/MapObj source/mg/Scene
+SOURCES		:=	source source/al/LiveActor source/al/Controller source/mg source/mg/Camera source/mg/Factory source/mg/MapObj source/mg/Scene
 INCLUDES	:=	include
 
 #---------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ endif
 
 export OFILES	:=	$(CPPFILES:.cc=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
 
-export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
+export INCLUDE	:=	$(foreach dir,$(INCLUDES),-isystem $(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD)
 

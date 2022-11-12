@@ -1,5 +1,6 @@
 #pragma once
 
+#include "al/System/Byaml/ByamlContainerHeader.h"
 #include "al/System/Byaml/ByamlData.h"
 #include "al/System/Byaml/ByamlHeader.h"
 
@@ -7,10 +8,13 @@ namespace al {
 
 class ByamlIter {
     union {
-        const u8* mData = nullptr;
+        const u8* mData;
         const ByamlHeader* mHeader;
     };
-    const u8* mRootNode = nullptr;
+    union {
+        const u8* mRootNode;
+        const ByamlContainerHeader* mContainerHeader;
+    };
 
 public:
     ByamlIter();
@@ -20,10 +24,10 @@ public:
     bool isEqualData(const ByamlIter& other) const;
 
     bool isValid() const;
-    bool isTypeHash() const;
     bool isTypeArray() const;
+    bool isTypeHash() const;
     bool isTypeContainer() const;
-    bool isInvertOrder() const;
+
     int getSize() const;
 
     bool isExistKey(const char* key) const;

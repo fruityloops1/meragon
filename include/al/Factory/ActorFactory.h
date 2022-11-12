@@ -2,13 +2,23 @@
 
 #include "al/Factory/Factory.h"
 #include "al/LiveActor/LiveActor.h"
+#include "al/Resource/Resource.h"
+#include "al/System/Byaml/ByamlIter.h"
 
 namespace al {
 
-using CreateActorFunctionT = al::LiveActor* (*)(const char*);
-using NameToCreatorActor = NameToCreator<CreateActorFunctionT>;
+typedef CreateFuncPtr<LiveActor>::Type CreateActorFuncPtr;
+typedef NameToCreator<CreateActorFuncPtr> NameToActorCreator;
 
-template <typename T>
-LiveActor* createActorFunction(const char* name);
+class ActorFactory {
+public:
+    Resource* mArchive;
+    ByamlIter* mConvertNameData;
+
+    ActorFactory();
+
+    const char* convertName(const char* objectName) const;
+    CreateActorFuncPtr getCreator(const char* objectName) const;
+};
 
 } // namespace al

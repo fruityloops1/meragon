@@ -1,10 +1,10 @@
 
 #include "al/Scene/Scene.h"
-#include "al/Util/LiveActorUtil.h"
+#include "al/LiveActor/LiveActorFunction.h"
 #include "al/Util/StringUtil.h"
 #include "mg/Factory/ActorFactory.h"
 
-static al::CreateActorFunctionT getCreatorFromTable(al::ByamlIter* table, const char* pObjectName)
+static al::CreateActorFuncPtr getCreatorFromTable(al::ByamlIter* table, const char* pObjectName)
 {
     for (int i = 0; i < table->getSize(); i++) {
         al::ByamlIter entry;
@@ -25,11 +25,11 @@ static al::CreateActorFunctionT getCreatorFromTable(al::ByamlIter* table, const 
 export void sceneInitPlacementHook(al::Scene* scene, al::Resource* stageFile, const al::ActorInitInfo& baseInfo, const char* infoIterName)
 {
     if (stageFile) {
-        al::ByamlIter stageData(static_cast<u8*>(stageFile->getByml("StageData")));
+        al::ByamlIter stageData(static_cast<const u8*>(stageFile->getByml("StageData")));
         al::ByamlIter allInfos;
         if (stageData.tryGetIterByKey(&allInfos, "AllInfos")) {
             al::ByamlIter infoIter;
-            if (allInfos.tryGetIterByKey(&infoIter, infoIterName) && scene->mCCNTHolder)
+            if (allInfos.tryGetIterByKey(&infoIter, infoIterName) && scene->getActorFactory())
                 for (int i = 0; i < infoIter.getSize(); i++) {
                     al::ByamlIter placement;
                     infoIter.tryGetIterByIndex(&placement, i);
@@ -37,7 +37,7 @@ export void sceneInitPlacementHook(al::Scene* scene, al::Resource* stageFile, co
                     const char* className = nullptr;
                     placement.tryGetStringByKey(&objectName, "name");
                     placement.tryGetStringByKey(&className, "ClassName");
-                    al::CreateActorFunctionT create = className != nullptr ? mg::getActorCreatorFromFactory(className) : getCreatorFromTable(scene->mCCNTHolder->mTable, objectName);
+                    al::CreateActorFuncPtr create = className != nullptr ? mg::getActorCreatorFromFactory(className) : getCreatorFromTable(scene->getActorFactory()->mConvertNameData, objectName);
                     if (create) {
                         al::ActorInitInfo info;
                         al::initActorInitInfo(&info, &placement, baseInfo);

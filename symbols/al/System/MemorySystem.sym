@@ -1,5 +1,0 @@
-/* al/system/MemorySystem.h */
-
-_ZN2al15createSceneHeapEPKc = 0x0025723c;
-_ZN2al22createCourseSelectHeapEv = 0x001e26bc;
-_ZN2al19getCourseSelectHeapEv = 0x00251c70;

@@ -1,0 +1,5 @@
+/* al/LiveActor/HitSensorFunction.h */
+
+_ZN2al18sendMsgEnemyAttackEPNS_9HitSensorES1_ = 0x0027d56c;
+
+_ZN2al14isSensorPlayerEPKNS_9HitSensorE = 0x0027b100;

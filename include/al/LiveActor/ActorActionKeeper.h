@@ -1,13 +1,16 @@
 #pragma once
 
+#include "al/LiveActor/ActionAnimCtrl.h"
+
 namespace al {
 
-class LiveActor;
+class ActorActionKeeper {
+    void* _0;
+    void* _4;
+    ActionAnimCtrl* mActionAnimCtrl;
 
-class ActorActionKeeper { };
-
-void startAction(LiveActor* actor, const char* actionName);
-bool isActionEnd(const LiveActor* actor);
-const char* getActionName(const LiveActor* actor);
+public:
+    void tryStartActionNoAnim(const char* name);
+};
 
 } // namespace al

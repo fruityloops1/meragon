@@ -11,4 +11,26 @@ struct Nerve {
     virtual void executeOnEnd(NerveKeeper* nerveKeeper) const {};
 };
 
+#define NERVE_DEF(CLASS, ACTION)                                   \
+    struct CLASS##Nrv##ACTION : public ::al::Nerve {               \
+        virtual void execute(::al::NerveKeeper* keeper) const      \
+        {                                                          \
+            static_cast<CLASS*>(keeper->getHost())->exe##ACTION(); \
+        }                                                          \
+    };                                                             \
+    const CLASS##Nrv##ACTION ACTION = CLASS##Nrv##ACTION();
+
+#define NERVE_DEF_END(CLASS, ACTION, ENDACTION)                       \
+    struct CLASS##Nrv##ACTION : public ::al::Nerve {                  \
+        virtual void execute(::al::NerveKeeper* keeper) const         \
+        {                                                             \
+            static_cast<CLASS*>(keeper->getHost())->exe##ACTION();    \
+        }                                                             \
+        virtual void executeOnEnd(::al::NerveKeeper* keeper) const    \
+        {                                                             \
+            static_cast<CLASS*>(keeper->getHost())->exe##ENDACTION(); \
+        }                                                             \
+    };                                                                \
+    const CLASS##Nrv##ACTION ACTION = CLASS##Nrv##ACTION();
+
 } // namespace al

@@ -235,4 +235,4 @@ class EffectObjSwitch;
 
 } // namespace al
 
-const extern al::NameToCreatorActor sActorFactoryEntries[225];
+const extern al::NameToActorCreator sActorFactoryEntries[225];

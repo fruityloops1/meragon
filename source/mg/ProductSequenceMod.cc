@@ -1,18 +1,18 @@
 #include "Game/Sequence/ProductSequence.h"
+#include "al/Controller/ControllerUtil.h"
+#include "al/Nerve/NerveFunction.h"
 #include "al/Nerve/NerveKeeper.h"
 #include "al/Nerve/NerveStateBase.h"
-#include "al/Util/InputUtil.h"
-#include "al/Util/NerveUtil.h"
 #include "mg/Freecam.h"
 #include "mg/Scene/ProductStateTest.h"
 #include "mg/log.h"
 #include "sead/heap/seadHeapMgr.h"
 
-namespace {
+namespace NrvProductSequence {
 
 NERVE_DEF(ProductSequence, Test);
 
-}
+} // namespace
 
 void ProductSequence::exeTest()
 {
@@ -32,12 +32,12 @@ export void productSequenceStateInitHook(al::IUseNerve* _sequence, al::NerveStat
     ProductSequence* sequence = static_cast<ProductSequence*>(_sequence);
 
     sequence->mStateTest = new ProductStateTest(sequence);
-    al::initNerveState(sequence, sequence->mStateTest, &nrvProductSequenceTest, "Test");
+    al::initNerveState(sequence, sequence->mStateTest, &NrvProductSequence::Test, "Test");
 }
 
 export void testStateNerveHook(ProductSequence* sequence, const al::Nerve* nerve)
 {
-    al::setNerve(sequence, &nrvProductSequenceTest);
+    al::setNerve(sequence, &NrvProductSequence::Test);
 }
 
 static int tabAmount = 0;

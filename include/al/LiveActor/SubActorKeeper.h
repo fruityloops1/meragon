@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sead/container/seadPtrArray.h"
+#include <sead/container/seadPtrArray.h>
 
 namespace al {
 
@@ -8,7 +8,7 @@ class LiveActor;
 class ActorInitInfo;
 
 class SubActorKeeper {
-    LiveActor* const mParent = nullptr;
+    LiveActor* const mParent;
     sead::PtrArray<LiveActor> mSubActors;
 
 public:

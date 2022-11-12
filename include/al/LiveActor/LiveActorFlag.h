@@ -2,16 +2,21 @@
 
 namespace al {
 
+class LiveActor;
 struct LiveActorFlag {
-    bool isDead = true;
-    bool isClipped = false;
-    bool flag3 = true;
-    bool flag4 = false;
-    bool flag5 = false;
-    bool isHideModel = false;
-    bool isOffCollide = true;
-    bool flag8 = false;
-    bool flag9 = false;
+    bool isDead;
+    bool isClipped;
+    bool isInvalidClipping;
+    bool flag4;
+    bool flag5;
+    bool isHideModel;
+    bool isOffCollide;
+    bool flag8;
+    bool flag9;
+
+    LiveActorFlag();
 };
+
+void offCollide(LiveActor* actor);
 
 } // namespace al

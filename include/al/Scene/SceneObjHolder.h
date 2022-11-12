@@ -6,20 +6,22 @@ namespace al {
 
 class SceneObjHolder {
 public:
-    using CreateFunction = ISceneObj* (*)(int id);
+    typedef ISceneObj* (*CreateFunc)(int id);
+
+    SceneObjHolder(CreateFunc func, int size);
+    void setObj(ISceneObj* obj, int id);
+    ISceneObj* getObj(int id);
+    ISceneObj* create(int id);
 
 private:
-    CreateFunction mCreateFunction = nullptr;
-    ISceneObj** mObjs = nullptr;
-    int mSize = 0;
-
-public:
-    SceneObjHolder(CreateFunction func, int size);
-    ISceneObj* getObj(int id);
+    CreateFunc mCreateFunc;
+    ISceneObj** mObjs;
+    int mSize;
 };
 
 SceneObjHolder* getSceneObjHolder();
-ISceneObj* getSceneObj(int id);
+ISceneObj* createSceneObj(int id);
 void setSceneObj(ISceneObj* obj, int id);
+ISceneObj* getSceneObj(int id);
 
 } // namespace al

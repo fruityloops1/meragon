@@ -1,29 +1,27 @@
 #pragma once
 
 #include "al/Audio/AudioKeeper.h"
+#include "al/Collision/Collider.h"
 #include "al/Effect/EffectKeeper.h"
 #include "al/LiveActor/ActorActionKeeper.h"
-#include "al/LiveActor/ActorExecuteInfo.h"
 #include "al/LiveActor/ActorInitInfo.h"
-#include "al/LiveActor/ActorLightKeeper.h"
 #include "al/LiveActor/ActorPoseKeeper.h"
-#include "al/LiveActor/Collider.h"
-#include "al/LiveActor/HitSensor.h"
 #include "al/LiveActor/HitSensorKeeper.h"
 #include "al/LiveActor/LiveActorFlag.h"
-#include "al/LiveActor/ModelKeeper.h"
-#include "al/LiveActor/SensorMsg.h"
 #include "al/LiveActor/SubActorKeeper.h"
-#include "al/Map/CollisionParts.h"
 #include "al/Nerve/Nerve.h"
-#include "sead/math/seadMatrix.h"
+#include "al/Rail/RailKeeper.h"
+#include "al/Stage/StageSwitchKeeper.h"
 #include "types.h"
+#include <sead/math/seadMatrix.h>
 
 namespace al {
 
-class LiveActor : public al::IUseNerve, public al::IUseEffectKeeper, public al::IUseAudioKeeper {
+class LiveActor : public IUseNerve, public IUseEffectKeeper, public IUseAudioKeeper, public IUseStageSwitch {
 public:
-    virtual NerveKeeper* getNerveKeeper() const override { return mNerveKeeper; };
+    LiveActor(const char* name);
+
+    virtual NerveKeeper* getNerveKeeper() const;
 
     virtual void init(const ActorInitInfo& info);
     virtual void initAfterPlacement();
@@ -37,47 +35,53 @@ public:
     virtual void startClipped();
     virtual void endClipped();
     virtual void attackSensor(HitSensor* me, HitSensor* other);
-    virtual bool receiveMsg(SensorMsg msg, HitSensor* other, HitSensor* me);
-    virtual sead::Matrix34f* getBaseMtx() const;
-    virtual EffectKeeper* getEffectKeeper() const override { return mEffectKeeper; };
-    virtual AudioKeeper* getAudioKeeper() const override { return mAudioKeeper; };
-    virtual void gap2();
-    virtual void gap3();
+    virtual bool receiveMsg(u32 msg, HitSensor* other, HitSensor* me);
+    virtual const sead::Matrix34f* getBaseMtx() const;
+    virtual EffectKeeper* getEffectKeeper() const;
+    virtual AudioKeeper* getAudioKeeper() const;
+    virtual StageSwitchKeeper* getStageSwitchKeeper() const;
+    virtual void initStageSwitchKeeper();
     virtual void control();
     virtual void calcAndSetBaseMtx();
     virtual void updateCollider();
+    virtual void v22();
+    virtual void v23();
 
-    inline const char* getName() { return mActorName; }
+    const char* getName() const { return mActorName; }
+    ActorPoseKeeperBase* getActorPoseKeeper() const { return mActorPoseKeeper; }
+    ActorActionKeeper* getActorActionKeeper() const { return mActorActionKeeper; }
+    Collider* getCollider() const { return mCollider; }
+    RailKeeper* getRailKeeper() const { return mRailKeeper; }
+    LiveActorFlag& getLiveActorFlag() { return mLiveActorFlag; }
 
-    LiveActor(const char* name);
+    void initNerveKeeper(NerveKeeper* nk) { mNerveKeeper = nk; }
+    void initPoseKeeper(ActorPoseKeeperBase* pPoseKeeper);
+    void initRailKeeper(const ActorInitInfo& info);
 
 private:
-    sfill(0x4, iusenerve);
     const char* mActorName;
 
 protected:
-    ActorPoseKeeperBase* mActorPoseKeeper = nullptr;
-    ActorExecuteInfo* mActorExecuteInfo = nullptr;
-    ActorActionKeeper* mActorActionKeeper = nullptr;
-    Collider* mCollider = nullptr;
-    CollisionParts* mCollisionParts = nullptr;
-    ModelKeeper* mModelKeeper = nullptr;
-    NerveKeeper* mNerveKeeper = nullptr;
-    HitSensorKeeper* mHitSensorKeeper = nullptr;
-    EffectKeeper* mEffectKeeper = nullptr;
-    AudioKeeper* mAudioKeeper = nullptr;
-    void* keeper3C = nullptr;
-    void* keeper40 = nullptr;
-    void* keeper44 = nullptr;
-    ActorLightKeeper* mActorLightKeeper = nullptr;
-    void* keeper4C = nullptr;
-    SubActorKeeper* mSubActorKeeper = nullptr;
+    ActorPoseKeeperBase* mActorPoseKeeper;
+    class ActorExecuteInfo* mActorExecuteInfo;
+    ActorActionKeeper* mActorActionKeeper;
+    Collider* mCollider;
+    class CollisionParts* mCollisionParts;
+    class ModelKeeper* mModelKeeper;
+    NerveKeeper* mNerveKeeper;
+    HitSensorKeeper* mHitSensorKeeper;
+    EffectKeeper* mEffectKeeper;
+    AudioKeeper* mAudioKeeper;
+    StageSwitchKeeper* mStageSwitchKeeper;
+    RailKeeper* mRailKeeper;
+    void* _44;
+    class ActorLightKeeper* mActorLightKeeper;
+    void* _4C;
+    SubActorKeeper* mSubActorKeeper;
 
 private:
     LiveActorFlag mLiveActorFlag;
 };
-
-void initNerve(LiveActor* actor, const al::Nerve* nerve, int step = 0);
 
 static_assert(sizeof(LiveActor) == 0x60, "");
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "al/LiveActor/HitSensor.h"
-#include "sead/container/seadPtrArray.h"
+#include "al/HitSensor/HitSensor.h"
+#include <sead/container/seadPtrArray.h>
 
 namespace al {
 

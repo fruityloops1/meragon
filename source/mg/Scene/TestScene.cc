@@ -1,11 +1,11 @@
 #include "mg/Scene/TestScene.h"
-#include "al/Util/NerveUtil.h"
+#include "al/Nerve/NerveFunction.h"
 
 namespace mg {
 
-namespace {
+namespace NrvTestScene {
     NERVE_DEF(TestScene, Wait);
-}
+} // namespace NrvTestScene
 
 TestScene::TestScene()
     : Scene("Test Scene")
@@ -14,7 +14,7 @@ TestScene::TestScene()
 
 void TestScene::init()
 {
-    initNerve(&nrvTestSceneWait);
+    initNerve(&NrvTestScene::Wait);
 }
 
 void TestScene::exeWait()
