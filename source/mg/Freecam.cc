@@ -15,7 +15,7 @@ const sead::Vector3f& getFreecamOffset()
 void updateFreecam()
 {
     if (al::isPadHoldL()) {
-        mg::log("Camera offset is: %d %d %d", (int)offset.x, (int)offset.y, (int)offset.z);
+        mg::log("Camera offset is: %.2f %.2f %.2f", offset.x, offset.y, offset.z);
         if (al::isPadHoldR())
             offset = { 0, 0, 0 };
         if (al::isPadHoldUp())

@@ -1,5 +1,6 @@
 #include "mg/MapObj/GreenDemon.h"
 #include "Game/Player/PlayerActor.h"
+#include "al/LiveActor/ActorInitUtil.h"
 #include "al/LiveActor/HitSensorFunction.h"
 #include "al/LiveActor/LiveActorFunction.h"
 #include "al/Nerve/NerveFunction.h"

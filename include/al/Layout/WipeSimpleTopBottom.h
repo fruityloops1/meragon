@@ -1,6 +1,6 @@
 #pragma once
 
-#include "al/layouts/WipeSimple.h"
+#include "al/Layout/WipeSimple.h"
 
 namespace al {
 

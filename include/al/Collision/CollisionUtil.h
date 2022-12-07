@@ -1,8 +1,12 @@
 #pragma once
 
-#include "al/LiveActor/ActorPoseKeeper.h"
+#include "al/LiveActor/LiveActor.h"
+
 namespace al {
 
+void syncCollisionMtx(LiveActor* actor, const sead::Matrix34f*);
+
+bool isCollided(const LiveActor* actor);
 bool isCollidedGround(const LiveActor* actor);
 
 } // namespace al

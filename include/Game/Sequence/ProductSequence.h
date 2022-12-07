@@ -1,38 +1,52 @@
 #pragma once
 
 #include "Game/Sequence/ProductStageStartParam.h"
-#include "Game/Sequence/States/ProductStateStage.h"
-#include "Game/Stage/StageWipeKeeper.h"
+#include "Game/Sequence/ProductStateCourseSelect.h"
+#include "Game/Sequence/ProductStateStage.h"
+#include "Game/Sequence/StageWipeKeeper.h"
 #include "al/Sequence/Sequence.h"
+
 #include "mg/Scene/ProductStateTest.h"
 
 class ProductSequence : public al::Sequence {
-    ProductStageStartParam* mStageStartParam = nullptr;
-    void* unk[2];
+    ProductStageStartParam* mStageStartParam;
+    void* _14C;
+    void* _150;
+    StageWipeKeeper* mWipeKeeper;
+    void* _158;
+    void* _15C;
+    class ProductStateTitle* mStateTitle;
+    class ProductStateOpening* mStateOpening;
+    ProductStateTitle* mStateCourseSelect;
+    ProductStateStage* mStateStage;
+    class ProductStateKinopioHouse* mStateKinopioHouse;
+    class ProductStateMysteryBox* mStateMysteryBox;
+    class ProductStateEnding* mStateEnding;
+    class ProductStateGameOverRoom* mStateGameOverRoom;
+    int _180;
+    void* _184;
+    void* _188;
+    void* _18C;
+    void* _190;
 
 public:
-    StageWipeKeeper* mWipeKeeper = nullptr;
-    void* unk2[2];
-    class ProductStateTitle* mStateTitle = nullptr;
-    class ProductStateOpening* mStateOpening = nullptr;
-    class ProductStateCourseSelect* mStateCourseSelect = nullptr;
-    ProductStateStage* mStateStage = nullptr;
-    class ProductStateKinopioHouse* mStateKinopioHouse = nullptr;
-    class ProductStateMysteryBox* mStateMysteryBox = nullptr;
-    class ProductStateEnding* mStateEnding = nullptr;
-    class ProductStateGameOverRoom* mStateGameOverRoom = nullptr;
-    int unk3;
-    void* unk4[4];
-
     ProductStateTest* mStateTest = nullptr; // fake
 
     ProductSequence(const char* name);
 
-    void init() override;
-    void update() override;
-    bool isDisposable() const override;
+    virtual void init();
+    virtual void update();
+    virtual bool isDisposable() const;
 
-    void exeTest(); // fake
+    void exeTitle();
+    void exeOpening();
+    void exeCourseSelect();
+    void exeStage();
+    void exeKinopioHouse();
+    void exeMysteryBox();
+    void exeEnding();
+    void exeGameOverRoom();
+    void exeUnk1();
 
-    friend class ProductStateTest;
+    void exeTest();
 };

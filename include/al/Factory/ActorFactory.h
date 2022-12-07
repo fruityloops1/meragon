@@ -11,8 +11,9 @@ typedef CreateFuncPtr<LiveActor>::Type CreateActorFuncPtr;
 typedef NameToCreator<CreateActorFuncPtr> NameToActorCreator;
 
 class ActorFactory {
-public:
     Resource* mArchive;
+
+public:
     ByamlIter* mConvertNameData;
 
     ActorFactory();

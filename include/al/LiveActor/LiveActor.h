@@ -2,6 +2,7 @@
 
 #include "al/Audio/AudioKeeper.h"
 #include "al/Collision/Collider.h"
+#include "al/Collision/CollisionParts.h"
 #include "al/Effect/EffectKeeper.h"
 #include "al/LiveActor/ActorActionKeeper.h"
 #include "al/LiveActor/ActorInitInfo.h"
@@ -9,11 +10,15 @@
 #include "al/LiveActor/HitSensorKeeper.h"
 #include "al/LiveActor/LiveActorFlag.h"
 #include "al/LiveActor/SubActorKeeper.h"
+#include "al/Model/ModelKeeper.h"
 #include "al/Nerve/Nerve.h"
 #include "al/Rail/RailKeeper.h"
 #include "al/Stage/StageSwitchKeeper.h"
 #include "types.h"
 #include <sead/math/seadMatrix.h>
+
+class alActorPoseFunction;
+class alLiveActorFunction;
 
 namespace al {
 
@@ -51,10 +56,13 @@ public:
     ActorPoseKeeperBase* getActorPoseKeeper() const { return mActorPoseKeeper; }
     ActorActionKeeper* getActorActionKeeper() const { return mActorActionKeeper; }
     Collider* getCollider() const { return mCollider; }
+    ModelKeeper* getModelKeeper() const { return mModelKeeper; }
+    HitSensorKeeper* getHitSensorKeeper() const { return mHitSensorKeeper; }
     RailKeeper* getRailKeeper() const { return mRailKeeper; }
     LiveActorFlag& getLiveActorFlag() { return mLiveActorFlag; }
+    const LiveActorFlag& getLiveActorFlag() const { return mLiveActorFlag; }
 
-    void initNerveKeeper(NerveKeeper* nk) { mNerveKeeper = nk; }
+    void initNerveKeeper(NerveKeeper* nk);
     void initPoseKeeper(ActorPoseKeeperBase* pPoseKeeper);
     void initRailKeeper(const ActorInitInfo& info);
 
@@ -66,21 +74,24 @@ protected:
     class ActorExecuteInfo* mActorExecuteInfo;
     ActorActionKeeper* mActorActionKeeper;
     Collider* mCollider;
-    class CollisionParts* mCollisionParts;
-    class ModelKeeper* mModelKeeper;
+    CollisionParts* mCollisionParts;
+    ModelKeeper* mModelKeeper;
     NerveKeeper* mNerveKeeper;
     HitSensorKeeper* mHitSensorKeeper;
     EffectKeeper* mEffectKeeper;
     AudioKeeper* mAudioKeeper;
     StageSwitchKeeper* mStageSwitchKeeper;
     RailKeeper* mRailKeeper;
-    void* _44;
+    class ShadowKeeper* mShadowKeeper;
     class ActorLightKeeper* mActorLightKeeper;
     void* _4C;
     SubActorKeeper* mSubActorKeeper;
 
 private:
     LiveActorFlag mLiveActorFlag;
+
+    friend class ::alActorPoseFunction;
+    friend class ::alLiveActorFunction;
 };
 
 static_assert(sizeof(LiveActor) == 0x60, "");

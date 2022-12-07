@@ -7,12 +7,11 @@
 namespace al {
 
 class Sequence : public NerveExecutor {
-protected:
+public:
     sead::FixedSafeString<64> mName;
     Scene* mCurrentScene;
     u8 unk[0xf0];
 
-public:
     Sequence(const char* name);
 
     virtual void init(/*SequenceInitInfo& ?*/);

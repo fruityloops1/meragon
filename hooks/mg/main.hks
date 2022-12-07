@@ -10,3 +10,6 @@
 
 0026db4c:
     b getLeftStickHook(int)
+
+0036add8: // disable closing windows with A
+    mov r0, #0

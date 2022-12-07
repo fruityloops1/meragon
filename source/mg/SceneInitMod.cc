@@ -1,6 +1,7 @@
 
-#include "al/Scene/Scene.h"
+#include "al/LiveActor/ActorInitUtil.h"
 #include "al/LiveActor/LiveActorFunction.h"
+#include "al/Scene/Scene.h"
 #include "al/Util/StringUtil.h"
 #include "mg/Factory/ActorFactory.h"
 

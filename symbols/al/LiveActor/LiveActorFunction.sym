@@ -10,3 +10,5 @@ _ZN2al32initCreateActorWithPlacementInfoEPNS_9LiveActorERKNS_13ActorInitInfoE = 
 _ZN2al18invalidateClippingEPNS_9LiveActorE = 0x0028065c;
 
 _ZN2al9initNerveEPNS_9LiveActorEPKNS_5NerveEi = 0x001ebd94;
+
+_ZN2al7isAliveEPKNS_9LiveActorE = 0x00264150;

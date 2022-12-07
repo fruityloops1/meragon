@@ -1,5 +1,6 @@
 #include "mg/MapObj/Gabon.h"
 #include "al/LiveActor/ActorInitInfo.h"
+#include "al/LiveActor/ActorInitUtil.h"
 #include "al/LiveActor/HitSensorFunction.h"
 #include "al/LiveActor/LiveActorFunction.h"
 #include "al/LiveActor/SensorMsg.h"
@@ -24,8 +25,8 @@ namespace NrvGabonThrowObj {
 
 void GabonThrowObj::init(const al::ActorInitInfo& info)
 {
-    al::initNerve(this, &NrvGabonThrowObj::Generate, 0);
     al::initActorWithArchiveName(this, info, mThrowObjModelName, nullptr);
+    al::initNerve(this, &NrvGabonThrowObj::Generate, 0);
 }
 
 void GabonThrowObj::exeGenerate()
@@ -53,8 +54,9 @@ void GabonThrowObj::attackSensor(al::HitSensor* source, al::HitSensor* target)
 
 void Gabon::init(const al::ActorInitInfo& info)
 {
-    al::initNerve(this, &NrvGabon::Wait, 0);
     al::initActorWithArchiveName(this, info, "Gabon", nullptr);
+    al::initNerve(this, &NrvGabon::Wait, 0);
+    return;
 
     for (int i = 0; i < sNeedleRollerAmount; i++) {
         GabonThrowObj* roller = new GabonThrowObj("GabonThrowObj", "NeedleRoller");

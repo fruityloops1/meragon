@@ -1,2 +1,2 @@
 002776f8:
-    bl freecamApplyHook(al::CameraPoser*)
+    bl freecamApplyHook(al::Camera*)

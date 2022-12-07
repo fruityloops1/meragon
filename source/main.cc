@@ -1,13 +1,19 @@
+#include "Game/Layout/WindowConfirmSingle.h"
 #include "Game/Scene/CourseSelectScene.h"
 #include "Game/Scene/StageScene.h"
 #include "al/Camera/Camera.h"
 #include "al/Controller/ControllerUtil.h"
 #include "al/Layout/LayoutInitInfo.h"
 #include "al/LiveActor/LiveActorFunction.h"
+#include "al/Nerve/NerveFunction.h"
 #include "mg/Freecam.h"
 #include "mg/MapObj/GreenDemon.h"
 #include "mg/log.h"
 #include "sead/basis/seadNew.h"
+
+#include <cstdarg>
+#include <cwchar>
+#include <mg/DebugMenu.h>
 
 void mMain()
 {
@@ -21,10 +27,7 @@ void courseSelectSceneControlHook(CourseSelectScene* scene)
     scene->al::Scene::control();
 }
 
-void stageSceneControlHook(StageScene* scene)
-{
-    scene->StageScene::control();
-}
+WindowConfirmSingle* actor = nullptr;
 
 void stageSceneInitLayoutHook(al::LayoutInitInfo* infoPtr, al::LiveActorKit* kit)
 {
@@ -32,10 +35,15 @@ void stageSceneInitLayoutHook(al::LayoutInitInfo* infoPtr, al::LiveActorKit* kit
     const al::LayoutInitInfo& info = *infoPtr;
 
     // init any layouts
-    /*al::LayoutActor* actor = new al::LayoutActor("操作ガイド");
-    al::initLayoutActor(actor, info, "GuidePlay", nullptr);
-    al::startAction(actor, "Appear");
-    actor->appear();*/
+    actor = new WindowConfirmSingle("操作ガイド", info);
+    actor->appear();
+}
+
+void stageSceneControlHook(StageScene* scene)
+{
+    scene->StageScene::control();
+
+    mg::DebugMenu::instance().update(scene, actor);
 }
 
 void playerInitHook(PlayerActor* player, const al::ActorInitInfo& info)

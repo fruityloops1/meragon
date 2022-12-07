@@ -2,6 +2,7 @@
 
 #include "al/Placement/PlacementInfo.h"
 #include "al/System/Byaml/ByamlIter.h"
+#include <sead/prim/seadSafeString.h>
 
 namespace al {
 
@@ -16,7 +17,8 @@ public:
 
     ActorInitInfo();
 
-    void initViewIdSelf(const PlacementInfo* placement, const ActorInitInfo& base);
+    void initViewIdHost(const PlacementInfo* placement, const ActorInitInfo& hostInfo);
+    void initViewIdSelf(const PlacementInfo* placement, const ActorInitInfo& hostInfo);
 
     friend const PlacementInfo& getPlacementInfo(const ActorInitInfo& info);
 };
