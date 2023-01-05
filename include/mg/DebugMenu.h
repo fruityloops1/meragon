@@ -38,8 +38,12 @@ class DebugMenu {
     int mCurActorIndex = 0;
     int mButtonHoldFrames = 0;
 
+    uintptr_t mCurrentPlayerActionVtablePtr = -1;
+
 public:
     static DebugMenu& instance();
+
+    void setPlayerActionVtablePtr(uintptr_t ptr) { mCurrentPlayerActionVtablePtr = ptr; }
 
     void update(StageScene* scene, WindowConfirmSingle* window);
 

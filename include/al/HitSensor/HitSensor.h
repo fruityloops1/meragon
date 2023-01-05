@@ -46,8 +46,9 @@ class HitSensor {
     sead::Vector3f _34;
 
 public:
-    const char* getName() { return mName; }
+    const char* getName() const { return mName; }
     LiveActor* getHost() { return mHostActor; }
+    SensorType getType() const { return mSensorType; }
 
     friend class HitSensorKeeper;
 };

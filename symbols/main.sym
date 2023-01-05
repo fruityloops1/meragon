@@ -4,3 +4,8 @@ __addrCustomCode = 0x00432000;
 
 _Z5opNewj = 0x002932b0;
 _Znwj = 0x002932b0;
+
+__hardfp_sinf = 0x00287908;
+__hardfp_cosf = 0x00287ad0;
+__hardfp_asinf = 0x0026e82c;
+__hardfp_atan2f = 0x002854e8;

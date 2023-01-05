@@ -3,3 +3,7 @@
 _ZN2al11startActionEPNS_9LiveActorEPKc = 0x0027f244;
 _ZN2al11isActionEndEPKNS_9LiveActorE = 0x0027ce60;
 _ZN2al13getActionNameEPKNS_9LiveActorE = 0x0026de34;
+
+_ZN2al21startHitReactionDeathEPKNS_9LiveActorE = 0x00279e3c;
+_ZN2al21startHitReactionBreakEPKNS_9LiveActorE = 0x0027ec94;
+_ZN2al24startHitReactionOnGroundEPKNS_9LiveActorE = 0x00279e4c;

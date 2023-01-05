@@ -8,7 +8,12 @@ _ZN2al30initCreateActorNoPlacementInfoEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x
 _ZN2al32initCreateActorWithPlacementInfoEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x00277d94;
 
 _ZN2al18invalidateClippingEPNS_9LiveActorE = 0x0028065c;
+_ZN2al16validateClippingEPNS_9LiveActorE = 0x0026d668;
 
 _ZN2al9initNerveEPNS_9LiveActorEPKNS_5NerveEi = 0x001ebd94;
 
 _ZN2al7isAliveEPKNS_9LiveActorE = 0x00264150;
+
+_ZN2al10offCollideEPNS_9LiveActorE = 0x0027b510;
+
+_ZN2al12calcQuatSideEPN4sead7Vector3IfEEPKNS_9LiveActorE = 0x0027892c;

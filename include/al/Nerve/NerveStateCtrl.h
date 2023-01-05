@@ -22,6 +22,8 @@ public:
     bool updateCurrentState();
     void startState(const Nerve* nerve);
     void tryEndCurrentState();
+
+    const State* getCurrentState() const { return mCurrentState; }
 };
 
 } // namespace al

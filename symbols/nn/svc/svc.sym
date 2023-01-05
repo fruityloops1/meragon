@@ -1,0 +1,2 @@
+_ZN2nn3svc17CreateMemoryBlockEPNS_6HandleEmmmm = 0x0010c574;
+_ZN2nn3svc11CloseHandleENS_6HandleE = 0x0010c56c;

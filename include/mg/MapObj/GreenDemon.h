@@ -8,8 +8,13 @@ namespace mg {
 class GreenDemon : public al::LiveActor {
     PlayerActor* const mPlayer = nullptr;
     int mStepSinceCaughtPlayer = 0;
-    al::HitSensor* mPlayerSensor = nullptr;
-    al::HitSensor* mBodySensor = nullptr;
+    int mStuckFrames = 0;
+    float mMoveAvg = 0;
+    int mAvgCount = 0;
+    sead::Vector3f mPrevPos;
+    bool mDoTpToPlayerRepeat = false;
+
+    bool checkForbidden();
 
 public:
     GreenDemon(PlayerActor* target);

@@ -11,7 +11,9 @@
 #include "mg/log.h"
 #include "sead/basis/seadNew.h"
 
+#include "al/LiveActor/ActorInitUtil.h"
 #include <cstdarg>
+#include <cstring>
 #include <cwchar>
 #include <mg/DebugMenu.h>
 
@@ -19,8 +21,6 @@ void mMain()
 {
     mg::log("mMain");
 }
-
-mg::GreenDemon* demon = nullptr;
 
 void courseSelectSceneControlHook(CourseSelectScene* scene)
 {
@@ -44,14 +44,6 @@ void stageSceneControlHook(StageScene* scene)
     scene->StageScene::control();
 
     mg::DebugMenu::instance().update(scene, actor);
-}
-
-void playerInitHook(PlayerActor* player, const al::ActorInitInfo& info)
-{
-    al::initActorSRTAndPoseTRSV(player, info);
-
-    /*demon = new mg::GreenDemon(player);
-    al::initCreateActorNoPlacementInfo(demon, info);*/
 }
 
 void freecamApplyHook(al::Camera* camera)

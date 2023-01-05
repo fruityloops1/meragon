@@ -1,0 +1,5 @@
+001aa3e0:
+    bl newPlayerActionPoisonDeathHook(unsigned int)
+
+00131adc:
+    bl playerInitHook(PlayerActor*, al::ActorInitInfo const&)

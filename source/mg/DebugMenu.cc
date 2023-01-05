@@ -1,6 +1,7 @@
 #include "mg/DebugMenu.h"
 #include "al/Controller/ControllerUtil.h"
 #include "al/LiveActor/LiveActorFunction.h"
+#include <Game/Player/Player.h>
 #include <cstdio>
 
 mg::DebugMenu sInstance;
@@ -8,6 +9,39 @@ mg::DebugMenu& mg::DebugMenu::instance()
 {
     return sInstance;
 }
+
+struct ActionEntry {
+    uintptr_t addr;
+    const char* name;
+};
+
+static ActionEntry actions[] {
+    { 0x003cc450, "Wait" },
+    { 0x003d045c, "GroundMove" },
+    { 0x003cd920, "Turn" },
+    { 0x003cd8ec, "Brake" },
+    { 0x003cfc20, "Rolling" },
+    { 0x003cfc64, "Squat" },
+    { 0x003cf1ac, "SquatStandUp" },
+    { 0x003cd954, "SquatSlide" },
+    { 0x003ce948, "Bonk" },
+    { 0x003cc2bc, "somethingidfk" },
+    { 0x003cc37c, "AirMove" },
+    { 0x003cf24c, "TurnJump" },
+    { 0x003d08d8, "TrampleJump" },
+    { 0x003cf0b0, "TrampolineJump" },
+    { 0x003cc344, "Fall" },
+    { 0x003cc3b4, "Land" },
+    { 0x003ce8d0, "HipDrop" },
+    { 0x003cf120, "LongJump" },
+    { 0x003ce914, "?(longjump)" },
+    { 0x003d0f34, "LongJumpRolling" },
+    { 0x003cc474, "WallSlide" },
+    { 0x003cf2a8, "WallJump" },
+    { 0x003cfbc4, "DieOver" },
+    { 0x003cd8c8, "Abyss" },
+    { 0x003cc2bc, "PlayAnim" },
+};
 
 void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
 {
@@ -68,6 +102,19 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
         print("Trans %.2f %.2f %.2f\n", trans.x, trans.y, trans.z);
         print("Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
         print("Vel %.2f %.2f %.2f\n", vel.x, vel.y, vel.z);
+
+        const char* actionName = nullptr;
+        for (auto entry : actions)
+            if (entry.addr == mCurrentPlayerActionVtablePtr)
+                actionName = entry.name;
+
+        if (actionName) {
+            print("Action: PlayerAction%s\n", actionName);
+            mg::log("Action: PlayerAction%s", actionName);
+        } else {
+            print("Action: 0x%.8x\n", mCurrentPlayerActionVtablePtr);
+            mg::log("Action: 0x%.8x", mCurrentPlayerActionVtablePtr);
+        }
         break;
     }
 
@@ -157,4 +204,10 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
     al::hidePane(window, "PicWindowUR");
     al::hidePane(window, "PicWindowDL");
     al::hidePane(window, "PicWindowDR");
+}
+
+void playerActionGraphMoveHook(PlayerActionGraph* graph)
+{
+    mg::DebugMenu::instance().setPlayerActionVtablePtr(*(uintptr_t*)graph->getCurrentNode()->getAction());
+    graph->getCurrentNode()->getAction()->update();
 }

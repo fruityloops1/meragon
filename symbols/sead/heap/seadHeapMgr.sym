@@ -3,3 +3,4 @@
 _ZN4sead7HeapMgr12sInstancePtrE = 0x003e23b8;
 _ZN4sead7HeapMgr15setCurrentHeap_EPNS_4HeapE = 0x002932ec;
 _ZN4sead7HeapMgr10sRootHeapsE = 0x003f73d0;
+_ZNK4sead7HeapMgr14getCurrentHeapEv = 0x00293088;

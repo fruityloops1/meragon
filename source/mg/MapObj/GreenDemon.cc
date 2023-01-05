@@ -5,7 +5,26 @@
 #include "al/LiveActor/LiveActorFunction.h"
 #include "al/Nerve/NerveFunction.h"
 #include "mg/log.h"
+#include <cstddef>
 #include <sead/math/seadVector.h>
+
+static PlayerActionNode* sDeathNode = nullptr;
+static mg::GreenDemon* sDemon = nullptr;
+
+export void* newPlayerActionPoisonDeathHook(std::size_t size)
+{
+    void* d = new char[size];
+    sDeathNode = static_cast<PlayerActionNode*>(d);
+    return d;
+}
+
+export void playerInitHook(PlayerActor* player, const al::ActorInitInfo& info)
+{
+    al::initActorSRTAndPoseTRSV(player, info);
+
+    // sDemon = new mg::GreenDemon(player);
+    // al::initCreateActorNoPlacementInfo(sDemon, info);
+}
 
 namespace mg {
 
@@ -29,17 +48,39 @@ void GreenDemon::init(const al::ActorInitInfo& info)
     al::initNerve(this, &NrvGreenDemon::Stall);
 
     al::setTrans(this, al::getTrans(mPlayer) + sead::Vector3f(0, 300, 0));
+    mPrevPos = al::getTrans(this);
 
     al::invalidateClipping(this);
     makeActorAppeared();
 }
 
+bool GreenDemon::checkForbidden()
+{
+    // vtables of PlayerActions that will prevent the player from dying
+    constexpr uintptr_t forbidden[] = { 0x003cc2bc };
+
+    bool isForbidden = false;
+    for (uintptr_t addr : forbidden)
+        if (*(uintptr_t*)mPlayer->mPlayer->mActionGraph->mCurrentNode->getAction() == addr)
+            isForbidden = true;
+    return isForbidden;
+}
+
 void GreenDemon::attackSensor(al::HitSensor* me, al::HitSensor* other)
 {
     if (!al::isNerve(this, &NrvGreenDemon::Death) && al::isSensorName(me, "Body") && al::isSensorPlayer(other)) {
-        mBodySensor = me;
-        mPlayerSensor = other;
-        al::setNerve(this, &NrvGreenDemon::Death);
+        PlayerActor* player = static_cast<PlayerActor*>(other->getHost());
+
+        bool isForbidden = checkForbidden();
+
+        if (sDeathNode && !isForbidden) {
+            player->mPlayer->mActionGraph->mCurrentNode = sDeathNode;
+            sDeathNode->getAction()->setup();
+            al::setNerve(this, &NrvGreenDemon::Death);
+        }
+
+        if (isForbidden)
+            al::setTrans(this, al::getTrans(mPlayer) + sead::Vector3f(0, 1000, 0));
     }
 }
 
@@ -61,15 +102,62 @@ static void normalize(sead::Vector3f* vec)
     }
 } // sead function generates infinite loop for some reason
 
-void GreenDemon::exeFollow()
+static float calcDistance(const sead::Vector3f& pos1, const sead::Vector3f& pos2)
 {
+    sead::Vector3f a = pos2 - pos1;
+    return std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+}
+
+void GreenDemon::exeFollow()
+{ // thanks trippi
+    if (checkForbidden()) {
+        mg::log("GreenDemon::exeFollow paused, forbidden");
+        al::setVelocity(this, { 0, 0, 0 });
+        return;
+    }
+    if (mDoTpToPlayerRepeat) {
+        al::setTrans(this, al::getTrans(mPlayer) + sead::Vector3f(0, 1000, 0));
+        mDoTpToPlayerRepeat = false;
+        getLiveActorFlag().isOffCollide = false;
+    }
+
     const sead::Vector3f& thisPos = al::getTrans(this);
     const sead::Vector3f& playerPos = al::getTrans(mPlayer);
 
+    float speed = 30;
+    float distanceToMarioWithOffset = calcDistance(thisPos, playerPos) - 20;
+    speed += distanceToMarioWithOffset >= 0.f ? std::sqrt(distanceToMarioWithOffset) * .1 : -(std::sqrt(std::sqrt(std::pow(distanceToMarioWithOffset, 2)))) * .1;
+
+    // stuck checking
+    if (calcDistance(thisPos, playerPos) > 10000)
+        speed = 5000;
+    mAvgCount++;
+    mMoveAvg = ((mMoveAvg * mAvgCount - 1) + calcDistance(thisPos, mPrevPos)) / mAvgCount;
+    if (mMoveAvg < 30)
+        mStuckFrames++;
+
+    if (mAvgCount == 480) {
+        mAvgCount = 0;
+        mMoveAvg = 0;
+    }
+
+    if (mStuckFrames >= 90) {
+        mAvgCount = 0;
+        mMoveAvg = 0;
+        mStuckFrames = 0;
+        al::offCollide(this);
+        al::setTrans(this, al::getTrans(mPlayer) + sead::Vector3f(0, 1000, 0));
+        mDoTpToPlayerRepeat = true;
+    }
+
+    mg::log("Demon %f %f %f", thisPos.x, thisPos.y, thisPos.z);
+    mg::log("AvgCount %d MoveAvg %f StuckFrames %d", mAvgCount, mMoveAvg, mStuckFrames);
+
     sead::Vector3f toPlayerVec = playerPos - thisPos;
-    *al::getTransPtr(this) += toPlayerVec / 32;
     normalize(&toPlayerVec);
+    *al::getVelocityPtr(this) = toPlayerVec * speed;
     al::setFront(this, toPlayerVec);
+    mPrevPos = thisPos;
 }
 
 void GreenDemon::exeDeath()
