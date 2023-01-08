@@ -1,0 +1,7 @@
+/* al/Util/InputUtil.h */
+
+_ZN2al12isPadTriggerEii = 0x0024ca4c;
+_ZN2al9isPadHoldEii = 0x00250ee0; 
+/* cant find the others */
+
+/* _ZN2al12getLeftStickEi = 0x0026db4c; */ /* hook */

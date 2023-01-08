@@ -1,5 +1,0 @@
-// remove clipping (a.k.a. pop-in/low render distance)
-//002795c0: // al::LiveActor::startClipped()+0
-//    ldr r1, [r0]
-//    ldr r1, [r1, #0x2c]
-//    bx r1 // call virtual endClipped instead
