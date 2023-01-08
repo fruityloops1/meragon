@@ -1,6 +1,7 @@
 .vscode/
 .cache/
 compile_commands.json
+__pycache__/
 
 Build/
 Data/musl/
