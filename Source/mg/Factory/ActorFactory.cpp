@@ -8,12 +8,14 @@
 #include "hk/hook/BranchHook.h"
 #include "mg/Enemy/Gabon.h"
 #include "mg/Factory/ActorFactory.h"
+#include "mg/MapObj/ExampleActor.h"
 
 namespace mg {
 
 // put custom actors here
 constexpr al::NameToActorCreator sActorFactoryCustomEntries[] {
-    { "Gabon", mg::createActorFunction<Gabon> }
+    { "Gabon", mg::createActorFunction<Gabon> },
+    { "ExampleActor", mg::createActorFunction<ExampleActor> }
 };
 
 al::CreateActorFuncPtr getActorCreatorFromFactory(const char* className)
