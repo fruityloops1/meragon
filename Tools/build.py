@@ -4,6 +4,7 @@ import sys
 import shutil
 from colorama import Fore, Style
 import subprocess
+import distutils.spawn
 
 buildPath = 'Build'
 projectName = os.path.basename(os.getcwd())
@@ -48,6 +49,13 @@ code_offset = int(subprocess.check_output(["Tools/ExheaderCli/Build/ExheaderCli"
 new_size = os.stat(f"{buildPath}/{projectName}.bin").st_size + 32
 
 subprocess.run(["Tools/ExheaderCli/Build/ExheaderCli", "patchCode=true", "inFileExh=Data/exheader.bin", f"inFileNewCode=Build/{projectName}.bin", f"out={buildPath}/code.bin", f"inFileMap={buildPath}/{projectName}.map", "Data/code.bin"])
+
+flips = distutils.spawn.find_executable("flips")
+if (flips is not None):
+    status("Generating code.bps patch")
+    subprocess.run([flips, "Data/code.bin", "Build/code.bin", "Build/code.bps"])
+else:
+    status("Warning: flips not found. Not generating code.bps")
 
 status("Generating exheader.bin")
 
