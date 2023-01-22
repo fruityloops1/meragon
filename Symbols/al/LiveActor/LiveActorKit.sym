@@ -1,0 +1,5 @@
+_ZN2al11executeDrawEPKNS_12LiveActorKitEPKc = 0x00276cf0;
+_ZN2al15executeDrawListEPKNS_12LiveActorKitEPKcS4_ = 0x002770b8;
+
+_ZN2al12LiveActorKit6updateEv = 0x00277660;
+_ZN2al12LiveActorKit7endInitEv = 0x00274990;

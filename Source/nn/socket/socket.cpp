@@ -1,3 +1,4 @@
+#include "hk/debug/Log.h"
 #include <nn/socket/socket.h>
 #include <nn/srv/srv_Api.h>
 #include <nn/svc/svc_Api.h>
@@ -58,11 +59,13 @@ namespace socket {
 
         r = nn::svc::CreateMemoryBlock(&bufferHandle, (u32)bufferAddress, bufferSize, 0, 3);
         if (r.Failed()) {
+            hk::dbg::Log("fail 1");
             return r;
         }
 
         r = nn::srv::GetServiceHandle(&socuHandle, "soc:U", 5, 0);
         if (r.Failed()) {
+            hk::dbg::Log("fail 2");
             nn::svc::CloseHandle(bufferHandle);
             bufferHandle = 0;
             return r;
@@ -70,6 +73,7 @@ namespace socket {
 
         r = nn::socket::socu::initialize(bufferHandle, bufferSize);
         if (r.Failed()) {
+            hk::dbg::Log("fail 3");
             nn::svc::CloseHandle(bufferHandle);
             bufferHandle = 0;
             nn::svc::CloseHandle(socuHandle);

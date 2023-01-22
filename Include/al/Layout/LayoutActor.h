@@ -36,7 +36,7 @@ public:
     void initNerve(const Nerve* nerve, int maxNerveStates = 0);
 };
 
-void initLayoutActor(LayoutActor* layoutActor, const LayoutInitInfo& info, const char* archiveName, const char*);
+void initLayoutActor(LayoutActor* layoutActor, const LayoutInitInfo& info, const char* archiveName, const char* = nullptr);
 
 void startAction(LayoutActor* actor, const sead::SafeString& actionName);
 bool isActionEnd(const LayoutActor* actor);

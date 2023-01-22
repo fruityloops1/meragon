@@ -15,6 +15,5 @@ al::LiveActor* createActorFunction(const char* name)
 }
 
 al::CreateActorFuncPtr getActorCreatorFromFactory(const char* className);
-al::CreateActorFuncPtr getCreatorHook(al::ActorFactory* thisPtr, const char* objectName);
 
 } // namespace mg

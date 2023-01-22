@@ -7,10 +7,10 @@
 namespace mg {
 
 constexpr al::NameToCameraCreator sCameraPoserFactoryCustomEntries[] {
-    { "Custom", mg::createCameraPoserFunction<CameraCustom> }
+    { "Custom", mg::createCameraFunction<CameraCustom> }
 };
 
-al::CreateCameraFuncPtr getCameraPoserCreatorFromFactory(const char* className)
+al::CreateCameraFuncPtr getCameraCreatorFromFactory(const char* className)
 {
     for (auto& entry : sCameraPoserFactoryCustomEntries)
         if (al::isEqualString(className, entry.name))
@@ -21,6 +21,6 @@ al::CreateCameraFuncPtr getCameraPoserCreatorFromFactory(const char* className)
     return nullptr;
 }
 
-HK_B_HOOK(GetCameraCreatorFromFactoryHook, 0x002659a4, getCameraPoserCreatorFromFactory);
+HK_B_HOOK(GetCameraCreatorFromFactoryHook, 0x002659a4, getCameraCreatorFromFactory);
 
 } // namespace mg

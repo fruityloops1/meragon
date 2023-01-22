@@ -8,9 +8,12 @@
 class ProductSequence;
 class ProductStateTest : public al::HostStateBase<ProductSequence> {
     mg::TestScene* mScene = nullptr;
+    ProductStageStartParam* mStartParam = nullptr;
+
+    void startInitScene();
 
 public:
-    ProductStateTest(ProductSequence* parent);
+    ProductStateTest(ProductSequence* parent, ProductStageStartParam* startParam);
 
     void init() override;
     void appear() override;

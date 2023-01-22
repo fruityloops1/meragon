@@ -1,3 +1,4 @@
 /* al/layout/LayoutInitInfo.h */
 
+_ZN2al14LayoutInitInfoC1Ev = 0x0027b31c;
 _ZN2al18initLayoutInitInfoEPNS_14LayoutInitInfoEPNS_12LiveActorKitE = 0x00243ff8;

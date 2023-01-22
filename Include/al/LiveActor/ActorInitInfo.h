@@ -6,6 +6,9 @@
 
 namespace al {
 
+class LiveActorKit;
+class LayoutInitInfo;
+
 class ActorInitInfo {
 public:
     const PlacementInfo* mPlacementInfo;
@@ -20,11 +23,13 @@ public:
     void initViewIdHost(const PlacementInfo* placement, const ActorInitInfo& hostInfo);
     void initViewIdSelf(const PlacementInfo* placement, const ActorInitInfo& hostInfo);
 
+    void initNew(const PlacementInfo* placement, const ActorInitInfo& baseInfo);
+
     friend const PlacementInfo& getPlacementInfo(const ActorInitInfo& info);
 };
 
 inline const PlacementInfo& getPlacementInfo(const ActorInitInfo& info) { return *info.mPlacementInfo; }
 
-void initActorInitInfo(ActorInitInfo* info, const PlacementInfo* placement, const ActorInitInfo& baseInfo);
+void initActorInitInfo(ActorInitInfo* info, const PlacementInfo* placement, const LayoutInitInfo& layoutInfo, LiveActorKit*);
 
 } // namespace al

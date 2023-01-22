@@ -9,9 +9,11 @@
 #include "mg/Scene/ProductStateTest.h"
 
 class ProductSequence : public al::Sequence {
+public:
     ProductStageStartParam* mStageStartParam;
     void* _14C;
     void* _150;
+
     StageWipeKeeper* mWipeKeeper;
     void* _158;
     void* _15C;
@@ -29,7 +31,6 @@ class ProductSequence : public al::Sequence {
     void* _18C;
     void* _190;
 
-public:
     ProductStateTest* mStateTest = nullptr; // fake
 
     ProductSequence(const char* name);

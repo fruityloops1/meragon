@@ -3,6 +3,7 @@
 #include "Game/Player/PlayerActionGraph.h"
 #include "Game/Player/PlayerAnimator.h"
 #include "Game/Player/PlayerProperty.h"
+#include "Game/Player/PlayerTrigger.h"
 
 class Player {
 public:
@@ -14,7 +15,7 @@ public:
     void* _14;
     void* _18;
     IUsePlayerAnimator* mUsePlayerAnimator;
-    void* _20;
+    PlayerTrigger* mPlayerTrigger;
     void* _24;
     void* _28;
     void* _2C;
@@ -69,6 +70,5 @@ public:
     void* _F0;
     void* _F4;
 
-public:
     PlayerProperty* getProperty() { return mPlayerProperty; }
 };

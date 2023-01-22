@@ -1,15 +1,14 @@
 #pragma once
 
 #include "al/Layout/LayoutInitInfo.h"
-
-namespace al {
-class WipeSimpleTopBottom;
-} // namespace al
+#include "al/Layout/WipeSimpleTopBottom.h"
 
 class StageWipeKeeper {
 public:
-    class al::WipeSimpleTopBottom* mWipes[7];
+    al::WipeSimpleTopBottom* mWipes[7];
     void* unk;
 
     StageWipeKeeper(const al::LayoutInitInfo& info);
+
+    bool isAnyWipeCloseEnd() const;
 };

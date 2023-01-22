@@ -1,4 +1,5 @@
 /* al/LiveActor/ActorInitInfo.h */
 
 _ZN2al13ActorInitInfoC1Ev = 0x00276c3c;
-_ZN2al17initActorInitInfoEPNS_13ActorInitInfoEPKNS_9ByamlIterERKS0_ = 0x00276c08;
+_ZN2al13ActorInitInfo7initNewEPKNS_9ByamlIterERKS0_ = 0x00276c08;
+_ZN2al17initActorInitInfoEPNS_13ActorInitInfoEPKNS_9ByamlIterERKNS_14LayoutInitInfoEPNS_12LiveActorKitE = 0x002765d0;

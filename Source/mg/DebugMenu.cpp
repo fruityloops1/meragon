@@ -3,6 +3,7 @@
 #include "al/Controller/ControllerUtil.h"
 #include "al/LiveActor/LiveActorFunction.h"
 #include "hk/debug/Log.h"
+#include "hk/hook/AsmPatch.h"
 #include "hk/hook/BranchHook.h"
 #include <Game/Player/Player.h>
 #include <stdio.h>
@@ -211,9 +212,13 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
     }
 }
 
-void playerActionGraphMoveHook(PlayerActionGraph* graph)
+#ifdef MG_ENABLE_DEBUG_MENU
+void playerActionGraphMoveHook(PlayerActionGraph* graph) // gets current PlayerAction
 {
     mg::DebugMenu::instance().setPlayerActionVtablePtr(*(uintptr_t*)graph->getCurrentNode()->getAction());
     graph->getCurrentNode()->getAction()->update();
 }
+
 HK_B_HOOK_FUNC(PlayerActionGraphMoveHook, &PlayerActionGraph::move, &playerActionGraphMoveHook)
+HK_PATCH_ASM(DisableClosingWindowLayout, 0x0036add8, "mov r0, #0");
+#endif

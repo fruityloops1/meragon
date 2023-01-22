@@ -15,6 +15,8 @@ public:
     void exeClose();
     void exeWait();
     void exeOpen();
+
+    bool isCloseEnd() const;
 };
 
 } // namespace al

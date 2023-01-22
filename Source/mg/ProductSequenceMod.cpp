@@ -6,8 +6,10 @@
 #include "al/Nerve/NerveFunction.h"
 #include "al/Nerve/NerveKeeper.h"
 #include "al/Nerve/NerveStateBase.h"
+#include "al/Nerve/NerveStateCtrl.h"
 #include "al/System/AsyncFunctorThread.h"
 #include "hk/debug/Log.h"
+#include "hk/hook/AsmPatch.h"
 #include "hk/hook/BranchHook.h"
 #include "mg/Freecam.h"
 #include <sead/heap/seadHeapMgr.h>
@@ -20,12 +22,6 @@ NERVE_DEF(ProductSequence, Test);
 
 void ProductSequence::exeTest()
 {
-    if (al::isFirstStep(this))
-        for (al::WipeSimpleTopBottom* wipe : mWipeKeeper->mWipes) {
-            wipe->getTop()->kill();
-            wipe->getBottom()->kill();
-        }
-
     if (al::updateNerveState(this)) {
         al::setNerve(this, (const al::Nerve*)0x003ef538);
     }
@@ -43,7 +39,7 @@ public:
     ServerThread()
     {
         hk::dbg::Log("Creating AsyncFunctorThread for ServerThread");
-        mThread = new al::AsyncFunctorThread("ServerThread", al::FunctorV0M<ServerThread*, void (ServerThread::*)()>(this, &ServerThread::threadFunc), 0);
+        mThread = new al::AsyncFunctorThread("ServerThread", al::FunctorV0M(this, &ServerThread::threadFunc), 0);
         mThread->start();
     }
 
@@ -72,10 +68,12 @@ public:
 
 ServerThread* gServerThread;
 
-export void testStateNerveHook(ProductSequence* sequence, const al::Nerve* nerve)
+void testStateNerveHook(ProductSequence* sequence, const al::Nerve* nerve)
 {
     al::setNerve(sequence, &NrvProductSequence::Test);
 }
+
+// HK_B_HOOK_FUNC(TestStateNerveSetHook, 0x0036030c, testStateNerveHook);
 
 static int tabAmount = 0;
 static char tabBuffer[256] { 0 };
@@ -103,21 +101,25 @@ void printHeap(sead::Heap* heap)
     }
 }
 
-static char socBuffer[0x1000];
-export void productSequenceStateInitHook(al::IUseNerve* _sequence, al::NerveStateBase* state, al::Nerve* stateNrv, const char* name)
+HK_PATCH_ASM(ProductSequenceSize, 0x0011a698, "mov r0, #0x198"); // size 0x194 -> 0x198
+
+// static char socBuffer[0x1000];
+void productSequenceStateInitHook(al::IUseNerve* _sequence, al::NerveStateBase* state, al::Nerve* stateNrv, const char* name)
 {
     al::initNerveState(_sequence, state, stateNrv, name);
     ProductSequence* sequence = static_cast<ProductSequence*>(_sequence);
 
     hk::dbg::Log("Initializing ProductStateTest");
-    sequence->mStateTest = new ProductStateTest(sequence);
+    sequence->mStateTest = new ProductStateTest(sequence, sequence->mStageStartParam);
     al::initNerveState(sequence, sequence->mStateTest, &NrvProductSequence::Test, "Test");
 
-    // auto result = nn::socket::Initialize(socBuffer, 0x1000);
-    //  printHeap(sead::HeapMgr::instance()->getCurrentHeap());
-    // mg::log("nn::socket::Initialize socBuffer %x Level %d Summary %d ModuleType %d Description %d", socBuffer, result.GetLevel(), result.GetSummary(), result.GetModuleType(), result.GetDescription());
-    // gServerThread = new ServerThread;
+    // auto result = nn::socket::Initialize(nullptr, 0x1000);
+    // printHeap(sead::HeapMgr::instance()->getCurrentHeap());
+    // hk::dbg::Log("nn::socket::Initialize socBuffer %x Level %d Summary %d ModuleType %d Description %d", nullptr, result.GetLevel(), result.GetSummary(), result.GetModuleType(), result.GetDescription());
+    //  gServerThread = new ServerThread;
 }
+
+HK_BL_HOOK_FUNC(ProductSequenceStateInitHook, 0x00163564, productSequenceStateInitHook);
 
 void productSequenceUpdateHook(ProductSequence* sequence)
 {

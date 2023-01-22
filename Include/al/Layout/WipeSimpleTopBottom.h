@@ -13,6 +13,8 @@ public:
 
     inline WipeSimple* getTop() const { return mTop; }
     inline WipeSimple* getBottom() const { return mBottom; }
+
+    bool isCloseEnd() const;
 };
 
 } // namespace al

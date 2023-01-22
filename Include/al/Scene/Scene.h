@@ -2,6 +2,7 @@
 
 #include "al/Audio/AudioKeeper.h"
 #include "al/Factory/ActorFactory.h"
+#include "al/Layout/LayoutKit.h"
 #include "al/LiveActor/LiveActorKit.h"
 #include "al/Nerve/NerveExecutor.h"
 #include "al/Scene/SceneObjHolder.h"
@@ -12,7 +13,7 @@ class Scene : public NerveExecutor, public IUseAudioKeeper {
 public:
     AudioKeeper* mAudioKeeper;
     LiveActorKit* mLiveActorKit;
-    class LayoutKit* mLayoutKit;
+    LayoutKit* mLayoutKit;
     SceneObjHolder* mSceneObjHolder;
     ActorFactory* mActorFactory;
     void* _20;
@@ -26,11 +27,11 @@ public:
 
     virtual void appear();
     virtual void kill();
-    virtual void init(/*SceneInitInfo& ?*/) = 0;
+    virtual void init();
     virtual void movement();
     virtual void control();
-    virtual void unk1() {}; // drawMain?
-    virtual void unk2() {}; // drawSub?
+    virtual void drawMain();
+    virtual void drawSub();
     virtual void unk3() {};
     virtual void unk4() {};
     virtual void unk5() {};
@@ -41,8 +42,11 @@ public:
     virtual void unk9() {}; // does draw/execute stuff
     virtual void unk10() {};
 
+    void initCameraDirector();
     void initActorFactory();
     void initSceneObjHolder();
+    void initLiveActorKit();
+    void initLayoutKit();
 
     void endInit(const ActorInitInfo& info);
 

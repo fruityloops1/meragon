@@ -1,4 +1,4 @@
-#include "mg/MapObj/Gabon.h"
+#include "mg/Enemy/Gabon.h"
 #include "al/LiveActor/ActorInitInfo.h"
 #include "al/LiveActor/ActorInitUtil.h"
 #include "al/LiveActor/HitSensorFunction.h"

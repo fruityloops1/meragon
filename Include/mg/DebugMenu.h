@@ -6,6 +6,8 @@
 
 namespace mg {
 
+// #define MG_ENABLE_DEBUG_MENU
+
 class DebugMenu {
     enum Page {
         Page_About,

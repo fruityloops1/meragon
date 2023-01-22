@@ -15,7 +15,7 @@ static mg::GreenDemon* sDemon = nullptr;
 void* newPlayerActionPoisonDeathHook(size_t size)
 {
     void* d = new char[size];
-    sDeathNode = static_cast<PlayerActionNode*>(d);
+    sDeathNode = static_cast<PlayerActionNode*>(d); // yanks the pointer for the PlayerActionPoisonDeath PlayerActionNode so we can use it to kill mario later
     return d;
 }
 HK_BL_HOOK(NewPlayerActionPoisonDeathHook, 0x001aa3e0, newPlayerActionPoisonDeathHook);

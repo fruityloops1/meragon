@@ -3,7 +3,7 @@
 class StageStartParamBase {
 public:
     virtual const char* getStageDataName();
-    virtual int getUnk();
+    virtual int getScenario();
     virtual void* getUnk2();
     virtual void* getUnk3();
     virtual void* getUnk4();
@@ -21,7 +21,7 @@ class ProductStageStartParam : public StageStartParamBase {
 
 public:
     virtual const char* getStageDataName();
-    virtual int getUnk();
+    virtual int getScenario();
     virtual void* getUnk2();
     virtual void* getUnk3();
     virtual void* getUnk4();
