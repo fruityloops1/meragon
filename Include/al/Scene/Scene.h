@@ -17,7 +17,7 @@ public:
     SceneObjHolder* mSceneObjHolder;
     ActorFactory* mActorFactory;
     void* _20;
-    void* _24;
+    StageResourceKeeper* mResourceKeeper;
     void* _28;
     void* _2C;
 
@@ -42,6 +42,7 @@ public:
     virtual void unk9() {}; // does draw/execute stuff
     virtual void unk10() {};
 
+    void initAndLoadStageResource(const char* stageName, int scenario, sead::Heap* heap);
     void initCameraDirector();
     void initActorFactory();
     void initSceneObjHolder();
