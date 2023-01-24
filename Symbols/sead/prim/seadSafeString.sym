@@ -1,0 +1,3 @@
+_ZN4sead14SafeStringBaseIcE22assureTerminationImpl_Ev = 0x0039d070;
+
+_ZN4sead22BufferedSafeStringBaseIcE7formatVEPKcSt9__va_list = 0x0028ae64;

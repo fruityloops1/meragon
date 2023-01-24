@@ -8,6 +8,8 @@
 
 namespace mg {
 
+// https://redpepper.miraheze.org/wiki/Creating_a_Custom_Actor
+
 namespace NrvExampleActor {
 
     NERVE_DEF(ExampleActor, Wait)

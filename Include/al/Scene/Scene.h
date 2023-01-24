@@ -6,6 +6,7 @@
 #include "al/LiveActor/LiveActorKit.h"
 #include "al/Nerve/NerveExecutor.h"
 #include "al/Scene/SceneObjHolder.h"
+#include "al/Stage/StageResourceKeeper.h"
 
 namespace al {
 
