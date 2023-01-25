@@ -116,7 +116,7 @@ void productSequenceStateInitHook(al::IUseNerve* _sequence, al::NerveStateBase* 
     // auto result = nn::socket::Initialize(nullptr, 0x1000);
     // printHeap(sead::HeapMgr::instance()->getCurrentHeap());
     // hk::dbg::Log("nn::socket::Initialize socBuffer %x Level %d Summary %d ModuleType %d Description %d", nullptr, result.GetLevel(), result.GetSummary(), result.GetModuleType(), result.GetDescription());
-    //  gServerThread = new ServerThread;
+    // gServerThread = new ServerThread;
 }
 
 HK_BL_HOOK_FUNC(ProductSequenceStateInitHook, 0x00163564, productSequenceStateInitHook);
@@ -125,6 +125,10 @@ void productSequenceUpdateHook(ProductSequence* sequence)
 {
     sequence->al::Sequence::update();
     mg::updateFreecam();
+    if (sequence->mCurrentScene)
+        hk::dbg::Log("Scene %x\n", sequence->mCurrentScene->getNerveKeeper()->getCurrentNerve());
+    if (sequence->mStateStage)
+        hk::dbg::Log("ProductStateStage %x\n", sequence->mStateStage->getNerveKeeper()->getCurrentNerve());
 
     if (al::isPadHoldStart() && al::isPadTriggerTouch())
         printHeap(sead::HeapMgr::sRootHeaps[0]);

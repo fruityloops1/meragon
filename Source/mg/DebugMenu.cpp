@@ -1,10 +1,16 @@
 #include "mg/DebugMenu.h"
 #include "Game/Player/PlayerAnimator.h"
+#include "Game/Player/PlayerFigureDirector.h"
+#include "Game/Sequence/ProductSequence.h"
 #include "al/Controller/ControllerUtil.h"
+#include "al/Layout/LayoutActor.h"
 #include "al/LiveActor/LiveActorFunction.h"
+#include "al/Nerve/NerveFunction.h"
+#include "al/Nerve/NerveKeeper.h"
 #include "hk/debug/Log.h"
 #include "hk/hook/AsmPatch.h"
 #include "hk/hook/BranchHook.h"
+#include "mg/MapObj/GreenDemon.h"
 #include <Game/Player/Player.h>
 #include <stdio.h>
 
@@ -46,6 +52,14 @@ static ActionEntry actions[] {
     { 0x003cd8c8, "Abyss" },
     { 0x003cc2bc, "PlayAnim" },
 };
+
+static bool sEnableLayoutSkip = false;
+
+// makes death go fast
+bool layoutSkipHook1(const al::IUseNerve* p) { return sEnableLayoutSkip ? true : al::isGreaterStep(p, 35); }
+bool layoutSkipHook2(const al::LayoutActor* layout) { return sEnableLayoutSkip ? true : al::isActionEnd(layout); }
+HK_BL_HOOK(LayoutSkipHook1, 0x001226e4, layoutSkipHook1);
+HK_BL_HOOK(LayoutSkipHook2, 0x00361748, layoutSkipHook2);
 
 void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
 {
@@ -95,7 +109,8 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
     switch (mPage) {
 
     case Page_About: {
-        print("Bla bla bla\n");
+        print("Made by Fruityloops#8500\n");
+        print("https://github.com/fruityloops1/meragon\n");
         break;
     }
 
@@ -122,8 +137,69 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
         break;
     }
 
+    case Page_Misc: {
+        cursor(1);
+        print("Kill Mario\n");
+
+        if (mCursorPos == 1 && al::isPadTriggerRight()) {
+            scene->mPlayerActor->mPlayer->mActionGraph->mCurrentNode = sDeathNode;
+            sDeathNode->getAction()->setup();
+        }
+
+        int currentFigure = scene->mPlayerActor->mPlayer->mFigureDirector->getFigure();
+        cursor(2);
+        print("Mario Powerup: %s\n", sPowerupNames[currentFigure]);
+        if (mCursorPos == 2) {
+            int to = currentFigure + (al::isPadTriggerRight() ? 1 : al::isPadTriggerLeft() ? -1
+                                                                                           : 0);
+            if (to != currentFigure && to >= 0 && to <= 5)
+                scene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)to);
+        }
+
+        cursor(3);
+        print("Teleport to Checkpoint\n");
+        if (mCursorPos == 3 && al::isPadTriggerRight()) {
+            sead::PtrArray<al::LiveActor> actors = scene->mLiveActorKit->getAllActors()->getArray<al::LiveActor>();
+            for (int i = 0; i < actors.capacity(); i++) {
+                al::LiveActor* actor = actors[i];
+                if (actor && *reinterpret_cast<u32*>(actor) == 0x003c5198 /* RestartObj vtable */)
+                    scene->mPlayerActor->mPlayer->getProperty()->mTrans = al::getTrans(actor);
+            }
+        }
+
+        cursor(4);
+        print("Damage Mario\n");
+
+        if (mCursorPos == 4 && al::isPadTriggerRight())
+            scene->mPlayerActor->mPlayer->mFigureDirector->lose();
+
+        cursor(5);
+        print("Invincibility Leaf\n");
+        if (mCursorPos == 5 && al::isPadTriggerRight())
+            scene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDogWhite);
+
+        break;
+    }
+
     case Page_SceneInfo: {
         sead::PtrArray<al::LiveActor> actors = scene->mLiveActorKit->getAllActors()->getArray<al::LiveActor>();
+
+        cursor(1);
+        print("Kill Scene\n");
+        if (mCursorPos == 1 && al::isPadTriggerRight())
+            scene->kill();
+
+        cursor(2);
+        print("Restart Scene\n");
+        if (mCursorPos == 2 && al::isPadTriggerRight())
+            al::setNerve(scene, (const al::Nerve*)0x003f1054 /* mario is die */);
+
+        cursor(3);
+        print("Fast restart: %s\n", sEnableLayoutSkip ? "Yes" : "No");
+        if (mCursorPos == 3 && (al::isPadTriggerRight() || al::isPadTriggerLeft())) {
+            sEnableLayoutSkip = !sEnableLayoutSkip;
+        }
+
         print("Actors: %d\n", actors.capacity());
         int alive = 0;
         int nonClipped = 0;

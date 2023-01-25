@@ -6,12 +6,13 @@
 
 namespace mg {
 
-// #define MG_ENABLE_DEBUG_MENU
+#define MG_ENABLE_DEBUG_MENU
 
 class DebugMenu {
     enum Page {
         Page_About,
         Page_Info,
+        Page_Misc,
         Page_SceneInfo,
         Page_ActorViewer,
         Page_Options
@@ -20,9 +21,11 @@ class DebugMenu {
         Page mPage;
         int mPageIndex;
     };
-    const static int sMaxPages = 5;
-    constexpr static const char* sPages[] { "About", "Info", "Scene Info", "Actor Viewer", "Options" };
-    constexpr static int sPagesMaxLines[] { 1, 1, 1, 3, 2 };
+    const static int sMaxPages = 6;
+    constexpr static const char* sPages[] { "About", "Info", "Misc.", "Scene Info", "Actor Viewer", "Options" };
+    constexpr static int sPagesMaxLines[] { 1, 1, 6, 4, 3, 2 };
+
+    constexpr static const char* sPowerupNames[] { "Normal", "Mini", "Fire", "RaccoonDog", "Boomerang", "RaccoonDogSpecial", "RaccoonDogWhite" };
 
     int mCursorPos = 0;
     int mPrintLine = 0;

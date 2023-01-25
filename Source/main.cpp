@@ -4,6 +4,7 @@
 #include "hk/debug/Log.h"
 #include "hk/hook/BranchHook.h"
 #include "hk/hook/TypePatch.h"
+#include "mg/DebugMenu.h"
 #include <sead/basis/seadNew.h>
 
 extern "C" void hkMain()

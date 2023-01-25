@@ -2,6 +2,7 @@
 
 #include "Game/Player/PlayerActionGraph.h"
 #include "Game/Player/PlayerAnimator.h"
+#include "Game/Player/PlayerFigureDirector.h"
 #include "Game/Player/PlayerProperty.h"
 #include "Game/Player/PlayerTrigger.h"
 
@@ -23,7 +24,7 @@ public:
     void* _34;
     void* _38;
     void* _3C;
-    void* _40;
+    PlayerFigureDirector* mFigureDirector;
     void* _44;
     PlayerActionGraph* mActionGraph;
     void* _4C;

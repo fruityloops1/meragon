@@ -30,3 +30,5 @@ public:
 };
 
 } // namespace mg
+
+extern PlayerActionNode* sDeathNode;
