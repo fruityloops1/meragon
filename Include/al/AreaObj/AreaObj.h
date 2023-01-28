@@ -10,7 +10,9 @@ class AreaObj : public IUseStageSwitch {
     const char* mName;
     AreaShape* mAreaShape;
     StageSwitchKeeper* mStageSwitchKeeper;
-    u8 _10[0x38];
+    sead::Matrix34f _10;
+    void* _40;
+    int _44;
     bool _48;
 
 public:
