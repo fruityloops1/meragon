@@ -1,0 +1,3 @@
+[submodule "Library/RedPepper-Headers"]
+	path = Library/RedPepper-Headers
+	url = https://github.com/3dsdecomp/RedPepper-Headers
