@@ -47,31 +47,25 @@ static al::CreateActorFuncPtr getCreatorFromTable(al::ActorFactory* thisPtr, con
 }
 
 // replaces al::initPlacementMap
-static void initPlacementMapHook(al::Scene* scene, al::Resource* stageFile, const al::ActorInitInfo& baseInfo, const char* infoIterName)
+static void initPlacementMapHook(al::Scene* scene, al::Resource* stageArchive, const al::ActorInitInfo& baseInfo, const char* infoIterName)
 {
-    if (stageFile) {
-        al::ByamlIter stageData(static_cast<const u8*>(stageFile->getByml("StageData")));
-        al::ByamlIter allInfos;
-        if (stageData.tryGetIterByKey(&allInfos, "AllInfos")) {
-            al::ByamlIter infoIter;
-            if (allInfos.tryGetIterByKey(&infoIter, infoIterName) && scene->getActorFactory())
-                for (int i = 0; i < infoIter.getSize(); i++) {
-                    al::ByamlIter placement;
-                    infoIter.tryGetIterByIndex(&placement, i);
-                    const char* objectName = nullptr;
-                    const char* className = nullptr;
-                    placement.tryGetStringByKey(&objectName, "name");
-                    placement.tryGetStringByKey(&className, "ClassName");
-                    al::CreateActorFuncPtr create = className != nullptr ? getActorCreatorFromFactory(className) : getCreatorFromTable(scene->getActorFactory(), objectName);
-                    if (create) {
-                        al::ActorInitInfo info;
-                        info.initNew(&placement, baseInfo);
-                        al::LiveActor* newActor = create(objectName);
-                        al::initCreateActorWithPlacementInfo(newActor, info);
-                    }
-                }
+    al::ByamlIter infoIter;
+    if (al::tryGetPlacementInfo(&infoIter, stageArchive, infoIterName) && scene->getActorFactory())
+        for (int i = 0; i < infoIter.getSize(); i++) {
+            al::ByamlIter placement;
+            infoIter.tryGetIterByIndex(&placement, i);
+            const char* objectName = nullptr;
+            const char* className = nullptr;
+            placement.tryGetStringByKey(&objectName, "name");
+            placement.tryGetStringByKey(&className, "ClassName");
+            al::CreateActorFuncPtr create = className != nullptr ? getActorCreatorFromFactory(className) : getCreatorFromTable(scene->getActorFactory(), objectName);
+            if (create) {
+                al::ActorInitInfo info;
+                info.initNew(&placement, baseInfo);
+                al::LiveActor* newActor = create(objectName);
+                al::initCreateActorWithPlacementInfo(newActor, info);
+            }
         }
-    }
 }
 
 HK_B_HOOK_FUNC(GetCreatorHook, al::initPlacementMap, initPlacementMapHook);
