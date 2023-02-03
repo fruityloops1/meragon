@@ -14,6 +14,11 @@
     .cfi_endproc
 .endm
 
+SVC_BEGIN _ZN2nn3svc11SleepThreadEy
+	svc 0xA
+	bx lr
+SVC_END
+
 SVC_BEGIN _ZN2nn3svc17CreateMemoryBlockEPNS_6HandleEjjjj
 	str r0, [sp, #-4]!
 	ldr r0, [sp, #4]

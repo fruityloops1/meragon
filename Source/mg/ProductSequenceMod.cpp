@@ -125,10 +125,6 @@ void productSequenceUpdateHook(ProductSequence* sequence)
 {
     sequence->al::Sequence::update();
     mg::updateFreecam();
-    if (sequence->mCurrentScene)
-        hk::dbg::Log("Scene %x\n", sequence->mCurrentScene->getNerveKeeper()->getCurrentNerve());
-    if (sequence->mStateStage)
-        hk::dbg::Log("ProductStateStage %x\n", sequence->mStateStage->getNerveKeeper()->getCurrentNerve());
 
     if (al::isPadHoldStart() && al::isPadTriggerTouch())
         printHeap(sead::HeapMgr::sRootHeaps[0]);
