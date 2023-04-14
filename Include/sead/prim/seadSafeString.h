@@ -10,7 +10,7 @@ template <typename T>
 class SafeStringBase {
     virtual void dummy() { }
     virtual void dummy1() { }
-    virtual void assureTerminationImpl_() { }
+    virtual void dummy2() { }
 
 public:
     SafeStringBase()
@@ -30,6 +30,8 @@ public:
     }
 
     bool isEqual(const SafeStringBase<T>& str) const;
+
+    void assureTerminationImpl_();
 
     static const T cNullChar = 0;
     static const T cLineBreakChar;
