@@ -7,6 +7,7 @@
 #include "al/LiveActor/LiveActorFunction.h"
 #include "al/Nerve/NerveFunction.h"
 #include "al/Nerve/NerveKeeper.h"
+#include "al/Scene/SceneStopCtrl.h"
 #include "hk/debug/Log.h"
 #include "hk/hook/AsmPatch.h"
 #include "hk/hook/BranchHook.h"
@@ -198,6 +199,12 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
         print("Fast restart: %s\n", sEnableLayoutSkip ? "Yes" : "No");
         if (mCursorPos == 3 && (al::isPadTriggerRight() || al::isPadTriggerLeft())) {
             sEnableLayoutSkip = !sEnableLayoutSkip;
+        }
+
+        cursor(4);
+        print("Stop scene 60f\n");
+        if (mCursorPos == 4 && (al::isPadTriggerRight() || al::isPadTriggerLeft())) {
+            al::stopScene(60);
         }
 
         print("Actors: %d\n", actors.capacity());

@@ -12,10 +12,8 @@ public:
     TestScene(ProductStageStartParam* startParam);
 
     void init() override;
-    void drawMain() override;
+    void drawMainTop() override;
     void control() override;
-    void unk8() override;
-    void unk9() override;
 
     void exeWait();
 };

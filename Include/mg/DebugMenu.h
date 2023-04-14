@@ -6,7 +6,7 @@
 
 namespace mg {
 
-#define MG_ENABLE_DEBUG_MENU
+// #define MG_ENABLE_DEBUG_MENU
 
 class DebugMenu {
     enum Page {
@@ -23,7 +23,7 @@ class DebugMenu {
     };
     const static int sMaxPages = 6;
     constexpr static const char* sPages[] { "About", "Info", "Misc.", "Scene Info", "Actor Viewer", "Options" };
-    constexpr static int sPagesMaxLines[] { 1, 1, 6, 4, 3, 2 };
+    constexpr static int sPagesMaxLines[] { 1, 1, 6, 5, 3, 2 };
 
     constexpr static const char* sPowerupNames[] { "Normal", "Mini", "Fire", "RaccoonDog", "Boomerang", "RaccoonDogSpecial", "RaccoonDogWhite" };
 

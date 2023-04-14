@@ -26,3 +26,5 @@ _ZN2al18initActorPoseTFGSVEPNS_9LiveActorE = 0x00244cc4;
 _ZN2al17initActorPoseTQSVEPNS_9LiveActorE = 0x00280590;
 
 _ZN2al23initActorSRTAndPoseTRSVEPNS_9LiveActorERKNS_13ActorInitInfoE = 0x00270ab0;
+
+_ZN2al20addVelocityToGravityEPNS_9LiveActorEf = 0x00279e8c;

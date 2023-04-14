@@ -44,29 +44,21 @@ inline T MathCalcCommon<T>::pow(T x, T y)
     return pow(x, y);
 }
 
-/*template <typename T>
+template <typename T>
 inline T MathCalcCommon<T>::sin(T t)
 {
-    if constexpr (std::is_same_v<T, float>) {
-        const auto as_int = BitUtil::bitCast<u32>(t);
-        const SinCosSample& sample = cSinCosTbl[as_int >> 18];
-        return sample.sin_val + sample.sin_delta * (as_int & 0xFFFFFFu) * 0x1p-24f;
-    } else {
-        static_assert(!std::is_same<T, T>(), "Unsupported type");
-    }
+    const auto as_int = BitUtil::bitCast<u32>(t);
+    const SinCosSample& sample = cSinCosTbl[as_int >> 18];
+    return sample.sin_val + sample.sin_delta * (as_int & 0xFFFFFFu) * 0x1p-24f;
 }
 
 template <typename T>
 inline T MathCalcCommon<T>::cos(T t)
 {
-    if constexpr (std::is_same_v<T, float>) {
-        const auto as_int = BitUtil::bitCast<u32>(t);
-        const SinCosSample& sample = cSinCosTbl[as_int >> 18];
-        return sample.cos_val + sample.cos_delta * (as_int & 0xFFFFFFu) * 0x1p-24f;
-    } else {
-        static_assert(!std::is_same<T, T>(), "Unsupported type");
-    }
-}*/
+    const auto as_int = BitUtil::bitCast<u32>(t);
+    const SinCosSample& sample = cSinCosTbl[as_int >> 18];
+    return sample.cos_val + sample.cos_delta * (as_int & 0xFFFFFFu) * 0x1p-24f;
+}
 
 /*template <typename T>
 inline T MathCalcCommon<T>::tan(T t)
@@ -88,7 +80,7 @@ inline T MathCalcCommon<T>::acos(T t)
     if constexpr (std::is_floating_point<T>())
         SEAD_ASSERT_MSG(-1.0 <= t && t <= 1.0, "t(%f) is not in [-1, 1].", t);
     return std::acos(t);
-}*/
+}*
 
 template <typename T>
 inline T MathCalcCommon<T>::atan(T t)
@@ -236,9 +228,7 @@ inline void MathCalcCommon<f32>::sinCosIdx(f32* pSin, f32* pCos, u32 idx)
     f32 rest = static_cast<f32>(idx & 0xffffff) / 0x1000000;
     const SinCosSample& sample = cSinCosTbl[index];
 
-    /*if (pSin != NULL)*/ *pSin = sample.sin_val + sample.sin_delta * rest;
-    /*if (pCos != NULL)*/ *pCos = sample.cos_val + sample.cos_delta * rest;
-}
+}*/
 
 template <typename T>
 inline T MathCalcCommon<T>::exp(T t)

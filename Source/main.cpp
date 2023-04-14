@@ -33,6 +33,9 @@ void stageSceneInitLayoutHook(al::LayoutInitInfo* infoPtr, al::LiveActorKit* kit
 #endif
 }
 
+// HK_PATCH_U32(GraphicsCtr, 0x00276fe4, 0xE12FFF1E);
+// HK_PATCH_U32(courseballs, 0x002770d0, 0xE320F000);
+
 HK_BL_HOOK_FUNC(StageSceneInitLayoutHook, 0x00123708, stageSceneInitLayoutHook);
 
 void stageSceneControlHook(StageScene* scene)

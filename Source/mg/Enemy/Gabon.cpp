@@ -1,10 +1,10 @@
-#include "mg/Enemy/Gabon.h"
 #include "al/LiveActor/ActorInitInfo.h"
 #include "al/LiveActor/ActorInitUtil.h"
 #include "al/LiveActor/HitSensorFunction.h"
 #include "al/LiveActor/LiveActorFunction.h"
 #include "al/LiveActor/SensorMsg.h"
 #include "al/Nerve/NerveFunction.h"
+#include "mg/Enemy/Gabon.h"
 #include <Game/Enemy/EnemyStateBlowDown.h>
 #include <Game/Enemy/EnemyStateBlowDownParam.h>
 #include <Game/Enemy/EnemyStateUtil.h>
@@ -59,7 +59,6 @@ void GabonThrowObj::exeGround()
 {
     if (al::isFirstStep(this)) {
         al::startAction(this, "Ground");
-        al::invalidateClipping(this);
     }
 
     al::setVelocity(this, mDirection * 15);
@@ -121,7 +120,8 @@ void Gabon::kill()
 
 void Gabon::attackSensor(al::HitSensor* me, al::HitSensor* other)
 {
-    if (me->getType() == al::SensorType_EnemyAttack && al::isSensorPlayer(other)) {
+    if (me->getType() == al::SensorType_EnemyAttack && al::isSensorPlayer(other)
+        && !al::isNerve(this, &NrvGabon::BlowDown) && !al::isNerve(this, &NrvGabon::PressDown)) {
         al::sendMsgEnemyAttack(other, me);
     }
 }
@@ -138,6 +138,12 @@ bool Gabon::receiveMsg(u32 msg, al::HitSensor* other, al::HitSensor* me)
         return true;
     }
     return false;
+}
+
+void Gabon::control()
+{
+    if (!al::isOnGround(this, 1))
+        al::addVelocityToGravity(this, .25);
 }
 
 void Gabon::exeWait()
@@ -160,6 +166,8 @@ void Gabon::exeThrowSign()
         mCurRoller = roller;
         mThrowIndex++;
         roller->makeActorAppeared();
+        al::invalidateClipping(roller);
+        al::invalidateClipping(this);
 
         al::setNerve(roller, &NrvGabonThrowObj::Generate);
     }
@@ -176,8 +184,10 @@ void Gabon::exeThrow()
 {
     if (al::isFirstStep(this))
         al::startAction(this, "Throw");
-    if (al::isStep(this, sAnimCountThrow))
+    if (al::isStep(this, sAnimCountThrow)) {
         al::setNerve(this, &NrvGabon::Wait);
+        al::validateClipping(this);
+    }
 }
 
 void Gabon::exeBlowDown()

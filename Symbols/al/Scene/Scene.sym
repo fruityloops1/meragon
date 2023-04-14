@@ -21,6 +21,7 @@ _ZN2al5Scene4unk9Ev = 0x0013e1a8;
 _ZN2al5Scene5unk10Ev = 0x00276fe4;
 _ZN2al5Scene4gap2Ev = 0x0;
 _ZN2al5Scene4gap3Ev = 0x0;
+_ZN2al5Scene24initAndLoadStageResourceEPKciPN4sead4HeapE = 0x001dcba8;
 _ZN2al5Scene16initActorFactoryEv = 0x00276810;
 _ZN2al5Scene18initSceneObjHolderEv = 0x001891a8;
 _ZN2al5Scene16initLiveActorKitEv = 0x002767a0;

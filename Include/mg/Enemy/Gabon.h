@@ -48,6 +48,7 @@ public:
     void kill() override;
     void attackSensor(al::HitSensor* me, al::HitSensor* other) override;
     bool receiveMsg(u32 msg, al::HitSensor* other, al::HitSensor* me) override;
+    void control() override;
 
     void exeWait();
     void exeThrowSign();

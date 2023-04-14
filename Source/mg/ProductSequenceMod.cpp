@@ -1,4 +1,3 @@
-#include "mg/ProductSequenceMod.h"
 #include "Game/Sequence/ProductSequence.h"
 #include "al/Controller/ControllerUtil.h"
 #include "al/Functor/FunctorV0M.h"
@@ -12,6 +11,7 @@
 #include "hk/hook/AsmPatch.h"
 #include "hk/hook/BranchHook.h"
 #include "mg/Freecam.h"
+#include "mg/ProductSequenceMod.h"
 #include <sead/heap/seadHeapMgr.h>
 
 namespace NrvProductSequence {
@@ -73,7 +73,7 @@ void testStateNerveHook(ProductSequence* sequence, const al::Nerve* nerve)
     al::setNerve(sequence, &NrvProductSequence::Test);
 }
 
-// HK_B_HOOK_FUNC(TestStateNerveSetHook, 0x0036030c, testStateNerveHook);
+HK_B_HOOK_FUNC(TestStateNerveSetHook, 0x0036030c, testStateNerveHook);
 
 static int tabAmount = 0;
 static char tabBuffer[256] { 0 };

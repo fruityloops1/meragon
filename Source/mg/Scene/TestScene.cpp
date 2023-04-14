@@ -1,4 +1,3 @@
-#include "mg/Scene/TestScene.h"
 #include "Game/Layout/WindowConfirmSingle.h"
 #include "al/Layout/LayoutActor.h"
 #include "al/Layout/LayoutInitInfo.h"
@@ -6,9 +5,11 @@
 #include "al/LiveActor/LiveActorKit.h"
 #include "al/Math/HashUtil.h"
 #include "al/Math/RandomUtil.h"
+#include "al/Memory//MemorySystem.h"
 #include "al/Nerve/NerveFunction.h"
 #include "hk/debug/Log.h"
 #include "hk/hook/TypePatch.h"
+#include "mg/Scene/TestScene.h"
 
 namespace mg {
 
@@ -27,6 +28,9 @@ TestScene::TestScene(ProductStageStartParam* startParam)
 void TestScene::init()
 {
     hk::dbg::Log("TestScene::init");
+
+    initAndLoadStageResource("KinopioGameOverDashJumpStage", 1, al::getCourseSelectResourceHeap());
+
     initSceneObjHolder();
     initActorFactory();
     initLiveActorKit();
@@ -47,16 +51,12 @@ void TestScene::init()
     al::ActorInitInfo baseInfo;
     al::initActorInitInfo(&baseInfo, &basePlacementInfo, baseLayoutInfo, mLiveActorKit);
 
-    hk::dbg::Log("Creating WindowConfirmSingle");
-    WindowConfirmSingle* window = new WindowConfirmSingle("操作ガイド", baseLayoutInfo);
-    window->appear();
-
     class BallsActor : public al::LayoutActor {
     public:
         BallsActor(const al::LayoutInitInfo& info)
             : LayoutActor("suckmyballs")
         {
-            al::initLayoutActor(this, info, "PhotoLuigi");
+            al::initLayoutActor(this, info, "PhotoOpening");
             al::startAction(this, "Appear");
         }
 
@@ -75,25 +75,21 @@ void TestScene::init()
     initNerve(&NrvTestScene::Wait);
 }
 
-void TestScene::drawMain()
+void TestScene::drawMainTop()
 {
-    Scene::drawMain();
+    Scene::drawMainTop();
+
+    ((void (*)())0x003267d4)();
+    ((void (*)(al::Scene*, int))0x00276ef0)(this, 1);
+    ((void (*)(al::LayoutKit*, int, int))0x001d0b6c)(mLayoutKit, 1, 0);
+    al::executeDraw(mLiveActorKit, "２Ｄベース（上画面）");
+    al::executeDraw(mLiveActorKit, "２Ｄ（上画面）");
 }
 
 void TestScene::control()
 {
     mLiveActorKit->update();
     mLayoutKit->update();
-}
-
-void TestScene::unk8()
-{
-    al::executeDraw(mLiveActorKit, "２Ｄベース（上画面）");
-}
-
-void TestScene::unk9()
-{
-    al::executeDrawList(mLiveActorKit, "２Ｄベース（上画面）", "２Ｄ写真");
 }
 
 void TestScene::exeWait()
