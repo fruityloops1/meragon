@@ -270,6 +270,11 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
         print("Enable Teleport: %s\n", mTeleportEnabled ? "Yes" : "No");
         if (mCursorPos == 1 && (al::isPadTriggerRight() || al::isPadTriggerLeft()))
             mTeleportEnabled = !mTeleportEnabled;
+
+        cursor(2);
+        print("State Test\n");
+        if (mCursorPos == 2 && al::isPadTriggerRight())
+            scene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)7);
         break;
     }
     default:
