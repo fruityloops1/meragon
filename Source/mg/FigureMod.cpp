@@ -7,6 +7,10 @@
 
 namespace mg {
 
+// #define MG_ENABLE_FIGURE_MOD
+
+#ifdef MG_ENABLE_FIGURE_MOD
+
 // PlayerFigureDirector patches
 
 static EPlayerFigure powerDownStates[8] {
@@ -240,5 +244,7 @@ PlayerModelHolder* playerModelHolderCtorHook(PlayerModelHolder* thisPtr, const a
 }
 
 HK_BL_HOOK_FUNC(PlayerModelHolderCtor, 0x00131e34, playerModelHolderCtorHook);
+
+#endif
 
 } // namespace mg
