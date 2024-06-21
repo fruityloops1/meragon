@@ -1,4 +1,6 @@
 _ZN2al9tryGetArgEPfRKNS_9ByamlIterEPKc = 0x00250dc4;
 
+_ZN2al10tryGetArg0EPiRKNS_13ActorInitInfoE = 0x002794f8;
 _ZN2al10tryGetArg0EPfRKNS_13ActorInitInfoE = 0x0027d238;
 _ZN2al10tryGetArg1EPfRKNS_13ActorInitInfoE = 0x0027089c;
+_ZN2al10tryGetArg2EPfRKNS_13ActorInitInfoE = 0x002794e4;

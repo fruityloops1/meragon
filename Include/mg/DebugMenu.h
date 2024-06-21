@@ -6,7 +6,7 @@
 
 namespace mg {
 
-// #define MG_ENABLE_DEBUG_MENU
+#define MG_ENABLE_DEBUG_MENU
 
 class DebugMenu {
     enum Page {
@@ -22,10 +22,10 @@ class DebugMenu {
         int mPageIndex;
     };
     const static int sMaxPages = 6;
-    constexpr static const char* sPages[] { "About", "Info", "Misc.", "Scene Info", "Actor Viewer", "Options" };
-    constexpr static int sPagesMaxLines[] { 1, 1, 6, 5, 3, 3 };
+    const constexpr static char* sPages[] { "About", "Info", "Misc.", "Scene Info", "Actor Viewer", "Options" };
+    constexpr static int sPagesMaxLines[] { 1, 1, 6, 5, 3, 6 };
 
-    constexpr static const char* sPowerupNames[] { "Normal", "Mini", "Fire", "RaccoonDog", "Boomerang", "RaccoonDogSpecial", "RaccoonDogWhite" };
+    const constexpr static char* sPowerupNames[] { "Normal", "Mini", "Fire", "RaccoonDog", "Boomerang", "RaccoonDogSpecial", "RaccoonDogWhite" };
 
     int mCursorPos = 0;
     int mPrintLine = 0;
@@ -35,6 +35,9 @@ class DebugMenu {
     int mCurBufferPos = 0;
 
     bool mTeleportEnabled = false;
+    bool mAlwaysTanooki = true;
+    bool mRestartHotkey = true;
+    bool mEnableFreecam = false;
 
     bool mHideMenu = false;
     sead::Vector3f mSavedPos { 0, 0, 0 };
@@ -60,6 +63,9 @@ public:
     {
         mCurBufferPos += snprintf(mBuffer + mCurBufferPos, sizeof(mBuffer) - mCurBufferPos, fmt, args...);
     }
+
+    bool isFreecamEnabled() const { return mEnableFreecam; }
+    bool isAlwaysTanooki() const { return mAlwaysTanooki; }
 };
 
 } // namespace mg

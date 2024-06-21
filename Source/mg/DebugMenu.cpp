@@ -54,7 +54,7 @@ static ActionEntry actions[] {
     { 0x003cc2bc, "PlayAnim" },
 };
 
-static bool sEnableLayoutSkip = false;
+static bool sEnableLayoutSkip = true;
 
 // makes death go fast
 bool layoutSkipHook1(const al::IUseNerve* p) { return sEnableLayoutSkip ? true : al::isGreaterStep(p, 35); }
@@ -64,6 +64,11 @@ HK_BL_HOOK(LayoutSkipHook2, 0x00361748, layoutSkipHook2);
 
 void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
 {
+    if (mAlwaysTanooki && scene->mPlayerActor->mPlayer->mFigureDirector->getFigure() != EPlayerFigure_RaccoonDog)
+        scene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDog);
+    if (mRestartHotkey && al::isPadHoldR() && al::isPadHoldL() && al::isPadTriggerRight())
+        al::setNerve(scene, (const al::Nerve*)0x003f1054 /* mario is die */);
+
     if (al::isPadTriggerLeft() && al::isPadHoldL()) {
         mHideMenu = !mHideMenu;
         if (!mHideMenu)
@@ -275,6 +280,21 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
         print("State Test\n");
         if (mCursorPos == 2 && al::isPadTriggerRight())
             scene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)7);
+
+        cursor(3);
+        print("Always Tanooki: %s\n", mAlwaysTanooki ? "Yes" : "No");
+        if (mCursorPos == 3 && (al::isPadTriggerRight() || al::isPadTriggerLeft()))
+            mAlwaysTanooki = !mAlwaysTanooki;
+
+        cursor(4);
+        print("L+R+DRight to Restart: %s\n", mRestartHotkey ? "Yes" : "No");
+        if (mCursorPos == 4 && (al::isPadTriggerRight() || al::isPadTriggerLeft()))
+
+            mRestartHotkey = !mRestartHotkey;
+        cursor(5);
+        print("Enable Freecam: %s\n", mEnableFreecam ? "Yes" : "No");
+        if (mCursorPos == 5 && (al::isPadTriggerRight() || al::isPadTriggerLeft()))
+            mEnableFreecam = !mEnableFreecam;
         break;
     }
     default:
@@ -307,6 +327,50 @@ void playerActionGraphMoveHook(PlayerActionGraph* graph) // gets current PlayerA
     graph->getCurrentNode()->getAction()->update();
 }
 
-HK_B_HOOK_FUNC(PlayerActionGraphMoveHook, &PlayerActionGraph::move, &playerActionGraphMoveHook)
+HK_B_HOOK_FUNC(PlayerActionGraphMoveHook, &PlayerActionGraph::move, playerActionGraphMoveHook)
 HK_PATCH_ASM(DisableClosingWindowLayout, 0x0036add8, "mov r0, #0");
+
+void playerFigureDirectorLose(PlayerFigureDirector* thisPtr)
+{
+    if (mg::DebugMenu::instance().isAlwaysTanooki()) {
+        thisPtr->mFigure = EPlayerFigure_RaccoonDog;
+        return;
+    }
+
+    thisPtr->lose();
+}
+
+void playerFigureDirectorSet(PlayerFigureDirector* thisPtr, const EPlayerFigure& figure)
+{
+    if (mg::DebugMenu::instance().isAlwaysTanooki()) {
+        thisPtr->mFigure = EPlayerFigure_RaccoonDog;
+        thisPtr->mHasFigureChanged = true;
+        return;
+    }
+
+    thisPtr->mFigure = figure;
+    thisPtr->mHasFigureChanged = true;
+}
+
+void playerFigureDirectorChange(PlayerFigureDirector* thisPtr, const EPlayerFigure& figure)
+{
+    if (mg::DebugMenu::instance().isAlwaysTanooki()) {
+        thisPtr->change(EPlayerFigure_RaccoonDog);
+        return;
+    }
+
+    thisPtr->change(figure);
+}
+
+HK_BL_HOOK_FUNC(PlayerFigureDirectorLoseHook, 0x0018241c, playerFigureDirectorLose)
+HK_B_HOOK_FUNC(PlayerFigureDirectorSetHook, 0x001980e8, playerFigureDirectorSet)
+
+HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook1, 0x00277d5c, playerFigureDirectorChange)
+HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook2, 0x002ce818, playerFigureDirectorChange)
+HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook3, 0x002ce84c, playerFigureDirectorChange)
+HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook4, 0x002cf754, playerFigureDirectorChange)
+HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook5, 0x002cf81c, playerFigureDirectorChange)
+HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook6, 0x002cf880, playerFigureDirectorChange)
+HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook7, 0x002cfcd0, playerFigureDirectorChange)
+HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook8, 0x002d1034, playerFigureDirectorChange)
 #endif

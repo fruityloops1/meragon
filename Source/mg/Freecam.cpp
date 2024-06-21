@@ -34,6 +34,9 @@ void updateFreecam()
 void freecamApplyHook(al::Camera* camera)
 {
     camera->calc();
+
+    if (!DebugMenu::instance().isFreecamEnabled())
+        return;
     camera->mTarget += mg::getFreecamOffset();
     camera->mPos += mg::getFreecamOffset();
 }
@@ -44,7 +47,7 @@ static const sead::Vector2f neutral { 0, 0 };
 const sead::Vector2f& getLeftStickHook(int port)
 {
     // ignore left stick input if L is pressed (freecam is enabled)
-    if (al::isPadHoldL())
+    if (al::isPadHoldL() && DebugMenu::instance().isFreecamEnabled())
         return neutral;
     return al::getLeftStick();
 }
