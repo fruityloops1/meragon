@@ -4,9 +4,15 @@ namespace nn {
 namespace math {
 
     struct VEC3 {
-        float x;
-        float y;
-        float z;
+        union {
+            struct
+            {
+                float x;
+                float y;
+                float z;
+            };
+            float e[3];
+        };
     };
 
     namespace ARMv6 {

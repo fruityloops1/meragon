@@ -1,0 +1,2 @@
+_ZN2nw4font10RectDrawer16BuildTextCommandEPNS0_10CharWriterE = 0x002cae1c;
+_ZN2nw4font10RectDrawer16SetProjectionMtxERKN2nn4math5MTX44E = 0x002cb4b0;

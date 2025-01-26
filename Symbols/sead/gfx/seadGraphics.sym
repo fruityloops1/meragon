@@ -1,0 +1,3 @@
+_ZN4sead8Graphics9sInstanceE = 0x003e26cc;
+_ZN4sead8Graphics15lockDrawContextEv = 0x0028eed4;
+_ZN4sead8Graphics17unlockDrawContextEv = 0x0028ecac;

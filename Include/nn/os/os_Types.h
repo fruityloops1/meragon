@@ -1,5 +1,7 @@
 #pragma once
 
+#include "hk/Types.h"
+
 namespace nn {
 namespace os {
 
@@ -40,6 +42,19 @@ namespace os {
         MemoryPermission_WX,
         MemoryPermission_RWX,
         MemoryPermission_DONTCARE = 0x10000000
+    };
+
+    /// Memory information.
+    struct MemInfo {
+        u32 base_addr = 0; ///< Base address.
+        u32 size = 0; ///< Size.
+        u32 perm = 0; ///< Memory permissions. See @ref MemPerm
+        u32 state = 0; ///< Memory state. See @ref MemState
+    };
+
+    /// Memory page information.
+    struct PageInfo {
+        u32 flags = 0; ///< Page flags.
     };
 
 } // namespace os

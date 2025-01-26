@@ -1,0 +1,4 @@
+nngxSwapBuffers = 0x0024a6fc;
+nngxMoveCommandbufferPointer = 0x0028b364;
+nngxGetPhysicalAddr = 0x0010b2bc;
+nngxGetCmdlistParameteri = 0x0028ed00;

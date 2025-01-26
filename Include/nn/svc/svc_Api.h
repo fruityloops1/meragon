@@ -8,8 +8,10 @@
 
 namespace nn {
 namespace svc {
+
     nn::Result ControlMemory(u32* addr, u32 addr0, u32 addr1, u32 size, u32 op, u32 perms);
     void ExitProcess();
+    nn::Result QueryMemory(os::MemInfo* info, os::PageInfo* out, u32 addr);
     void SleepThread(u64 nanos);
     nn::Result GetThreadPriority(s32* prio, nn::Handle thread);
     nn::Result CreateMutex(nn::Handle* mutex, bool initialLocked);
@@ -25,6 +27,7 @@ namespace svc {
     nn::Result GetProcessId(unsigned int* id, nn::Handle handle);
     nn::Result GetThreadId(unsigned int* id, nn::Handle handle);
     nn::Result GetResourceLimit(nn::Handle* resourceLimit, nn::Handle handle);
+    nn::Result FlushProcessDataCache(nn::Handle process, u32 addr, u32 size);
     nn::Result ControlProcessMemory(nn::Handle process, u32 addr0, u32 addr1, u32 size, nn::os::MemoryOperation operation, nn::os::MemoryPermission perm);
     nn::Result SendSyncRequest(nn::Handle session);
 

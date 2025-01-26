@@ -20,7 +20,7 @@ void Exheader::applyChanges(const Args& args)
     memset(&svcs, 0, sizeof(svcs));
 
     for (int i = 0; i < 28; i++) {
-        u32 cap = aci.arm11kernelCaps.descriptors[i];
+        u32 cap = aci.arm11kernelCaps.descriptors[i].value;
 
         if ((cap & 0xF8000000) == 0xF0000000) {
             u32 mask = cap & 0x00FFFFFF;
@@ -62,7 +62,29 @@ void Exheader::applyChanges(const Args& args)
 
     int i = 0;
     for (; i < caps.size(); i++)
-        aci.arm11kernelCaps.descriptors[i] = caps[i];
+        aci.arm11kernelCaps.descriptors[i].value = caps[i];
     for (; i < caps.size(); i++)
-        aci.arm11kernelCaps.descriptors[i] = 0xFFFFFFFF;
+        aci.arm11kernelCaps.descriptors[i].value = 0xFFFFFFFF;
+
+    KernelDescriptor* prevDesc;
+    for (int i = 0; i < caps.size(); i++) {
+        u32 prefixBits;
+        for (prefixBits = 0; prefixBits < 32; prefixBits++) {
+            int bitIdx = 31 - prefixBits;
+            if (((aci.arm11kernelCaps.descriptors[i].value >> bitIdx) & 1) == 0) {
+                break;
+            }
+        }
+
+        auto* desc = &aci.arm11kernelCaps.descriptors[i];
+
+        if (prefixBits == 9) {
+            if (desc->mappingStatic.flag && prevDesc->mappingStatic.page << 12 == 0x1f000000
+                && (desc->mappingStatic.page << 12) - 1 == 0x1f5fffff) { // set non-readonly for vram
+                prevDesc->mappingStatic.flag = false;
+            }
+        }
+
+        prevDesc = desc;
+    }
 }

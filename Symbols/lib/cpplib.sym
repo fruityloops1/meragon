@@ -1,1 +1,4 @@
 snprintf = 0x0026e7c0;
+
+__rt_memclr_w = 0x0028d1f0;
+__rt_memcpy_w = 0x0028f0a0;

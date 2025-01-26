@@ -1,0 +1,3 @@
+_ZN2nw4font10CharWriter10StartPrintEv = 0x002ca11c;
+_ZN2nw4font10CharWriter23GetDispStringBufferSizeEj = 0x002ca284;
+_ZN2nw4font10CharWriter16UseCommandBufferEv = 0x002ca190;

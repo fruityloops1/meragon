@@ -6,3 +6,6 @@ _ZN2al19getCourseSelectHeapEv = 0x00251c70;
 _ZN2al27getCourseSelectResourceHeapEv = 0x00257f74;
 
 _ZN2al15SceneHeapSetterC1Ev = 0x002626c8;
+
+_ZN2al15getSequenceHeapEv = 0x001cd698;
+_ZN2al16getStationedHeapEv = 0x0029329c;

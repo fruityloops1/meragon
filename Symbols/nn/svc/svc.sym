@@ -1,2 +1,4 @@
 _ZN2nn3svc17CreateMemoryBlockEPNS_6HandleEmmmm = 0x0010c574;
 _ZN2nn3svc11CloseHandleENS_6HandleE = 0x0010c56c;
+_ZN2nn3svc5BreakENS_3dbg11BreakReasonE = 0x0028ec90;
+_ZN2nn3svc11ExitProcessEv = 0x00293614;

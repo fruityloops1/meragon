@@ -9,6 +9,17 @@ struct CodeSetInfo {
     u32 size;
 };
 
+union KernelDescriptor {
+    u32 value;
+    struct {
+        u32 page : 20; // page2addr: addr = page << 20
+        u32 flag : 1;
+        u32 : 1;
+        u32 padding_bit : 1; // zero
+        u32 prefix_bits : 9; // all ones
+    } mappingStatic;
+};
+
 struct ACI {
     struct
     {
@@ -17,7 +28,7 @@ struct ACI {
 
     struct
     {
-        u32 descriptors[28];
+        KernelDescriptor descriptors[28];
         u8 reserved[0x10];
     } arm11kernelCaps;
 

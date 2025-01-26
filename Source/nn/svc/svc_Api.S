@@ -14,6 +14,22 @@
     .cfi_endproc
 .endm
 
+
+SVC_BEGIN _ZN2nn3svc11QueryMemoryEPNS_2os7MemInfoEPNS1_8PageInfoEj
+	push {r0, r1, r4-r6}
+	svc  0x02
+	ldr  r6, [sp]
+	str  r1, [r6]
+	str  r2, [r6, #4]
+	str  r3, [r6, #8]
+	str  r4, [r6, #0xc]
+	ldr  r6, [sp, #4]
+	str  r5, [r6]
+	add  sp, sp, #8
+	pop  {r4-r6}
+	bx   lr
+SVC_END
+
 SVC_BEGIN _ZN2nn3svc11SleepThreadEy
 	svc 0xA
 	bx lr
@@ -52,6 +68,11 @@ SVC_END
 SVC_BEGIN _ZN2nn3svc17OutputDebugStringEPKvi
     svc 0x3d
     bx lr
+SVC_END
+
+SVC_BEGIN _ZN2nn3svc21FlushProcessDataCacheENS_6HandleEjj
+	svc 0x54
+	bx  lr
 SVC_END
 
 SVC_BEGIN _ZN2nn3svc20ControlProcessMemoryENS_6HandleEjjjNS_2os15MemoryOperationENS2_16MemoryPermissionE

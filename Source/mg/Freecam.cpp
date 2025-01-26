@@ -1,8 +1,10 @@
 #include "mg/Freecam.h"
 #include "al/Camera/Camera.h"
 #include "al/Controller/ControllerUtil.h"
+#include "hk/Types.h"
 #include "hk/debug/Log.h"
 #include "hk/hook/BranchHook.h"
+#include "mg/Abort.h"
 #include "mg/DebugMenu.h"
 
 namespace mg {
@@ -34,6 +36,11 @@ void updateFreecam()
 void freecamApplyHook(al::Camera* camera)
 {
     camera->calc();
+
+    if (al::isPadTriggerR()) {
+        //*(int*)1 = 1;
+        // abortWithMessage("testing %d", 42);
+    }
 
     if (!DebugMenu::instance().isFreecamEnabled())
         return;

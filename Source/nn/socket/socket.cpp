@@ -5,24 +5,6 @@
 
 #include <string.h>
 
-static inline void* getThreadLocalStorage()
-{
-    void* ret;
-    __asm__("mrc p15, 0, %[data], c13, c0, 3"
-            : [data] "=r"(ret));
-    return ret;
-}
-
-static inline u32* getThreadCommandBuffer(void)
-{
-    return (u32*)((u8*)getThreadLocalStorage() + 0x80);
-}
-
-static inline u32* getThreadReceiveBuffer(void)
-{
-    return (u32*)((u8*)getThreadLocalStorage() + 0x180);
-}
-
 static inline u32 IPC_MakeHeader(u16 commandId, u32 normalParams, u32 translateParams)
 {
     return ((u32)commandId << 16) | (((u32)normalParams & 0x3F) << 6) | (((u32)translateParams & 0x3F) << 0);
