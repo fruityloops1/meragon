@@ -36,7 +36,7 @@ set(ARCH_FLAGS "-target armv6k-none-eabi -mtune=mpcore -mfloat-abi=hard -mtp=sof
 
 set(CMAKE_ASM_FLAGS "${ARCH_FLAGS} -x assembler-with-cpp")
 set(CMAKE_CXX_FLAGS "${ARCH_FLAGS} ${INCLUDES} \
-                    -g -O3 \
+                    -g -Ofast \
                     -fno-exceptions -fno-rtti \
                     ")
 
@@ -47,3 +47,5 @@ file(GLOB_RECURSE CSOURCEFILES "${CMAKE_SOURCE_DIR}/Source/*.c")
 file(GLOB_RECURSE CXXSOURCEFILES "${CMAKE_SOURCE_DIR}/Source/*.cpp")
 
 add_executable(meragon ${CSOURCEFILES} ${CXXSOURCEFILES} ${ASMSOURCEFILES})
+
+target_compile_definitions(meragon PRIVATE LOG_FILE_ACCESS)

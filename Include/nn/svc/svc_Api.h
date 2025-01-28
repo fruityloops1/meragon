@@ -22,6 +22,7 @@ namespace svc {
     nn::Result CloseHandle(nn::Handle handle);
     nn::Result WaitSynchronizationN(int* out, const nn::Handle* handles, s32 handleCount, bool waitAll, s64 timeout_ns);
     nn::Result DuplicateHandle(nn::Handle* out, nn::Handle original);
+    s64 GetSystemTick();
     nn::Result ConnectToPort(nn::Handle* port, const char* portName);
     nn::Result OpenProcess(nn::Handle* process, u32 processId);
     nn::Result GetProcessId(unsigned int* id, nn::Handle handle);

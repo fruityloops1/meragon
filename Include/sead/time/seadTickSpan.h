@@ -16,20 +16,32 @@ public:
     }
 
     s64 toS64() const { return mSpan; }
-    s64 toTicks() const { return mSpan; }
 
-    s64 toNanoSeconds() const;
+    template <typename T = s64>
+    T toTicks() const { return mSpan; }
 
-    s64 toMicroSeconds() const { return toNanoSeconds() / 1000; }
-
-    s64 toMilliSeconds() const
+    template <typename T = s64>
+    T toNanoSeconds() const
     {
-        if (u64(mSpan) + (LLONG_MAX / 1000) < u64(ULLONG_MAX / 1000) - 1)
-            return 1000 * mSpan / cFrequency;
-        return 1000 * (mSpan / cFrequency);
+        if (T(mSpan) + (LLONG_MAX / T(1000000)) < u64(ULLONG_MAX / T(1000000)) - 1) {
+            return T(1000000000) * mSpan / float(cFrequency);
+        }
+        return T(1000000000) * (mSpan / float(cFrequency));
     }
 
-    s64 toSeconds() const { return toMilliSeconds() / 1000; }
+    template <typename T = s64>
+    T toMicroSeconds() const { return toNanoSeconds() / T(1000); }
+
+    template <typename T = s64>
+    T toMilliSeconds() const
+    {
+        if (T(mSpan) + (LLONG_MAX / T(1000)) < u64(ULLONG_MAX / T(1000)) - 1)
+            return T(1000) * mSpan / float(cFrequency);
+        return T(1000) * (mSpan / float(cFrequency));
+    }
+
+    template <typename T = s64>
+    T toSeconds() const { return toMilliSeconds() / T(1000); }
 
     void setNanoSeconds(s64 nsec);
 

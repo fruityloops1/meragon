@@ -11,7 +11,12 @@
 #include "hk/debug/Log.h"
 #include "hk/hook/AsmPatch.h"
 #include "hk/hook/BranchHook.h"
+#include "mg/Debug/Clock.h"
+#include "mg/Debug/Framework.h"
 #include "mg/MapObj/GreenDemon.h"
+#include "sead/controller/seadController.h"
+#include "sead/controller/seadControllerBase.h"
+#include "sead/time/seadTickSpan.h"
 #include <Game/Player/Player.h>
 #include <stdio.h>
 
@@ -73,7 +78,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
     if (mRestartHotkey && al::isPadHoldR() && al::isPadHoldL() && al::isPadTriggerRight())
         al::setNerve(scene, (const al::Nerve*)0x003f1054 /* mario is die */);
 
-    if (al::isPadTriggerLeft() && al::isPadHoldL()) {
+    if (al::isPadTriggerLeft() && al::isPadHoldR()) {
         mHideMenu = !mHideMenu;
         if (!mHideMenu)
             window->appear();
@@ -118,9 +123,38 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
 
     switch (mPage) {
 
-    case Page_About: {
-        print("Made by Fruityloops#8500\n");
-        print("https://github.com/fruityloops1/meragon\n");
+    case Page_Profiling: {
+        print("Meragon Debug Menu\n------------------\n");
+
+        cursor(1);
+        print("Unlock FPS: %s\n", mUnlockedFramerate ? "Yes" : "No");
+        if (mCursorPos == 1 && (al::isPadTriggerRight() || al::isPadTriggerLeft()))
+            mUnlockedFramerate = !mUnlockedFramerate;
+        print("------------------\n");
+
+        char formatted[16];
+        auto data = getProfilingData();
+
+        mFrameTimes[mCurFrameTimeIdx++] = data.curFrame - data.lastFrame;
+        if (mCurFrameTimeIdx == cNumFrameTimes)
+            mCurFrameTimeIdx = 0;
+
+        sead::TickSpan avg = 0;
+        for (int i = 0; i < cNumFrameTimes; i++) {
+            avg += mFrameTimes[i];
+        }
+        avg /= float(cNumFrameTimes);
+
+        print("FPS: %2.2f\n", 0.99f / avg.toSeconds<float>());
+        hk::util::formatTickSpan(formatted, data.calc + data.draw);
+        print("Frame: %s\n", formatted);
+        hk::util::formatTickSpan(formatted, data.calc);
+        print("Calc: %s\n", formatted);
+        hk::util::formatTickSpan(formatted, data.draw);
+        print("Draw: %s\n", formatted);
+        hk::util::formatTickSpan(formatted, data.vblank);
+        print("VBlank: %s\n", formatted);
+
         break;
     }
 
@@ -146,52 +180,6 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
                 hk::dbg::Log("Action: 0x%.8x", mCurrentPlayerActionVtablePtr);
             }
         }
-        break;
-    }
-
-    case Page_Misc: {
-        if (stageScene == nullptr)
-            break;
-        cursor(1);
-        print("Kill Mario\n");
-
-        if (mCursorPos == 1 && al::isPadTriggerRight() && stageScene) {
-            stageScene->mPlayerActor->mPlayer->mActionGraph->mCurrentNode = sDeathNode;
-            sDeathNode->getAction()->setup();
-        }
-
-        int currentFigure = stageScene->mPlayerActor->mPlayer->mFigureDirector->getFigure();
-        cursor(2);
-        print("Mario Powerup: %s\n", sPowerupNames[currentFigure]);
-        if (mCursorPos == 2) {
-            int to = currentFigure + (al::isPadTriggerRight() ? 1 : al::isPadTriggerLeft() ? -1
-                                                                                           : 0);
-            if (to != currentFigure && to >= 0 && to <= 5)
-                stageScene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)to);
-        }
-
-        cursor(3);
-        print("Teleport to Checkpoint\n");
-        if (mCursorPos == 3 && al::isPadTriggerRight()) {
-            sead::PtrArray<al::LiveActor> actors = scene->mLiveActorKit->getAllActors()->getArray<al::LiveActor>();
-            for (int i = 0; i < actors.capacity(); i++) {
-                al::LiveActor* actor = actors[i];
-                if (actor && *reinterpret_cast<u32*>(actor) == 0x003c5198 /* RestartObj vtable */)
-                    stageScene->mPlayerActor->mPlayer->getProperty()->mTrans = al::getTrans(actor);
-            }
-        }
-
-        cursor(4);
-        print("Damage Mario\n");
-
-        if (mCursorPos == 4 && al::isPadTriggerRight())
-            stageScene->mPlayerActor->mPlayer->mFigureDirector->lose();
-
-        cursor(5);
-        print("Invincibility Leaf\n");
-        if (mCursorPos == 5 && al::isPadTriggerRight())
-            stageScene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDogWhite);
-
         break;
     }
 
@@ -309,6 +297,52 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
             mEnableFreecam = !mEnableFreecam;
         break;
     }
+
+    case Page_Misc: {
+        if (stageScene == nullptr)
+            break;
+        cursor(1);
+        print("Kill Mario\n");
+
+        if (mCursorPos == 1 && al::isPadTriggerRight() && stageScene) {
+            stageScene->mPlayerActor->mPlayer->mActionGraph->mCurrentNode = sDeathNode;
+            sDeathNode->getAction()->setup();
+        }
+
+        int currentFigure = stageScene->mPlayerActor->mPlayer->mFigureDirector->getFigure();
+        cursor(2);
+        print("Mario Powerup: %s\n", sPowerupNames[currentFigure]);
+        if (mCursorPos == 2) {
+            int to = currentFigure + (al::isPadTriggerRight() ? 1 : al::isPadTriggerLeft() ? -1
+                                                                                           : 0);
+            if (to != currentFigure && to >= 0 && to <= 5)
+                stageScene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)to);
+        }
+
+        cursor(3);
+        print("Teleport to Checkpoint\n");
+        if (mCursorPos == 3 && al::isPadTriggerRight()) {
+            sead::PtrArray<al::LiveActor> actors = scene->mLiveActorKit->getAllActors()->getArray<al::LiveActor>();
+            for (int i = 0; i < actors.capacity(); i++) {
+                al::LiveActor* actor = actors[i];
+                if (actor && *reinterpret_cast<u32*>(actor) == 0x003c5198 /* RestartObj vtable */)
+                    stageScene->mPlayerActor->mPlayer->getProperty()->mTrans = al::getTrans(actor);
+            }
+        }
+
+        cursor(4);
+        print("Damage Mario\n");
+
+        if (mCursorPos == 4 && al::isPadTriggerRight())
+            stageScene->mPlayerActor->mPlayer->mFigureDirector->lose();
+
+        cursor(5);
+        print("Invincibility Leaf\n");
+        if (mCursorPos == 5 && al::isPadTriggerRight())
+            stageScene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDogWhite);
+
+        break;
+    }
     default:
         break;
     }
@@ -320,7 +354,6 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         al::setPaneString(window, "TxtMessage", mWideBuffer);
 
         al::hidePane(window, "Button");
-        al::hidePane(window, "PicBase");
         al::hidePane(window, "ShaWindowUL");
         al::hidePane(window, "ShaWindowUR");
         al::hidePane(window, "ShaWindowDL");
@@ -385,4 +418,29 @@ HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook5, 0x002cf81c, playerFigureDirecto
 HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook6, 0x002cf880, playerFigureDirectorChange)
 HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook7, 0x002cfcd0, playerFigureDirectorChange)
 HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook8, 0x002d1034, playerFigureDirectorChange)
+
+template <int PadIdx>
+bool padTriggerMaskHook(int port)
+{
+    if (mg::DebugMenu::instance().isHidden())
+        return al::isPadTrigger(port, 1 << PadIdx);
+    return false;
+}
+template <int PadIdx>
+bool padHoldMaskHook(int port)
+{
+    if (mg::DebugMenu::instance().isHidden())
+        return al::isPadHold(port, 1 << PadIdx);
+    return false;
+}
+
+HK_B_HOOK_FUNC(IsPadTriggerRight, 0x00263848, padTriggerMaskHook<sead::Controller::cPadIdx_Right>)
+HK_B_HOOK_FUNC(IsPadTriggerLeft, 0x00263858, padTriggerMaskHook<sead::Controller::cPadIdx_Left>)
+HK_B_HOOK_FUNC(IsPadTriggerUp, 0x00270370, padTriggerMaskHook<sead::Controller::cPadIdx_Up>)
+HK_B_HOOK_FUNC(IsPadTriggerDown, 0x00270368, padTriggerMaskHook<sead::Controller::cPadIdx_Down>)
+HK_B_HOOK_FUNC(IsPadHoldRight, 0x001c80f8, padHoldMaskHook<sead::Controller::cPadIdx_Right>)
+HK_B_HOOK_FUNC(IsPadHoldLeft, 0x00273498, padHoldMaskHook<sead::Controller::cPadIdx_Left>)
+HK_B_HOOK_FUNC(IsPadHoldRight2, 0x0027dfa0, padHoldMaskHook<sead::Controller::cPadIdx_Right>)
+HK_B_HOOK_FUNC(IsPadHoldLeft2, 0x0027df38, padHoldMaskHook<sead::Controller::cPadIdx_Left>)
+
 #endif

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stddef.h>
 #include <stdint.h>
 
 using s8 = int8_t;
@@ -143,3 +144,13 @@ static inline void setThreadExceptionHandler(ExceptionHandler handler, void* sta
     __dsb();
     __isb();
 }
+
+template <size_t N>
+struct TemplateString {
+    char value[N];
+
+    constexpr TemplateString(const char (&str)[N])
+    {
+        __builtin_memcpy(value, str, N * sizeof(char));
+    }
+};

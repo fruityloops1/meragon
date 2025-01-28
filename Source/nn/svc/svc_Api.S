@@ -44,6 +44,11 @@ SVC_BEGIN _ZN2nn3svc17CreateMemoryBlockEPNS_6HandleEjjjj
 	bx  lr
 SVC_END
 
+SVC_BEGIN _ZN2nn3svc13GetSystemTickEv
+	svc 0x28
+	bx  lr
+SVC_END
+
 SVC_BEGIN _ZN2nn3svc15SendSyncRequestENS_6HandleE
 	svc 0x32
 	bx lr

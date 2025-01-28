@@ -1,1 +1,4 @@
 _ZN2al20GameFrameworkCtrNw4c10procFrame_Ev = 0x001ceb18;
+_ZN2al20GameFrameworkCtrNw4c14waitForVBlank_Ev = 0x001cee50;
+_ZN2al20GameFrameworkCtrNw4c9procCalc_Ev = 0x001cf358;
+_ZN2al20GameFrameworkCtrNw4c9procDraw_Ev = 0x001cf3f8;
