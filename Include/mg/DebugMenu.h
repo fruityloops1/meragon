@@ -52,7 +52,7 @@ public:
 
     void setPlayerActionVtablePtr(uintptr_t ptr) { mCurrentPlayerActionVtablePtr = ptr; }
 
-    void update(StageScene* scene, WindowConfirmSingle* window);
+    void update(al::Scene* scene, al::LayoutActor* window);
 
     void cursor(int at)
     {

@@ -62,10 +62,14 @@ bool layoutSkipHook2(const al::LayoutActor* layout) { return sEnableLayoutSkip ?
 HK_BL_HOOK(LayoutSkipHook1, 0x001226e4, layoutSkipHook1);
 HK_BL_HOOK(LayoutSkipHook2, 0x00361748, layoutSkipHook2);
 
-void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
+void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
 {
-    if (mAlwaysTanooki && scene->mPlayerActor->mPlayer->mFigureDirector->getFigure() != EPlayerFigure_RaccoonDog)
-        scene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDog);
+    StageScene* stageScene = nullptr;
+    if (scene && *(uintptr_t*)scene == 0x003c52c8)
+        stageScene = static_cast<StageScene*>(scene);
+
+    if (stageScene && mAlwaysTanooki && stageScene->mPlayerActor->mPlayer->mFigureDirector->getFigure() != EPlayerFigure_RaccoonDog)
+        stageScene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDog);
     if (mRestartHotkey && al::isPadHoldR() && al::isPadHoldL() && al::isPadTriggerRight())
         al::setNerve(scene, (const al::Nerve*)0x003f1054 /* mario is die */);
 
@@ -78,12 +82,12 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
     if (mHideMenu) {
         window->kill();
 
-        if (mTeleportEnabled) {
+        if (mTeleportEnabled && stageScene) {
 
             if (al::isPadTriggerDown())
-                mSavedPos = al::getTrans(scene->mPlayerActor);
+                mSavedPos = al::getTrans(stageScene->mPlayerActor);
             if (al::isPadTriggerUp())
-                scene->mPlayerActor->mPlayer->getProperty()->mTrans = mSavedPos;
+                stageScene->mPlayerActor->mPlayer->getProperty()->mTrans = mSavedPos;
         }
         return;
     }
@@ -121,45 +125,49 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
     }
 
     case Page_Info: {
-        const sead::Vector3f& trans = al::getTrans(scene->mPlayerActor);
-        const sead::Vector3f& rot = al::getRotate(scene->mPlayerActor);
-        const sead::Vector3f& vel = al::getVelocity(scene->mPlayerActor);
-        print("Trans %.2f %.2f %.2f\n", trans.x, trans.y, trans.z);
-        print("Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
-        print("Vel %.2f %.2f %.2f\n", vel.x, vel.y, vel.z);
+        if (stageScene) {
+            const sead::Vector3f& trans = al::getTrans(stageScene->mPlayerActor);
+            const sead::Vector3f& rot = al::getRotate(stageScene->mPlayerActor);
+            const sead::Vector3f& vel = al::getVelocity(stageScene->mPlayerActor);
+            print("Trans %.2f %.2f %.2f\n", trans.x, trans.y, trans.z);
+            print("Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
+            print("Vel %.2f %.2f %.2f\n", vel.x, vel.y, vel.z);
 
-        const char* actionName = nullptr;
-        for (auto entry : actions)
-            if (entry.addr == mCurrentPlayerActionVtablePtr)
-                actionName = entry.name;
+            const char* actionName = nullptr;
+            for (auto entry : actions)
+                if (entry.addr == mCurrentPlayerActionVtablePtr)
+                    actionName = entry.name;
 
-        if (actionName) {
-            print("Action: PlayerAction%s\n", actionName);
-            hk::dbg::Log("Action: PlayerAction%s", actionName);
-        } else {
-            print("Action: 0x%.8x\n", mCurrentPlayerActionVtablePtr);
-            hk::dbg::Log("Action: 0x%.8x", mCurrentPlayerActionVtablePtr);
+            if (actionName) {
+                print("Action: PlayerAction%s\n", actionName);
+                hk::dbg::Log("Action: PlayerAction%s", actionName);
+            } else {
+                print("Action: 0x%.8x\n", mCurrentPlayerActionVtablePtr);
+                hk::dbg::Log("Action: 0x%.8x", mCurrentPlayerActionVtablePtr);
+            }
         }
         break;
     }
 
     case Page_Misc: {
+        if (stageScene == nullptr)
+            break;
         cursor(1);
         print("Kill Mario\n");
 
-        if (mCursorPos == 1 && al::isPadTriggerRight()) {
-            scene->mPlayerActor->mPlayer->mActionGraph->mCurrentNode = sDeathNode;
+        if (mCursorPos == 1 && al::isPadTriggerRight() && stageScene) {
+            stageScene->mPlayerActor->mPlayer->mActionGraph->mCurrentNode = sDeathNode;
             sDeathNode->getAction()->setup();
         }
 
-        int currentFigure = scene->mPlayerActor->mPlayer->mFigureDirector->getFigure();
+        int currentFigure = stageScene->mPlayerActor->mPlayer->mFigureDirector->getFigure();
         cursor(2);
         print("Mario Powerup: %s\n", sPowerupNames[currentFigure]);
         if (mCursorPos == 2) {
             int to = currentFigure + (al::isPadTriggerRight() ? 1 : al::isPadTriggerLeft() ? -1
                                                                                            : 0);
             if (to != currentFigure && to >= 0 && to <= 5)
-                scene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)to);
+                stageScene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)to);
         }
 
         cursor(3);
@@ -169,7 +177,7 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
             for (int i = 0; i < actors.capacity(); i++) {
                 al::LiveActor* actor = actors[i];
                 if (actor && *reinterpret_cast<u32*>(actor) == 0x003c5198 /* RestartObj vtable */)
-                    scene->mPlayerActor->mPlayer->getProperty()->mTrans = al::getTrans(actor);
+                    stageScene->mPlayerActor->mPlayer->getProperty()->mTrans = al::getTrans(actor);
             }
         }
 
@@ -177,17 +185,19 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
         print("Damage Mario\n");
 
         if (mCursorPos == 4 && al::isPadTriggerRight())
-            scene->mPlayerActor->mPlayer->mFigureDirector->lose();
+            stageScene->mPlayerActor->mPlayer->mFigureDirector->lose();
 
         cursor(5);
         print("Invincibility Leaf\n");
         if (mCursorPos == 5 && al::isPadTriggerRight())
-            scene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDogWhite);
+            stageScene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDogWhite);
 
         break;
     }
 
     case Page_SceneInfo: {
+        if (scene == nullptr)
+            break;
         sead::PtrArray<al::LiveActor> actors = scene->mLiveActorKit->getAllActors()->getArray<al::LiveActor>();
 
         cursor(1);
@@ -229,6 +239,8 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
     }
 
     case Page_ActorViewer: {
+        if (scene == nullptr)
+            break;
         sead::PtrArray<al::LiveActor> actors = scene->mLiveActorKit->getAllActors()->getArray<al::LiveActor>();
 
         cursor(1);
@@ -253,14 +265,14 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
         if (actor) {
             print("Name: %s\n", actor->getName() == nullptr ? "null" : actor->getName());
             cursor(2);
-            if (actor->getActorPoseKeeper()) {
+            if (actor->getActorPoseKeeper() && stageScene) {
                 const sead::Vector3f& trans = al::getTrans(actor);
                 const sead::Vector3f& rot = al::getRotate(actor);
                 const sead::Vector3f& vel = al::getVelocity(actor);
 
                 print("Teleport to\n");
                 if (mCursorPos == 2 && al::isPadTriggerRight())
-                    scene->mPlayerActor->mPlayer->getProperty()->mTrans = trans;
+                    stageScene->mPlayerActor->mPlayer->getProperty()->mTrans = trans;
                 print("Trans %.2f %.2f %.2f\n", trans.x, trans.y, trans.z);
                 print("Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
                 print("Vel %.2f %.2f %.2f\n", vel.x, vel.y, vel.z);
@@ -278,8 +290,8 @@ void mg::DebugMenu::update(StageScene* scene, WindowConfirmSingle* window)
 
         cursor(2);
         print("State Test\n");
-        if (mCursorPos == 2 && al::isPadTriggerRight())
-            scene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)7);
+        if (mCursorPos == 2 && al::isPadTriggerRight() && stageScene)
+            stageScene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)7);
 
         cursor(3);
         print("Always Tanooki: %s\n", mAlwaysTanooki ? "Yes" : "No");

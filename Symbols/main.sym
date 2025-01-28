@@ -6,6 +6,7 @@ _Z5opNewj = 0x002932b0;
 _Znwj = 0x002932b0;
 _Znaj = 0x00292a78;
 _ZdlPv = 0x002743ac;
+_ZdlPvj = 0x002743ac; /* ??? */
 
 __hardfp_sinf = 0x00287908;
 __hardfp_cosf = 0x00287ad0;

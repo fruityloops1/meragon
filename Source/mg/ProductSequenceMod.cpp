@@ -11,6 +11,7 @@
 #include "hk/debug/Log.h"
 #include "hk/hook/AsmPatch.h"
 #include "hk/hook/BranchHook.h"
+#include "mg/DebugMenu.h"
 #include "mg/Freecam.h"
 #include <sead/heap/seadHeapMgr.h>
 
@@ -66,8 +67,6 @@ public:
     }
 };
 
-ServerThread* gServerThread;
-
 void testStateNerveHook(ProductSequence* sequence, const al::Nerve* nerve)
 {
     al::setNerve(sequence, &NrvProductSequence::Test);
@@ -75,31 +74,7 @@ void testStateNerveHook(ProductSequence* sequence, const al::Nerve* nerve)
 
 // HK_B_HOOK_FUNC(TestStateNerveSetHook, 0x0036030c, testStateNerveHook);
 
-static int tabAmount = 0;
-static char tabBuffer[256] { 0 };
-
-void updateTabs()
-{
-    for (int i = 0; i < tabAmount; i++) {
-        tabBuffer[i] = '\t';
-    }
-    tabBuffer[tabAmount] = '\0';
-};
-
-void printHeap(sead::Heap* heap)
-{
-    updateTabs();
-    hk::dbg::Log("%s%s: ", tabBuffer, heap->getName().cstr());
-    hk::dbg::Log("%s\tSize: %d Bytes (%d KB, %d MB)", tabBuffer, heap->mSize, heap->mSize / 1000, heap->mSize / 1000000);
-    // mg::log("%s\tFree: %d Bytes (%d KB, %d MB)", tabBuffer, free, free / 1000, free / 1000000);
-    hk::dbg::Log("%s\tStart: 0x%x End: 0x%x", tabBuffer, heap->mStart, (uintptr_t)heap->mStart + heap->mSize);
-    for (sead::Heap& child : heap->mChildren) {
-        tabAmount++;
-        updateTabs();
-        printHeap(&child);
-        tabAmount--;
-    }
-}
+ServerThread* gServerThread;
 
 HK_PATCH_ASM(ProductSequenceSize, 0x0011a698, "mov r0, #0x198"); // size 0x194 -> 0x198
 
@@ -120,14 +95,3 @@ void productSequenceStateInitHook(al::IUseNerve* _sequence, al::NerveStateBase* 
 }
 
 HK_BL_HOOK_FUNC(ProductSequenceStateInitHook, 0x00163564, productSequenceStateInitHook);
-
-void productSequenceUpdateHook(ProductSequence* sequence)
-{
-    sequence->al::Sequence::update();
-    mg::updateFreecam();
-
-    if (al::isPadHoldStart() && al::isPadTriggerTouch())
-        printHeap(sead::HeapMgr::sRootHeaps[0]);
-}
-
-HK_BL_HOOK_FUNC(ProductSequenceUpdateHook, 0x00163818, productSequenceUpdateHook);
