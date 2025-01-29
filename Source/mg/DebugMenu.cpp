@@ -14,11 +14,13 @@
 #include "mg/Debug/Clock.h"
 #include "mg/Debug/Framework.h"
 #include "mg/MapObj/GreenDemon.h"
+#include "mg/Util/StringUtil.h"
 #include "sead/controller/seadController.h"
 #include "sead/controller/seadControllerBase.h"
 #include "sead/time/seadTickSpan.h"
 #include <Game/Player/Player.h>
 #include <stdio.h>
+#include <string.h>
 
 mg::DebugMenu sInstance;
 mg::DebugMenu& mg::DebugMenu::instance()
@@ -30,6 +32,20 @@ struct ActionEntry {
     uintptr_t addr;
     const char* name;
 };
+
+struct Dings {
+    float attribut;
+};
+
+void penis2(float* penisse)
+{
+    // penisse[]
+}
+
+void arsch()
+{
+    // penis2(penis);
+}
 
 static ActionEntry actions[] {
     { 0x003cc450, "Wait" },
@@ -253,14 +269,16 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         if (actor) {
             print("Name: %s\n", actor->getName() == nullptr ? "null" : actor->getName());
             cursor(2);
-            if (actor->getActorPoseKeeper() && stageScene) {
+            if (actor->getActorPoseKeeper()) {
                 const sead::Vector3f& trans = al::getTrans(actor);
                 const sead::Vector3f& rot = al::getRotate(actor);
                 const sead::Vector3f& vel = al::getVelocity(actor);
 
-                print("Teleport to\n");
-                if (mCursorPos == 2 && al::isPadTriggerRight())
-                    stageScene->mPlayerActor->mPlayer->getProperty()->mTrans = trans;
+                if (stageScene) {
+                    print("Teleport to\n");
+                    if (mCursorPos == 2 && al::isPadTriggerRight())
+                        stageScene->mPlayerActor->mPlayer->getProperty()->mTrans = trans;
+                }
                 print("Trans %.2f %.2f %.2f\n", trans.x, trans.y, trans.z);
                 print("Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
                 print("Vel %.2f %.2f %.2f\n", vel.x, vel.y, vel.z);
@@ -347,8 +365,11 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         break;
     }
 
-    for (int i = 0; i < sizeof(mBuffer); i++)
-        mWideBuffer[i] = mBuffer[i];
+    // for (int i = 0; i < sizeof(mBuffer); i++)
+    //     mWideBuffer[i] = mBuffer[i];
+
+    memset(mWideBuffer, 0, sizeof(mWideBuffer));
+    convShiftJisToWide(mWideBuffer, mBuffer, strlen(mBuffer));
 
     if (window) {
         al::setPaneString(window, "TxtMessage", mWideBuffer);
