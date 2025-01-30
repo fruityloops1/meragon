@@ -137,6 +137,16 @@ TR("２Ｄウィンドウ（下画面）", "2D window (lower screen)")
 TR("２Ｄカーソル（下画面）", "2D cursor (lower screen)")
 TR("２Ｄワイプ（下画面）", "2D wipe (lower screen)")
 TR("２Ｄソフトリセット（下画面）", "2D soft reset (lower screen)")
+TR("３Ｄ（空）", "3D (empty)")
+TR("２Ｄエンドロールテキスト（上画面）", "2D end roll text (top screen)")
+TR("３Ｄ（固定地形）", "3D (fixed terrain)")
+TR("３Ｄ（上画面）", "3D (upper screen)")
+TR("２Ｄアイコン（上画面）", "2D icons (upper screen)")
+TR("２Ｄベース（上画面）", "2D base (upper screen)")
+TR("２Ｄ（上画面）", "2D (upper screen)")
+TR("２Ｄベース（下画面）", "2D base (lower screen)")
+TR("３Ｄ（アイテムストック）", "3D (Item Stock)")
+TR("２Ｄ（下画面）", "2D (lower screen)")
 //clang-format on
     };
 

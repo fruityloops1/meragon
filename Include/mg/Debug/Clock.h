@@ -22,6 +22,8 @@ inline void formatTickSpan(char* out, sead::TickSpan span)
         sprintf(out, "%2.2fus", us);
     else if (ns >= 1)
         sprintf(out, "%2.2fns", ns);
+    else
+        sprintf(out, "?");
 }
 
 template <TemplateString Name = "Clock">

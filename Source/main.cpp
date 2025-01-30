@@ -5,6 +5,7 @@
 #include "hk/debug/Log.h"
 #include "hk/hook/BranchHook.h"
 #include "hk/hook/TypePatch.h"
+#include "mg/Debug/Framework.h"
 #include "mg/DebugMenu.h"
 #include "mg/Freecam.h"
 #include "mg/ProductSequenceMod.h"
@@ -78,6 +79,11 @@ void productSequenceUpdateHook(ProductSequence* sequence)
 
 #ifdef MG_ENABLE_DEBUG_MENU
     mg::DebugMenu::instance().update(sequence->mCurrentScene, debugWindow);
+
+    auto& p = mg::getProfilingData();
+
+    memset(p.executeTableLists, 0, sizeof(p.executeTableLists));
+    memset(p.executeDrawTable, 0, sizeof(p.executeDrawTable));
 #endif
 }
 

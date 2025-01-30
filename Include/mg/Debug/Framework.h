@@ -14,7 +14,10 @@ struct ProfilingData {
     sead::TickSpan lastFrame;
     sead::TickSpan curFrame;
 
-    sead::TickSpan executeTableUpdateLists[128];
+    int curExecuteTable = 0;
+    sead::TickSpan executeTableLists[128];
+    sead::TickSpan executeUpdateTable;
+    sead::TickSpan executeDrawTable[10];
 };
 
 ProfilingData& getProfilingData();

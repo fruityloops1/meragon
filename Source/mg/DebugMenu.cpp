@@ -85,6 +85,8 @@ static constexpr VtableEntry executorListVtables[] {
     { 0x003d741c, "LayoutUpdate" },
     { 0x003d7620, "Execute" },
     { 0x003d6ef4, "Functor" },
+    { 0x003d78dc, "ExecutorListActorModelDrawCache" },
+    { 0x003d7850, "ExecutorListActorModelDraw" },
 };
 
 static bool sEnableLayoutSkip = true;
@@ -188,6 +190,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
 
     case Page_ExecutorProfiling: {
         auto& p = getProfilingData();
+        char formatted[16];
         if (scene == nullptr)
             break;
         al::LiveActorKit* kit = scene->mLiveActorKit;
@@ -202,26 +205,37 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
             mCurExecuteTable = 0;
         if (mCurExecuteTable >= director->getNumDrawTables() + 1)
             mCurExecuteTable = director->getNumDrawTables();
+        p.curExecuteTable = mCurExecuteTable;
 
         int numExecutorLists;
         al::ExecutorListBase** executorLists;
+        sead::TickSpan tableElapsed;
 
         if (mCurExecuteTable == 0) {
             al::ExecuteTableHolderUpdate* table = director->getUpdateTable();
             print("Current Table: Update\n");
             numExecutorLists = table->mNumExecutorLists;
             executorLists = table->mExecutorLists;
+            tableElapsed = p.executeUpdateTable;
         } else {
             int drawTableIdx = mCurExecuteTable - 1;
             al::ExecuteTableHolderDraw* table = director->getDrawTable(drawTableIdx);
 
             numExecutorLists = table->mNumExecutorLists;
             executorLists = table->mExecutorLists;
+            tableElapsed = p.executeDrawTable[drawTableIdx];
 
-            print("Current Table: Draw%d\n", mCurExecuteTable - 1);
+            const char* translated = tryTranslateString(table->mName);
+            print("Current Table: Draw %s/\nDraw %s\n", table->mName, translated);
         }
 
+        hk::util::formatTickSpan(formatted, tableElapsed);
+        print("Table Time: %s\n---------------------\n", formatted);
+
         print("Num Executor Lists: %d\n", numExecutorLists);
+
+        if (numExecutorLists == 0)
+            break;
 
         scrollIntWidget(2, &mCurExecutorListIndex);
         if (mCurExecutorListIndex < 0)
@@ -249,8 +263,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
             print("Class: %s\n", listClassName);
         else
             print("vtable: %p\n", *(uintptr_t*)list);
-        char formatted[16];
-        hk::util::formatTickSpan(formatted, p.executeTableUpdateLists[mCurExecutorListIndex]);
+        hk::util::formatTickSpan(formatted, p.executeTableLists[mCurExecutorListIndex]);
         print("Time: %s\n", formatted);
 
         break;
