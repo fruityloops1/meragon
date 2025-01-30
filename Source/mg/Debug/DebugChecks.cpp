@@ -40,7 +40,7 @@ static nw::font::CharacterCode nwWcharFontCharacterCodeCheck(nw::font::Font* fon
 {
     nw::font::CharacterCode code = font->GetCharacterCode();
     if (code != nw::font::CharacterCode_Unicode)
-        mg::abortWithMessage("Font attempted to be used with wchar_t, but font does not use Unicode");
+        mg::abortWithMessage("Font attempted to be used with wide characters, but font does not use Unicode (uses %s)", nw::font::GetCharacterCodeName(code));
     return code;
 }
 

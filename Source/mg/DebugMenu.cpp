@@ -77,7 +77,7 @@ static constexpr VtableEntry actions[] {
     { 0x003cc2bc, "PlayAnim" },
 };
 
-static constexpr VtableEntry executorLists[] {
+static constexpr VtableEntry executorListVtables[] {
     { 0x003d74b0, "ActorCalcAnim" },
     { 0x003d75e0, "ActorExecuteBase" },
     { 0x003d74cc, "ActorMovement" },
@@ -197,21 +197,41 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         if (director == nullptr)
             break;
 
-        al::ExecuteTableHolderUpdate* table = director->getUpdateTable();
-        if (table == nullptr)
-            break;
+        scrollIntWidget(1, &mCurExecuteTable);
+        if (mCurExecuteTable < 0)
+            mCurExecuteTable = 0;
+        if (mCurExecuteTable >= director->getNumDrawTables() + 1)
+            mCurExecuteTable = director->getNumDrawTables();
 
-        print("Num Executor Lists: %d\n", table->mNumExecutorLists);
+        int numExecutorLists;
+        al::ExecutorListBase** executorLists;
 
-        scrollIntWidget(1, &mCurExecutorListIndex);
+        if (mCurExecuteTable == 0) {
+            al::ExecuteTableHolderUpdate* table = director->getUpdateTable();
+            print("Current Table: Update\n");
+            numExecutorLists = table->mNumExecutorLists;
+            executorLists = table->mExecutorLists;
+        } else {
+            int drawTableIdx = mCurExecuteTable - 1;
+            al::ExecuteTableHolderDraw* table = director->getDrawTable(drawTableIdx);
+
+            numExecutorLists = table->mNumExecutorLists;
+            executorLists = table->mExecutorLists;
+
+            print("Current Table: Draw%d\n", mCurExecuteTable - 1);
+        }
+
+        print("Num Executor Lists: %d\n", numExecutorLists);
+
+        scrollIntWidget(2, &mCurExecutorListIndex);
         if (mCurExecutorListIndex < 0)
             mCurExecutorListIndex = 0;
-        if (mCurExecutorListIndex >= table->mNumExecutorLists)
-            mCurExecutorListIndex = table->mNumExecutorLists - 1;
+        if (mCurExecutorListIndex >= numExecutorLists)
+            mCurExecutorListIndex = numExecutorLists - 1;
 
         print("List index: %d\n", mCurExecutorListIndex);
 
-        al::ExecutorListBase* list = table->mExecutorLists[mCurExecutorListIndex];
+        al::ExecutorListBase* list = executorLists[mCurExecutorListIndex];
 
         if (list == nullptr)
             break;
@@ -221,7 +241,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
             print("Translated: %s\n", translated);
 
         const char* listClassName = nullptr;
-        for (auto entry : executorLists)
+        for (auto entry : executorListVtables)
             if (entry.addr == *(uintptr_t*)list)
                 listClassName = entry.name;
 

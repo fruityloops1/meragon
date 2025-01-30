@@ -38,7 +38,7 @@ class DebugMenu {
     };
     constexpr static int sPagesMaxLines[] {
         2,
-        2,
+        3,
         1,
         5,
         3,
@@ -66,6 +66,7 @@ class DebugMenu {
 
     int mCurActorIndex = 0;
     int mButtonHoldFrames = 0;
+    int mCurExecuteTable = 0;
     int mCurExecutorListIndex = 0;
 
     constexpr static int cNumFrameTimes = 14;

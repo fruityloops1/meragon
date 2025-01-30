@@ -8,6 +8,20 @@ enum CharacterCode {
     CharacterCode_ISO8859_1,
 };
 
+inline const char* GetCharacterCodeName(CharacterCode code)
+{
+    switch (code) {
+    case CharacterCode_Unicode:
+        return "Unicode";
+    case CharacterCode_ShiftJis:
+        return "ShiftJIS";
+    case CharacterCode_ISO8859_1:
+        return "ISO-8859-1";
+    default:
+        return "Unknown";
+    }
+}
+
 class Font {
 public:
     virtual ~Font();
