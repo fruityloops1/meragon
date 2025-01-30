@@ -14,9 +14,11 @@
 #include "mg/Debug/Clock.h"
 #include "mg/Debug/Framework.h"
 #include "mg/MapObj/GreenDemon.h"
+#include "mg/Util/StringTranslation.h"
 #include "mg/Util/StringUtil.h"
 #include "sead/controller/seadController.h"
 #include "sead/controller/seadControllerBase.h"
+#include "sead/framework/seadTaskID.h"
 #include "sead/time/seadTickSpan.h"
 #include <Game/Player/Player.h>
 #include <stdio.h>
@@ -28,7 +30,7 @@ mg::DebugMenu& mg::DebugMenu::instance()
     return sInstance;
 }
 
-struct ActionEntry {
+struct VtableEntry {
     uintptr_t addr;
     const char* name;
 };
@@ -47,7 +49,7 @@ void arsch()
     // penis2(penis);
 }
 
-static ActionEntry actions[] {
+static constexpr VtableEntry actions[] {
     { 0x003cc450, "Wait" },
     { 0x003d045c, "GroundMove" },
     { 0x003cd920, "Turn" },
@@ -73,6 +75,16 @@ static ActionEntry actions[] {
     { 0x003cfbc4, "DieOver" },
     { 0x003cd8c8, "Abyss" },
     { 0x003cc2bc, "PlayAnim" },
+};
+
+static constexpr VtableEntry executorLists[] {
+    { 0x003d74b0, "ActorCalcAnim" },
+    { 0x003d75e0, "ActorExecuteBase" },
+    { 0x003d74cc, "ActorMovement" },
+    { 0x003d789c, "ActorMovementCalcAnim" },
+    { 0x003d741c, "LayoutUpdate" },
+    { 0x003d7620, "Execute" },
+    { 0x003d6ef4, "Functor" },
 };
 
 static bool sEnableLayoutSkip = true;
@@ -174,6 +186,56 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         break;
     }
 
+    case Page_ExecutorProfiling: {
+        auto& p = getProfilingData();
+        if (scene == nullptr)
+            break;
+        al::LiveActorKit* kit = scene->mLiveActorKit;
+        if (kit == nullptr)
+            break;
+        al::ExecuteDirector* director = kit->getExecuteDirector();
+        if (director == nullptr)
+            break;
+
+        al::ExecuteTableHolderUpdate* table = director->getUpdateTable();
+        if (table == nullptr)
+            break;
+
+        print("Num Executor Lists: %d\n", table->mNumExecutorLists);
+
+        scrollIntWidget(1, &mCurExecutorListIndex);
+        if (mCurExecutorListIndex < 0)
+            mCurExecutorListIndex = 0;
+        if (mCurExecutorListIndex >= table->mNumExecutorLists)
+            mCurExecutorListIndex = table->mNumExecutorLists - 1;
+
+        print("List index: %d\n", mCurExecutorListIndex);
+
+        al::ExecutorListBase* list = table->mExecutorLists[mCurExecutorListIndex];
+
+        if (list == nullptr)
+            break;
+        print("Name: %s\n", list->getName());
+        const char* translated = tryTranslateString(list->getName());
+        if (translated)
+            print("Translated: %s\n", translated);
+
+        const char* listClassName = nullptr;
+        for (auto entry : executorLists)
+            if (entry.addr == *(uintptr_t*)list)
+                listClassName = entry.name;
+
+        if (listClassName)
+            print("Class: %s\n", listClassName);
+        else
+            print("vtable: %p\n", *(uintptr_t*)list);
+        char formatted[16];
+        hk::util::formatTickSpan(formatted, p.executeTableUpdateLists[mCurExecutorListIndex]);
+        print("Time: %s\n", formatted);
+
+        break;
+    }
+
     case Page_Info: {
         if (stageScene) {
             const sead::Vector3f& trans = al::getTrans(stageScene->mPlayerActor);
@@ -247,18 +309,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
             break;
         sead::PtrArray<al::LiveActor> actors = scene->mLiveActorKit->getAllActors()->getArray<al::LiveActor>();
 
-        cursor(1);
-        if (mCursorPos == 1) {
-            if (al::isPadHoldLeft() || al::isPadHoldRight())
-                mButtonHoldFrames++;
-            else
-                mButtonHoldFrames = 0;
-            if (mButtonHoldFrames > 45)
-                mCurActorIndex += al::isPadHoldRight() ? 1 : al::isPadHoldLeft() ? -1
-                                                                                 : 0;
-            mCurActorIndex += al::isPadTriggerRight() ? 1 : al::isPadTriggerLeft() ? -1
-                                                                                   : 0;
-        }
+        scrollIntWidget(1, &mCurActorIndex);
         if (mCurActorIndex >= actors.capacity())
             mCurActorIndex = actors.capacity() - 1;
         if (mCurActorIndex < 0)

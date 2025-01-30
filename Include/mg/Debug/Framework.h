@@ -13,8 +13,10 @@ struct ProfilingData {
     sead::TickSpan vblank;
     sead::TickSpan lastFrame;
     sead::TickSpan curFrame;
+
+    sead::TickSpan executeTableUpdateLists[128];
 };
 
-ProfilingData getProfilingData();
+ProfilingData& getProfilingData();
 
 } // namespace mg

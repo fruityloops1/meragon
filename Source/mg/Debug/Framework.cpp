@@ -18,7 +18,7 @@ void mg::suspendFramework()
 
 #ifdef MG_ENABLE_DEBUG_MENU
 static mg::ProfilingData sProfilingData;
-mg::ProfilingData mg::getProfilingData()
+mg::ProfilingData& mg::getProfilingData()
 {
     return sProfilingData;
 }

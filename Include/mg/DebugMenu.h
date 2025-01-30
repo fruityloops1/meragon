@@ -2,6 +2,7 @@
 
 #include "Game/Layout/WindowConfirmSingle.h"
 #include "Game/Scene/StageScene.h"
+#include "al/Controller/ControllerUtil.h"
 #include "sead/time/seadTickSpan.h"
 #include <stdio.h>
 
@@ -12,6 +13,7 @@ namespace mg {
 class DebugMenu {
     enum Page {
         Page_Profiling,
+        Page_ExecutorProfiling,
         Page_Info,
         Page_SceneInfo,
         Page_ActorViewer,
@@ -27,6 +29,7 @@ class DebugMenu {
     const static int sMaxPages = Page_Max;
     const constexpr static char* sPages[] {
         "Profiling",
+        "Executors",
         "Info",
         "Scene Info",
         "Actor Viewer",
@@ -34,6 +37,7 @@ class DebugMenu {
         "Misc.",
     };
     constexpr static int sPagesMaxLines[] {
+        2,
         2,
         1,
         5,
@@ -62,12 +66,29 @@ class DebugMenu {
 
     int mCurActorIndex = 0;
     int mButtonHoldFrames = 0;
+    int mCurExecutorListIndex = 0;
 
     constexpr static int cNumFrameTimes = 14;
     sead::TickSpan mFrameTimes[cNumFrameTimes] {};
     int mCurFrameTimeIdx = 0;
 
     uintptr_t mCurrentPlayerActionVtablePtr = -1;
+
+    void scrollIntWidget(int at, int* value)
+    {
+        cursor(at);
+        if (mCursorPos == at) {
+            if (al::isPadHoldLeft() || al::isPadHoldRight())
+                mButtonHoldFrames++;
+            else
+                mButtonHoldFrames = 0;
+            if (mButtonHoldFrames > 20)
+                *value += al::isPadHoldRight() ? 1 : al::isPadHoldLeft() ? -1
+                                                                         : 0;
+            *value += al::isPadTriggerRight() ? 1 : al::isPadTriggerLeft() ? -1
+                                                                           : 0;
+        }
+    }
 
 public:
     static DebugMenu& instance();
