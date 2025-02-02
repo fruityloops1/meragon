@@ -67,11 +67,11 @@ static void executeDrawList(al::ExecuteDirector* director, const char* drawTable
                         clock.print();
                         p.executeTableLists[j] = elapsed;
                         p.executeDrawTable[i] += elapsed;
-#endif
                     }
+#endif
                 }
-                return;
             }
+            return;
         }
     }
 }

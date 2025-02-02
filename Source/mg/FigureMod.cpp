@@ -7,13 +7,13 @@
 
 namespace mg {
 
-// #define MG_ENABLE_FIGURE_MOD
+#define MG_ENABLE_FIGURE_MOD
 
 #ifdef MG_ENABLE_FIGURE_MOD
 
 // PlayerFigureDirector patches
 
-static EPlayerFigure powerDownStates[8] {
+static const EPlayerFigure cPowerDownStates[8] {
     EPlayerFigure_Mini, // EPlayerFigure_Normal
     EPlayerFigure_Mini, // EPlayerFigure_Mini
     EPlayerFigure_Normal, // EPlayerFigure_Fire
@@ -21,17 +21,17 @@ static EPlayerFigure powerDownStates[8] {
     EPlayerFigure_Normal, // EPlayerFigure_Boomerang
     EPlayerFigure_Normal, // EPlayerFigure_RaccoonDogSpecial
     EPlayerFigure_RaccoonDogWhite, // EPlayerFigure_RaccoonDogWhite
-    EPlayerFigure_Normal // Custom
+    EPlayerFigure_Normal, // Custom
 };
 
 static void playerFigureLossUpdateHook(EPlayerFigure* out, PlayerFigureLoss* thisPtr, const EPlayerFigure& figure)
 {
-    *out = powerDownStates[(int)figure];
+    *out = cPowerDownStates[(int)figure];
 }
 
 HK_B_HOOK_FUNC(PlayerFigureLossUpdate, 0x0036bc2c, playerFigureLossUpdateHook);
 
-static int someData[8][8] {
+static const int cFigureChangedSeTable[8][8] {
     { -1, 1, 0, 0, 0, 0, 0, 0 },
     { 0, -1, 0, 0, 0, 0, 0, 0 },
     { 1, 1, -1, 0, 0, 0, 0, 0 },
@@ -42,89 +42,105 @@ static int someData[8][8] {
     { 1, 1, 0, 0, 0, 0, 0, -1 }
 };
 
-HK_TYPE_PATCH(PlayerFigureDirectorTable, 0x0026e1d8, int*, reinterpret_cast<int*>(someData));
+HK_TYPE_PATCH(PlayerFigureDirectorTable, 0x0026e1d8, const int*, reinterpret_cast<const int*>(cFigureChangedSeTable));
 HK_PATCH_ASM(PlayerFigureDirectorIndex, 0x0026e188, "mov r1, r1, lsl #0x3"); // (size 7 -> 8)
 
-static int figureTransformerTable[8][8] {
-    EPlayerFigure_Normal,
-    EPlayerFigure_Normal,
-    EPlayerFigure_Fire,
-    EPlayerFigure_RaccoonDog,
-    EPlayerFigure_Boomerang,
-    EPlayerFigure_RaccoonDogSpecial,
-    EPlayerFigure_RaccoonDogWhite,
-    7,
+static int cFigureTransformerTable[8][8] {
+    {
+        EPlayerFigure_Normal,
+        EPlayerFigure_Normal,
+        EPlayerFigure_Fire,
+        EPlayerFigure_RaccoonDog,
+        EPlayerFigure_Boomerang,
+        EPlayerFigure_RaccoonDogSpecial,
+        EPlayerFigure_RaccoonDogWhite,
+        7,
+    },
 
-    EPlayerFigure_Mini,
-    EPlayerFigure_Mini,
-    EPlayerFigure_Normal,
-    EPlayerFigure_Normal,
-    EPlayerFigure_Normal,
-    EPlayerFigure_Normal,
-    EPlayerFigure_RaccoonDogWhite,
-    7,
+    {
+        EPlayerFigure_Mini,
+        EPlayerFigure_Mini,
+        EPlayerFigure_Normal,
+        EPlayerFigure_Normal,
+        EPlayerFigure_Normal,
+        EPlayerFigure_Normal,
+        EPlayerFigure_RaccoonDogWhite,
+        7,
+    },
 
-    EPlayerFigure_Fire,
-    EPlayerFigure_Fire,
-    EPlayerFigure_Fire,
-    EPlayerFigure_Fire,
-    EPlayerFigure_Fire,
-    EPlayerFigure_Fire,
-    EPlayerFigure_RaccoonDogWhite,
-    7,
+    {
+        EPlayerFigure_Fire,
+        EPlayerFigure_Fire,
+        EPlayerFigure_Fire,
+        EPlayerFigure_Fire,
+        EPlayerFigure_Fire,
+        EPlayerFigure_Fire,
+        EPlayerFigure_RaccoonDogWhite,
+        7,
+    },
 
-    EPlayerFigure_RaccoonDog,
-    EPlayerFigure_RaccoonDog,
-    EPlayerFigure_RaccoonDog,
-    EPlayerFigure_RaccoonDog,
-    EPlayerFigure_RaccoonDog,
-    EPlayerFigure_RaccoonDog,
-    EPlayerFigure_RaccoonDogWhite,
-    7,
+    {
+        EPlayerFigure_RaccoonDog,
+        EPlayerFigure_RaccoonDog,
+        EPlayerFigure_RaccoonDog,
+        EPlayerFigure_RaccoonDog,
+        EPlayerFigure_RaccoonDog,
+        EPlayerFigure_RaccoonDog,
+        EPlayerFigure_RaccoonDogWhite,
+        7,
+    },
 
-    EPlayerFigure_Boomerang,
-    EPlayerFigure_Boomerang,
-    EPlayerFigure_Boomerang,
-    EPlayerFigure_Boomerang,
-    EPlayerFigure_Boomerang,
-    EPlayerFigure_Boomerang,
-    EPlayerFigure_RaccoonDogWhite,
-    7,
+    {
+        EPlayerFigure_Boomerang,
+        EPlayerFigure_Boomerang,
+        EPlayerFigure_Boomerang,
+        EPlayerFigure_Boomerang,
+        EPlayerFigure_Boomerang,
+        EPlayerFigure_Boomerang,
+        EPlayerFigure_RaccoonDogWhite,
+        7,
+    },
 
-    EPlayerFigure_RaccoonDogSpecial,
-    EPlayerFigure_RaccoonDogSpecial,
-    EPlayerFigure_RaccoonDogSpecial,
-    EPlayerFigure_RaccoonDogSpecial,
-    EPlayerFigure_RaccoonDogSpecial,
-    EPlayerFigure_RaccoonDogSpecial,
-    EPlayerFigure_RaccoonDogWhite,
-    7,
+    {
+        EPlayerFigure_RaccoonDogSpecial,
+        EPlayerFigure_RaccoonDogSpecial,
+        EPlayerFigure_RaccoonDogSpecial,
+        EPlayerFigure_RaccoonDogSpecial,
+        EPlayerFigure_RaccoonDogSpecial,
+        EPlayerFigure_RaccoonDogSpecial,
+        EPlayerFigure_RaccoonDogWhite,
+        7,
+    },
 
-    EPlayerFigure_RaccoonDogWhite,
-    EPlayerFigure_RaccoonDogWhite,
-    EPlayerFigure_RaccoonDogWhite,
-    EPlayerFigure_RaccoonDogWhite,
-    EPlayerFigure_RaccoonDogWhite,
-    EPlayerFigure_RaccoonDogWhite,
-    EPlayerFigure_RaccoonDogWhite,
-    7,
+    {
+        EPlayerFigure_RaccoonDogWhite,
+        EPlayerFigure_RaccoonDogWhite,
+        EPlayerFigure_RaccoonDogWhite,
+        EPlayerFigure_RaccoonDogWhite,
+        EPlayerFigure_RaccoonDogWhite,
+        EPlayerFigure_RaccoonDogWhite,
+        EPlayerFigure_RaccoonDogWhite,
+        7,
+    },
 
-    7,
-    7,
-    7,
-    7,
-    7,
-    7,
-    EPlayerFigure_RaccoonDogWhite,
-    7,
+    {
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        EPlayerFigure_RaccoonDogWhite,
+        7,
+    },
 };
 
-static void playerFigureTransformerHook(EPlayerFigure* out, PlayerFigureTransformer* thisPtr, const EPlayerFigure& lastFigure, const EPlayerFigure& newFigure)
+static void playerFigureTransformerUpdateHook(EPlayerFigure* out, PlayerFigureTransformer* thisPtr, const EPlayerFigure& lastFigure, const EPlayerFigure& newFigure)
 {
-    *out = (EPlayerFigure)figureTransformerTable[lastFigure][newFigure];
+    *out = (EPlayerFigure)cFigureTransformerTable[lastFigure][newFigure];
 }
 
-HK_B_HOOK_FUNC(PlayerFigureTransformerUpdate, 0x0036bc44, playerFigureTransformerHook);
+HK_B_HOOK_FUNC(PlayerFigureTransformerUpdate, 0x0036bc44, playerFigureTransformerUpdateHook);
 
 // PlayerModelHolder patches
 
@@ -231,15 +247,15 @@ struct FakePlayerModelHolder {
     EPlayerFigure mCurrentFigure;
 };
 
-PlayerModelHolder* playerModelHolderCtorHook(PlayerModelHolder* thisPtr, const al::ActorInitInfo& info, const PlayerActorInitInfo& playerInfo, const sead::Vector3f* transPtr, const sead::Vector3f* rotatePtr, u64 something)
+PlayerModelHolder* playerModelHolderCtorHook(PlayerModelHolder* thisPtr, const al::ActorInitInfo& info, const PlayerActorInitInfo& playerInfo, const sead::Vector3f* transPtr, const sead::Vector3f* rotatePtr, void* a, void** b)
 {
-    new (thisPtr) PlayerModelHolder(info, playerInfo, transPtr, rotatePtr, something);
+    new (thisPtr) PlayerModelHolder(info, playerInfo, transPtr, rotatePtr, a, b);
 
     FakePlayerModelHolder* instance = reinterpret_cast<FakePlayerModelHolder*>(thisPtr);
-    PlayerModel* newModel = PlayerModelHolder::createNormalPlayerModel(info, playerInfo, transPtr, rotatePtr, something);
+    PlayerModel* newModel = PlayerModelHolder::createBoomerangPlayerModel(info, playerInfo, transPtr, rotatePtr, a);
     instance->mModels[7] = newModel;
-    ((void (*)(PlayerModel*, bool*))0x00257630)(newModel, &instance->mIsShadowHidden); // don*t know what these do
-    instance->_34[7] = ((void* (*)(PlayerModel*))0x00257578)(newModel);
+    newModel->initJoints(instance->mIsShadowHidden);
+    instance->_34[7] = newModel->createMtx();
     return thisPtr;
 }
 

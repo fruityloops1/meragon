@@ -18,6 +18,7 @@ class DebugMenu {
         Page_SceneInfo,
         Page_ActorViewer,
         Page_Options,
+        Page_Player,
         Page_Misc,
 
         Page_Max
@@ -27,16 +28,17 @@ class DebugMenu {
         int mPageIndex;
     };
     const static int sMaxPages = Page_Max;
-    const constexpr static char* sPages[] {
+    const constexpr static char* cPages[] {
         "Profiling",
         "Executors",
         "Info",
         "Scene Info",
         "Actor Viewer",
         "Options",
+        "Player",
         "Misc.",
     };
-    constexpr static int sPagesMaxLines[] {
+    constexpr static int cPagesMaxLines[] {
         2,
         3,
         1,
@@ -44,9 +46,10 @@ class DebugMenu {
         3,
         6,
         6,
+        2,
     };
 
-    const constexpr static char* sPowerupNames[] { "Normal", "Mini", "Fire", "RaccoonDog", "Boomerang", "RaccoonDogSpecial", "RaccoonDogWhite" };
+    const constexpr static char* cPowerupNames[] { "Normal", "Mini", "Fire", "RaccoonDog", "Boomerang", "RaccoonDogSpecial", "RaccoonDogWhite", "Custom" };
 
     int mCursorPos = 0;
     int mPrintLine = 0;

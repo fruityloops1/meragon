@@ -5,26 +5,6 @@
 
 #include <string.h>
 
-static inline u32 IPC_MakeHeader(u16 commandId, u32 normalParams, u32 translateParams)
-{
-    return ((u32)commandId << 16) | (((u32)normalParams & 0x3F) << 6) | (((u32)translateParams & 0x3F) << 0);
-}
-
-static inline u32 IPC_Desc_CurProcessId()
-{
-    return 0x20;
-}
-
-static inline u32 IPC_Desc_SharedHandles(u32 number)
-{
-    return ((u32)(number - 1) << 26);
-}
-
-static inline u32 IPC_Desc_StaticBuffer(size_t size, unsigned buffer_id)
-{
-    return (size << 14) | ((buffer_id & 0xF) << 10) | 0x2;
-}
-
 namespace nn {
 namespace socket {
 

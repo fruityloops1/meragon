@@ -6,11 +6,13 @@
 #include "al/System/Byaml/ByamlIter.h"
 #include "al/Util/StringUtil.h"
 #include "hk/hook/BranchHook.h"
+#include "mg/Abort.h"
 #include "mg/Enemy/Gabon.h"
 #include "mg/Factory/ActorFactory.h"
 #include "mg/MapObj/BouncyCloud.h"
 #include "mg/MapObj/ExampleActor.h"
 #include "mg/MapObj/FlipBlock.h"
+#include "mg/MapObj/SnakeBlock.h"
 
 namespace mg {
 
@@ -19,7 +21,8 @@ constexpr al::NameToActorCreator sActorFactoryCustomEntries[] {
     { "Gabon", mg::createActorFunction<Gabon> },
     { "ExampleActor", mg::createActorFunction<ExampleActor> },
     { "FlipBlock", mg::createActorFunction<FlipBlock> },
-    { "BouncyCloud", mg::createActorFunction<BouncyCloud> }
+    { "BouncyCloud", mg::createActorFunction<BouncyCloud> },
+    { "SnakeBlock", mg::createActorFunction<SnakeBlock> },
 };
 
 al::CreateActorFuncPtr getActorCreatorFromFactory(const char* className)
@@ -63,6 +66,16 @@ static void initPlacementMapHook(al::Scene* scene, al::Resource* stageArchive, c
             placement.tryGetStringByKey(&objectName, "name");
             placement.tryGetStringByKey(&className, "ClassName");
             al::CreateActorFuncPtr create = className != nullptr ? getActorCreatorFromFactory(className) : getCreatorFromTable(scene->getActorFactory(), objectName);
+
+            if (create == nullptr)
+                create = getActorCreatorFromFactory(objectName);
+
+            if (create == nullptr) {
+                int id = -1;
+                placement.tryGetIntByKey(&id, "l_id");
+                mg::abortWithMessage("Could not find a class to use for object with id %d\nObjectName: %s, ClassName: %s", id, objectName, className);
+            }
+
             if (create) {
                 al::ActorInitInfo info;
                 info.initNew(&placement, baseInfo);

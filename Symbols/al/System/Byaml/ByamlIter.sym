@@ -9,3 +9,4 @@ _ZNK2al9ByamlIter17tryGetStringByKeyEPPKcS2_ = 0x0029101c;
 
 _ZNK2al9ByamlIter17tryGetIterByIndexEPS0_i = 0x0029107c;
 _ZNK2al9ByamlIter15tryGetIterByKeyEPS0_PKc = 0x00290fb0;
+_ZNK2al9ByamlIter14tryGetIntByKeyEPiPKc = 0x0027e068;

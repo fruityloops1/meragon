@@ -10,6 +10,8 @@ namespace srv {
         class Service {
         public:
             static Result GetServiceHandle(Handle* out, const char* service, s32, u32);
+
+            static Handle s_Session;
         };
 
     } // namespace detail

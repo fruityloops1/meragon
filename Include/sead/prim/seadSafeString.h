@@ -263,4 +263,27 @@ public:
     }
 };
 
+template <s32 L>
+class WFixedSafeString : public FixedSafeStringBase<char16, L> {
+public:
+    WFixedSafeString()
+        : FixedSafeStringBase<char16, L>()
+    {
+    }
+    WFixedSafeString(const WSafeString& str)
+        : FixedSafeStringBase<char16, L>(str)
+    {
+    }
+    WFixedSafeString(const WFixedSafeString& other)
+        : WFixedSafeString(static_cast<const WSafeString&>(other))
+    {
+    }
+
+    WFixedSafeString& operator=(const WFixedSafeString& other)
+    {
+        this->copy(other);
+        return *this;
+    }
+};
+
 } // namespace sead

@@ -11,7 +11,9 @@
 #include "hk/debug/Log.h"
 #include "hk/hook/AsmPatch.h"
 #include "hk/hook/BranchHook.h"
+#include "mg/Abort.h"
 #include "mg/Debug/Clock.h"
+#include "mg/Debug/Exit.h"
 #include "mg/Debug/Framework.h"
 #include "mg/MapObj/GreenDemon.h"
 #include "mg/Util/StringTranslation.h"
@@ -97,6 +99,7 @@ bool layoutSkipHook2(const al::LayoutActor* layout) { return sEnableLayoutSkip ?
 HK_BL_HOOK(LayoutSkipHook1, 0x001226e4, layoutSkipHook1);
 HK_BL_HOOK(LayoutSkipHook2, 0x00361748, layoutSkipHook2);
 
+#ifdef MG_ENABLE_DEBUG_MENU
 void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
 {
     StageScene* stageScene = nullptr;
@@ -135,11 +138,11 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         mCursorPos--;
     if (mCursorPos < 0)
         mCursorPos = 0;
-    if (mCursorPos >= sPagesMaxLines[mPageIndex])
-        mCursorPos = sPagesMaxLines[mPageIndex] - 1;
+    if (mCursorPos >= cPagesMaxLines[mPageIndex])
+        mCursorPos = cPagesMaxLines[mPageIndex] - 1;
 
     cursor(0);
-    print("%s (%d/%d)\n", sPages[mPageIndex], mPageIndex + 1, sMaxPages);
+    print("%s (%d/%d)\n", cPages[mPageIndex], mPageIndex + 1, sMaxPages);
     if (mCursorPos == 0) {
         if (al::isPadTriggerRight())
             mPageIndex++;
@@ -379,7 +382,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
             mTeleportEnabled = !mTeleportEnabled;
 
         cursor(2);
-        print("State Test\n");
+        print("Powerup Test\n");
         if (mCursorPos == 2 && al::isPadTriggerRight() && stageScene)
             stageScene->mPlayerActor->mPlayer->mFigureDirector->change((EPlayerFigure)7);
 
@@ -400,11 +403,11 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         break;
     }
 
-    case Page_Misc: {
+    case Page_Player: {
         if (stageScene == nullptr)
             break;
         cursor(1);
-        print("Kill Mario\n");
+        print("Kill Player\n");
 
         if (mCursorPos == 1 && al::isPadTriggerRight() && stageScene) {
             stageScene->mPlayerActor->mPlayer->mActionGraph->mCurrentNode = sDeathNode;
@@ -413,7 +416,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
 
         int currentFigure = stageScene->mPlayerActor->mPlayer->mFigureDirector->getFigure();
         cursor(2);
-        print("Mario Powerup: %s\n", sPowerupNames[currentFigure]);
+        print("Player Powerup: %s\n", cPowerupNames[currentFigure]);
         if (mCursorPos == 2) {
             int to = currentFigure + (al::isPadTriggerRight() ? 1 : al::isPadTriggerLeft() ? -1
                                                                                            : 0);
@@ -433,7 +436,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         }
 
         cursor(4);
-        print("Damage Mario\n");
+        print("Damage Player\n");
 
         if (mCursorPos == 4 && al::isPadTriggerRight())
             stageScene->mPlayerActor->mPlayer->mFigureDirector->lose();
@@ -443,6 +446,14 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         if (mCursorPos == 5 && al::isPadTriggerRight())
             stageScene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDogWhite);
 
+        break;
+    }
+    case Page_Misc: {
+        cursor(1);
+        print("Crash\n");
+
+        if (mCursorPos == 1 && al::isPadTriggerRight())
+            abortWithMessage("Bye bye");
         break;
     }
     default:
@@ -470,7 +481,6 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
     }
 }
 
-#ifdef MG_ENABLE_DEBUG_MENU
 void playerActionGraphMoveHook(PlayerActionGraph* graph) // gets current PlayerAction
 {
     mg::DebugMenu::instance().setPlayerActionVtablePtr(*(uintptr_t*)graph->getCurrentNode()->getAction());

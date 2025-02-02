@@ -1,9 +1,9 @@
+#include "mg/MapObj/SnakeBlock.h"
 #include "al/Layout/LayoutActor.h"
 #include "al/LiveActor/ActorInitUtil.h"
 #include "al/LiveActor/LiveActorFunction.h"
 #include "al/Nerve/NerveFunction.h"
 #include "al/Placement/PlacementFunction.h"
-#include "mg/MapObj/SnakeBlock.h"
 
 namespace mg {
 

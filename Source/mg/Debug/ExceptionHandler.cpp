@@ -4,10 +4,16 @@
 #include "hk/debug/Log.h"
 #include "hk/hook/AsmPatch.h"
 #include "hk/hook/BranchHook.h"
+#include "mg/Debug/Exit.h"
 #include "mg/Debug/Framework.h"
+#include "nn/Handle.h"
+#include "nn/Result.h"
+#include "nn/applet/applet_Api.h"
 #include "nn/err/CTR/err_Api.h"
 #include "nn/os/os_CTR.h"
 #include "nn/os/os_Types.h"
+#include "nn/srv/detail/srv_Service.h"
+#include "nn/srv/srv_Api.h"
 #include "nn/svc/svc_Api.h"
 #include "sead/controller/seadControllerMgr.h"
 #include "sead/heap/seadFrameHeap.h"
@@ -165,6 +171,7 @@ static bool sNeedsRefresh = true;
 static int sCurPage = 0;
 static int sCurStackPage = 0;
 static int sCurHeapTreePage = 0;
+static bool sQuit = false;
 
 static char sTitleBuffer[64];
 static const char* getTitle(CpuRegisters* regs)
@@ -293,20 +300,29 @@ static void drawStack(BottomScreen& screen, ERRF_ExceptionInfo* excep, CpuRegist
             nn::os::MemInfo info;
             nn::os::PageInfo page;
 
+            u16 color = 0xffff;
+            uintptr_t addrAlign4 = addr & ~(4 - 1);
+            nn::svc::QueryMemory(&info, &page, addrAlign4);
+
+            if (info.perm & nn::os::MemoryPermission_R) {
+                u32 readAddr = *(u32*)addrAlign4;
+                color = getAddrColor(readAddr);
+            }
+
             int xOffs = 20 + BottomScreen::sXSpacing * 10 + x * ((BottomScreen::sXSpacing + 2) * 2);
             nn::svc::QueryMemory(&info, &page, addr);
             if (info.perm & nn::os::MemoryPermission_R) {
                 u32 byte = *(u8*)addr;
-                screen.drawString(xOffs, 20 + BottomScreen::sYSpacing * i, 0xffff, "%02X", byte);
+                screen.drawString(xOffs, 20 + BottomScreen::sYSpacing * i, color, "%02X", byte);
             } else
-                screen.drawString(xOffs, 20 + BottomScreen::sYSpacing * i, 0xffff, "??");
+                screen.drawString(xOffs, 20 + BottomScreen::sYSpacing * i, color, "??");
 
             xOffs = 20 + BottomScreen::sXSpacing * 12 + 7 * ((BottomScreen::sXSpacing + 3) * 2) + x * (BottomScreen::sXSpacing + 2);
             if (info.perm & nn::os::MemoryPermission_R) {
                 char character = *(char*)addr;
-                screen.drawCharacter(xOffs, 20 + BottomScreen::sYSpacing * i, 0xffff, character >= ' ' && character <= '~' ? character : '.');
+                screen.drawCharacter(xOffs, 20 + BottomScreen::sYSpacing * i, color, character >= ' ' && character <= '~' ? character : '.');
             } else
-                screen.drawCharacter(xOffs, 20 + BottomScreen::sYSpacing * i, 0xffff, '.');
+                screen.drawCharacter(xOffs, 20 + BottomScreen::sYSpacing * i, color, '.');
         }
     }
 }
@@ -404,7 +420,7 @@ static void update()
     }
 
     if (al::isPadTriggerStart()) {
-        nn::err::CTR::ThrowFatalErr(0x69696969);
+        sQuit = true;
     }
 
     sCurPage = sead::Mathi::clamp(sCurPage, 0, 2);
@@ -445,7 +461,7 @@ static void exceptionHandler(ERRF_ExceptionInfo* excep, CpuRegisters* regs)
         screen.flush();
     }
 
-    while (true) {
+    while (sQuit == false) {
         sead::ControllerMgr::instance()->calc();
 
         update();
@@ -457,6 +473,11 @@ static void exceptionHandler(ERRF_ExceptionInfo* excep, CpuRegisters* regs)
         }
         nn::svc::SleepThread(16_ms);
     }
+
+    screen.clear();
+    screen.drawString(0, 0, 0xffff, "Bye bye!!! :3");
+
+    mg::exitProcess();
 }
 
 static void setupExceptionHandler()
