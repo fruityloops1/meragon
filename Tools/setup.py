@@ -50,7 +50,7 @@ def tryGetAndCompileMusl():
 
     subprocess.run(["./configure", "--target=armv6k-none-eabi"], env=env)
 
-    subprocess.run(["make", f"-j {multiprocessing.cpu_count()}"])
+    subprocess.run(["make", "-j", str(multiprocessing.cpu_count())])
 
     os.chdir("../..")
 
