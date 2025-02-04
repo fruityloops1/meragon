@@ -27,7 +27,7 @@ class DebugMenu {
         Page mPage;
         int mPageIndex;
     };
-    const static int sMaxPages = Page_Max;
+    const static int cMaxPages = Page_Max;
     const constexpr static char* cPages[] {
         "Profiling",
         "Executors",
@@ -43,7 +43,7 @@ class DebugMenu {
         3,
         1,
         5,
-        3,
+        4,
         6,
         6,
         2,
@@ -71,6 +71,20 @@ class DebugMenu {
     int mButtonHoldFrames = 0;
     int mCurExecuteTable = 0;
     int mCurExecutorListIndex = 0;
+
+    enum ActorViewerPage {
+        ActorViewerPage_Info,
+        ActorViewerPage_Nerve,
+
+        ActorViewerPage_Max
+    };
+
+    union {
+        ActorViewerPage mActorViewerPage;
+        int mActorViewerPageIndex = 0;
+    };
+
+    const constexpr static char* cActorViewerPages[] { "Info", "Nerve" };
 
     constexpr static int cNumFrameTimes = 14;
     sead::TickSpan mFrameTimes[cNumFrameTimes] {};

@@ -7,6 +7,7 @@
 #include "al/LiveActor/LiveActorFunction.h"
 #include "al/Nerve/NerveFunction.h"
 #include "al/Nerve/NerveKeeper.h"
+#include "al/Nerve/NerveStateCtrl.h"
 #include "al/Scene/SceneStopCtrl.h"
 #include "hk/debug/Log.h"
 #include "hk/hook/AsmPatch.h"
@@ -142,14 +143,14 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         mCursorPos = cPagesMaxLines[mPageIndex] - 1;
 
     cursor(0);
-    print("%s (%d/%d)\n", cPages[mPageIndex], mPageIndex + 1, sMaxPages);
+    print("%s (%d/%d)\n", cPages[mPageIndex], mPageIndex + 1, cMaxPages);
     if (mCursorPos == 0) {
         if (al::isPadTriggerRight())
             mPageIndex++;
         if (al::isPadTriggerLeft())
             mPageIndex--;
-        if (mPageIndex >= sMaxPages)
-            mPageIndex = sMaxPages - 1;
+        if (mPageIndex >= cMaxPages)
+            mPageIndex = cMaxPages - 1;
         if (mPageIndex < 0)
             mPageIndex = 0;
     }
@@ -265,7 +266,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         if (listClassName)
             print("Class: %s\n", listClassName);
         else
-            print("vtable: %p\n", *(uintptr_t*)list);
+            print("vft: %p\n", *(uintptr_t*)list);
         hk::util::formatTickSpan(formatted, p.executeTableLists[mCurExecutorListIndex]);
         print("Time: %s\n", formatted);
 
@@ -346,31 +347,71 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         sead::PtrArray<al::LiveActor> actors = scene->mLiveActorKit->getAllActors()->getArray<al::LiveActor>();
 
         scrollIntWidget(1, &mCurActorIndex);
-        if (mCurActorIndex >= actors.capacity())
-            mCurActorIndex = actors.capacity() - 1;
-        if (mCurActorIndex < 0)
-            mCurActorIndex = 0;
+        mCurActorIndex = sead::Mathi::clamp(mCurActorIndex, 0, actors.capacity() - 1);
         print("Actor index: %d\n", mCurActorIndex);
 
+        scrollIntWidget(2, &mActorViewerPageIndex);
+        mActorViewerPageIndex = sead::Mathi::clamp(mActorViewerPageIndex, 0, ActorViewerPage_Max - 1);
+        print("%s (%d/%d)\n", cActorViewerPages[mActorViewerPageIndex], mActorViewerPageIndex + 1, ActorViewerPage_Max);
+
         al::LiveActor* actor = actors[mCurActorIndex];
-        if (actor) {
+
+        if (actor == nullptr) {
+            print("nullptr\n");
+            break;
+        }
+
+        switch (mActorViewerPage) {
+        case ActorViewerPage_Info: {
             print("Name: %s\n", actor->getName() == nullptr ? "null" : actor->getName());
-            cursor(2);
             if (actor->getActorPoseKeeper()) {
                 const sead::Vector3f& trans = al::getTrans(actor);
                 const sead::Vector3f& rot = al::getRotate(actor);
                 const sead::Vector3f& vel = al::getVelocity(actor);
 
                 if (stageScene) {
+                    cursor(3);
                     print("Teleport to\n");
-                    if (mCursorPos == 2 && al::isPadTriggerRight())
+                    if (mCursorPos == 3 && al::isPadTriggerRight())
                         stageScene->mPlayerActor->mPlayer->getProperty()->mTrans = trans;
                 }
                 print("Trans %.2f %.2f %.2f\n", trans.x, trans.y, trans.z);
                 print("Rot %.2f %.2f %.2f\n", rot.x, rot.y, rot.z);
                 print("Vel %.2f %.2f %.2f\n", vel.x, vel.y, vel.z);
-            } else
-                print("\n");
+            }
+
+            auto& flag = actor->getLiveActorFlag();
+            print("Flags: D:%d C:%d IC:%d DC:%d F5:%d HM:%d OC:%d F8:%d VMC:%d\n",
+                flag.isDead, flag.isClipped, flag.isInvalidClipping, flag.isDrawClipping, flag.flag5,
+                flag.isHideModel, flag.isOffCollide, flag.flag8, flag.isValidMaterialCode);
+            print("vft: %p\n", *(uintptr_t*)actor);
+
+            break;
+        }
+        case ActorViewerPage_Nerve: {
+            al::NerveKeeper* nrv = actor->getNerveKeeper();
+            if (nrv == nullptr) {
+                print("No NerveKeeper\n");
+                break;
+            }
+
+            auto* state = nrv->getStateCtrl();
+
+            if (state) {
+                print("Nerve States: %d\n", state->getNumStates());
+
+                auto* curState = state->getCurrentState();
+                if (curState) {
+                    print("Current State: %s\n", curState->mName);
+                }
+            }
+
+            print("Step: %d\n", nrv->getStep());
+            print("Nrv: %p\n", nrv->getCurrentNerve());
+            break;
+        }
+        default:
+            break;
         }
         break;
     }
