@@ -7,7 +7,7 @@
 
 namespace mg {
 
-#define MG_ENABLE_FIGURE_MOD
+// #define MG_ENABLE_FIGURE_MOD
 
 #ifdef MG_ENABLE_FIGURE_MOD
 

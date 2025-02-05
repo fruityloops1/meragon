@@ -8,6 +8,8 @@
 #include "al/Nerve/NerveFunction.h"
 #include "al/Nerve/NerveKeeper.h"
 #include "al/Nerve/NerveStateCtrl.h"
+#include "al/Placement/PlacementFunction.h"
+#include "al/Scene/SceneFunction.h"
 #include "al/Scene/SceneStopCtrl.h"
 #include "hk/debug/Log.h"
 #include "hk/hook/AsmPatch.h"
@@ -37,20 +39,6 @@ struct VtableEntry {
     uintptr_t addr;
     const char* name;
 };
-
-struct Dings {
-    float attribut;
-};
-
-void penis2(float* penisse)
-{
-    // penisse[]
-}
-
-void arsch()
-{
-    // penis2(penis);
-}
 
 static constexpr VtableEntry actions[] {
     { 0x003cc450, "Wait" },
@@ -109,8 +97,8 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
 
     if (stageScene && mAlwaysTanooki && stageScene->mPlayerActor->mPlayer->mFigureDirector->getFigure() != EPlayerFigure_RaccoonDog)
         stageScene->mPlayerActor->mPlayer->mFigureDirector->change(EPlayerFigure_RaccoonDog);
-    if (mRestartHotkey && al::isPadHoldR() && al::isPadHoldL() && al::isPadTriggerRight())
-        al::setNerve(scene, (const al::Nerve*)0x003f1054 /* mario is die */);
+    if (stageScene && mRestartHotkey && al::isPadHoldR() && al::isPadHoldL() && al::isPadTriggerRight())
+        al::setNerve(stageScene, (const al::Nerve*)0x003f1054 /* mario is die */);
 
     if (al::isPadTriggerLeft() && al::isPadHoldR()) {
         mHideMenu = !mHideMenu;
@@ -289,10 +277,8 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
 
             if (actionName) {
                 print("Action: PlayerAction%s\n", actionName);
-                hk::dbg::Log("Action: PlayerAction%s", actionName);
             } else {
                 print("Action: 0x%.8x\n", mCurrentPlayerActionVtablePtr);
-                hk::dbg::Log("Action: 0x%.8x", mCurrentPlayerActionVtablePtr);
             }
         }
         break;
@@ -338,6 +324,8 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
 
         print("Actors Alive: %d\n", alive);
         print("Actors Unclipped: %d\n", nonClipped);
+        if (stageScene && stageScene->mStageStartParam)
+            print("Stage: %s\n", stageScene->mStageStartParam->getStageDataName());
         break;
     }
 
@@ -386,6 +374,20 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
                 flag.isHideModel, flag.isOffCollide, flag.flag8, flag.isValidMaterialCode);
             print("vft: %p\n", *(uintptr_t*)actor);
 
+            break;
+        }
+        case ActorViewerPage_Actions: {
+            cursor(3);
+            print("Kill\n");
+            if (mCursorPos == 3 && (al::isPadTriggerRight() || al::isPadTriggerLeft())) {
+                actor->kill();
+            }
+
+            cursor(4);
+            print("Appear\n");
+            if (mCursorPos == 4 && (al::isPadTriggerRight() || al::isPadTriggerLeft())) {
+                actor->appear();
+            }
             break;
         }
         case ActorViewerPage_Nerve: {
@@ -441,6 +443,19 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
         print("Enable Freecam: %s\n", mEnableFreecam ? "Yes" : "No");
         if (mCursorPos == 5 && (al::isPadTriggerRight() || al::isPadTriggerLeft()))
             mEnableFreecam = !mEnableFreecam;
+
+        mCurStartInfo = sead::Mathi::clamp(mCurStartInfo, 0, mNumStartInfos - 1);
+
+        if (mNumStartInfos > 0 && stageScene) {
+            cursor(6);
+            print("Debug Warp: %d\n", mStartInfos[mCurStartInfo].idx);
+            if (mCursorPos == 6 && (al::isPadTriggerRight() || al::isPadTriggerLeft())) {
+                mCurStartInfo += al::isPadTriggerRight() ? 1 : -1;
+                if (mCurStartInfo > 0 && mCurStartInfo < mNumStartInfos && stageScene)
+                    stageScene->mPlayerActor->mPlayer->mPlayerProperty->mTrans = mStartInfos[mCurStartInfo].trans;
+            }
+        }
+
         break;
     }
 
@@ -522,7 +537,7 @@ void mg::DebugMenu::update(al::Scene* scene, al::LayoutActor* window)
     }
 }
 
-void playerActionGraphMoveHook(PlayerActionGraph* graph) // gets current PlayerAction
+static void playerActionGraphMoveHook(PlayerActionGraph* graph) // gets current PlayerAction
 {
     mg::DebugMenu::instance().setPlayerActionVtablePtr(*(uintptr_t*)graph->getCurrentNode()->getAction());
     graph->getCurrentNode()->getAction()->update();
@@ -531,7 +546,7 @@ void playerActionGraphMoveHook(PlayerActionGraph* graph) // gets current PlayerA
 HK_B_HOOK_FUNC(PlayerActionGraphMoveHook, &PlayerActionGraph::move, playerActionGraphMoveHook)
 HK_PATCH_ASM(DisableClosingWindowLayout, 0x0036add8, "mov r0, #0");
 
-void playerFigureDirectorLose(PlayerFigureDirector* thisPtr)
+static void playerFigureDirectorLose(PlayerFigureDirector* thisPtr)
 {
     if (mg::DebugMenu::instance().isAlwaysTanooki()) {
         thisPtr->mFigure = EPlayerFigure_RaccoonDog;
@@ -541,7 +556,7 @@ void playerFigureDirectorLose(PlayerFigureDirector* thisPtr)
     thisPtr->lose();
 }
 
-void playerFigureDirectorSet(PlayerFigureDirector* thisPtr, const EPlayerFigure& figure)
+static void playerFigureDirectorSet(PlayerFigureDirector* thisPtr, const EPlayerFigure& figure)
 {
     if (mg::DebugMenu::instance().isAlwaysTanooki()) {
         thisPtr->mFigure = EPlayerFigure_RaccoonDog;
@@ -553,7 +568,7 @@ void playerFigureDirectorSet(PlayerFigureDirector* thisPtr, const EPlayerFigure&
     thisPtr->mHasFigureChanged = true;
 }
 
-void playerFigureDirectorChange(PlayerFigureDirector* thisPtr, const EPlayerFigure& figure)
+static void playerFigureDirectorChange(PlayerFigureDirector* thisPtr, const EPlayerFigure& figure)
 {
     if (mg::DebugMenu::instance().isAlwaysTanooki()) {
         thisPtr->change(EPlayerFigure_RaccoonDog);
@@ -565,6 +580,28 @@ void playerFigureDirectorChange(PlayerFigureDirector* thisPtr, const EPlayerFigu
 
 HK_BL_HOOK_FUNC(PlayerFigureDirectorLoseHook, 0x0018241c, playerFigureDirectorLose)
 HK_B_HOOK_FUNC(PlayerFigureDirectorSetHook, 0x001980e8, playerFigureDirectorSet)
+
+static void stageScenePlayerStartPosHook(al::PlacementInfo* info, int* out, const char* key)
+{
+    if (info->tryGetIntByKey(out, "MarioNo")) {
+        sead::Vector3f trans = sead::Vector3f::zero;
+        al::tryGetTrans(&trans, *info);
+        mg::DebugMenu::instance().addStartInfo({ trans, *out });
+    }
+}
+
+HK_BL_HOOK_FUNC(StageSceneStartPosGrab, 0x00123474, stageScenePlayerStartPosHook)
+
+static bool stageScenePlayerStartPosDelete(al::PlacementInfo* out, al::Resource* resource, const char* info)
+{
+    bool exist = al::tryGetPlacementInfo(out, resource, info);
+
+    mg::DebugMenu::instance().clearStartInfos();
+
+    return exist;
+}
+
+HK_BL_HOOK_FUNC(StageSceneStartPosDelete, 0x00123410, stageScenePlayerStartPosDelete)
 
 HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook1, 0x00277d5c, playerFigureDirectorChange)
 HK_BL_HOOK_FUNC(PlayerFigureDirectorChangeHook2, 0x002ce818, playerFigureDirectorChange)

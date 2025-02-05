@@ -44,7 +44,7 @@ class DebugMenu {
         1,
         5,
         4,
-        6,
+        7,
         6,
         2,
     };
@@ -74,6 +74,7 @@ class DebugMenu {
 
     enum ActorViewerPage {
         ActorViewerPage_Info,
+        ActorViewerPage_Actions,
         ActorViewerPage_Nerve,
 
         ActorViewerPage_Max
@@ -84,13 +85,24 @@ class DebugMenu {
         int mActorViewerPageIndex = 0;
     };
 
-    const constexpr static char* cActorViewerPages[] { "Info", "Nerve" };
+    const constexpr static char* cActorViewerPages[] { "Info", "Actions", "Nerve" };
 
     constexpr static int cNumFrameTimes = 14;
     sead::TickSpan mFrameTimes[cNumFrameTimes] {};
     int mCurFrameTimeIdx = 0;
 
     uintptr_t mCurrentPlayerActionVtablePtr = -1;
+
+    struct PlayerStartInfo {
+        sead::Vector3f trans;
+        int idx;
+    };
+
+    constexpr static int cMaxStartInfos = 32;
+
+    PlayerStartInfo mStartInfos[cMaxStartInfos];
+    int mNumStartInfos = 0;
+    int mCurStartInfo = 0;
 
     void scrollIntWidget(int at, int* value)
     {
@@ -132,6 +144,18 @@ public:
     bool isAlwaysTanooki() const { return mAlwaysTanooki; }
     bool isFramerateUnlocked() const { return mUnlockedFramerate; }
 
+    void clearStartInfos()
+    {
+        mNumStartInfos = 0;
+        mCurStartInfo = 0;
+    }
+
+    void addStartInfo(const PlayerStartInfo& info)
+    {
+        if (mNumStartInfos < cMaxStartInfos)
+            mStartInfos[mNumStartInfos++] = info;
+    }
+
     constexpr static bool cEnabled =
 #ifdef MG_ENABLE_DEBUG_MENU
         true
@@ -142,5 +166,3 @@ public:
 };
 
 } // namespace mg
-
-void playerActionGraphMoveHook(PlayerActionGraph* graph);
